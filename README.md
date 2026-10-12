@@ -56,13 +56,69 @@ Templates determine which sections render on each page. Sections contain their o
 
 ## Localization
 
-User-facing storefront copy should use Shopify's translation filter:
+Theme translations live in `locales/` and are split into two kinds of files:
+
+- [`en.default.json`](./locales/en.default.json) contains storefront strings for the theme's default locale.
+- [`pt-BR.json`](./locales/pt-BR.json) contains storefront strings for Brazilian Portuguese.
+- [`en.default.schema.json`](./locales/en.default.schema.json) contains labels shown in the theme editor, such as section names, setting labels, and option names.
+
+Storefront locale keys are organized by feature and purpose. For example, cart strings use `cart.*`, product discovery uses `home.products.*`, and catalog strings use `collections.*`. Keep keys descriptive and reuse an existing key when the meaning is the same.
+
+### Add or change storefront copy
+
+1. Add the key under the appropriate namespace in the default storefront locale file.
+2. Add the same key and nesting to every supported storefront locale, including `pt-BR.json`.
+3. Reference the key in Liquid with Shopify's `t` filter instead of hard-coding user-facing copy:
 
 ```liquid
 {{ 'home.products.title' | t }}
 ```
 
-When adding or changing translated copy, keep the key structure consistent across the relevant files in `locales/`. The current default storefront strings are maintained in [`locales/en.default.json`](./locales/en.default.json); `locales/pt-BR.json` provides the Brazilian Portuguese locale. Preserve interpolation placeholders such as `{{ terms }}` and `{{ count }}` exactly in translated values.
+For dynamic text, use named interpolation parameters and keep placeholder names identical in every locale:
+
+```json
+{
+  "search": {
+    "page_title": "Busca por {{ terms }}"
+  }
+}
+```
+
+```liquid
+{{ 'search.page_title' | t: terms: search.terms }}
+```
+
+Keep plural forms consistent too. The cart uses `item_count_one` and `item_count_other`, with `count` passed to the plural form. Do not translate, rename, or remove placeholders such as `{{ terms }}`, `{{ count }}`, or `{{ product }}`.
+
+### Translate theme editor labels
+
+Theme editor text belongs in a schema locale file rather than a storefront locale file. Reference it in a section or block schema with a `t:` key:
+
+```json
+{
+  "name": "t:general.collection"
+}
+```
+
+Then add the matching nested key to `locales/en.default.schema.json`:
+
+```json
+{
+  "general": {
+    "collection": "Collection"
+  }
+}
+```
+
+### Validate locale changes
+
+Run Theme Check after editing locale files. It checks theme files and reports missing or inconsistent translations:
+
+```sh
+shopify theme check
+```
+
+Shopify's language editor can update locale files, so review generated changes before committing. Also verify that the `*.default.json` filename matches the store's configured default language. In this repository, `en.default.json` currently contains mostly Portuguese storefront copy; confirm the intended default language before renaming the file or changing the store's language settings.
 
 ## Shopify theme resources
 
