@@ -1,0 +1,117 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "404": {
+    "not_found": "Página não encontrada.",
+    "back_to_shopping": "Voltar às compras"
+  },
+  "blog": {
+    "article_comments": "Comentários",
+    "comment_form_body": "Comentar",
+    "comment_form_email": "E-mail",
+    "comment_form_name": "Nome",
+    "comment_form_submit": "Postar",
+    "comment_form_title": "Adicionar um comentário"
+  },
+  "cart": {
+    "checkout": "Finalizar compra",
+    "title": "Carrinho",
+    "update": "Atualizar",
+    "remove": "Remover"
+  },
+  "customers": {
+    "login": {
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "title": "Entrar"
+    }
+  },
+  "collections": {
+    "title": "Coleções"
+  },
+  "home": {
+    "announcement": {
+      "message": "Achadinhos que deixam o dia mais interessante."
+    },
+    "header": {
+      "navigation": "Navegação principal",
+      "menu": "Menu"
+    },
+    "nav": {
+      "home": "Início",
+      "all_products": "Todos os produtos",
+      "home_decor": "Casa & Decoração",
+      "sensory": "Antiestresse & Sensoriais",
+      "car_accessories": "Carros & Acessórios"
+    },
+    "hero": {
+      "eyebrow": "Nova seleção",
+      "title": "Você não precisa. Mas vai querer.",
+      "subtitle": "Achadinhos, objetos curiosos e pequenas coisas que deixam o dia mais interessante.",
+      "cta_primary": "Explorar produtos",
+      "cta_secondary": "Ver coleções",
+      "visual_label": "Imagem principal",
+      "placeholder": "Coisas de que preciso",
+      "card_title": "Curiosidades",
+      "card_value": "+ 100",
+      "card_label": "Achadinhos para a rotina"
+    },
+    "products": {
+      "kicker": "Descobertas",
+      "title": "Pequenas coisas. Grandes vontades.",
+      "subtitle": "Os achadinhos que merecem um lugar na sua rotina.",
+      "promo": "Promoção",
+      "empty_state": "Mais itens em breve",
+      "empty_title": "Mais produtos em breve",
+      "empty_text": "Esta coleção ainda está sendo montada. Volte em breve para ver as próximas descobertas."
+    },
+    "categories": {
+      "kicker": "Discover",
+      "title": "Encontre seu próximo achado.",
+      "explore": "Explorar",
+      "stress": "Antiestresse & Sensoriais",
+      "home_decor": "Casa & Decoração",
+      "car": "Carros & Acessórios",
+      "misc": "Achadinhos"
+    },
+    "story": {
+      "eyebrow": "A marca",
+      "title": "You came to look. Now you want to take it.",
+      "text": "Nós gostamos das pequenas descobertas: aquele objeto inesperado, a solução simples que facilita a rotina e a coisinha divertida que melhora o dia. Aqui, cada achadinho tem um motivo para chamar sua atenção.",
+      "cta": "Descobrir achadinhos"
+    },
+    "footer": {
+      "slogan": "Coisas que você nem sabia que precisava.",
+      "catalog": "Catálogo",
+      "about": "Sobre",
+      "newsletter": "Receba novidades",
+      "subscribe": "Registrar-se"
+    }
+  },
+  "gift_card": {
+    "add_to_apple_wallet": "Adicionar à Apple Wallet",
+    "card": "Cartão-presente",
+    "expired": "Este vale-presente expirou",
+    "expires_on": "Expira em {{ expires_on }}",
+    "use_at_checkout": "Utilize este vale-presente na finalização da compra"
+  },
+  "password": {
+    "title": "Esta loja é particular",
+    "password": "Senha",
+    "enter": "Entrar"
+  },
+  "search": {
+    "title": "Pesquisar",
+    "placeholder": "Pesquisar artigos, páginas ou produtos",
+    "submit": "Pesquisar",
+    "no_results_html": "Nenhum resultado encontrado para {{ terms }}"
+  }
+}
