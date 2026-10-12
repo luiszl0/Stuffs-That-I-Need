@@ -1,5 +1,5 @@
 <footer class="site-footer">
-  <div class="page-width site-footer__inner">
+  <div class="page-width site-footer__inner{% if section.settings.show_newsletter %} site-footer__inner--with-newsletter{% endif %}">
     <div class="site-footer__brand">
       <p class="site-footer__name">{{ shop.name }}</p>
       <p class="site-footer__slogan">{{ 'home.footer.slogan' | t }}</p>
@@ -22,7 +22,21 @@
         <ul>
           {% if shop.policies.size > 0 %}
             {% for policy in shop.policies %}
-              <li><a href="{{ policy.url }}">{{ policy.title }}</a></li>
+              <li>
+                <a href="{{ policy.url }}">
+                  {% if policy.url contains 'privacy-policy' %}
+                    {{ 'policies.privacy' | t }}
+                  {% elsif policy.url contains 'refund-policy' %}
+                    {{ 'policies.returns' | t }}
+                  {% elsif policy.url contains 'shipping-policy' %}
+                    {{ 'policies.shipping' | t }}
+                  {% elsif policy.url contains 'terms-of-service' %}
+                    {{ 'policies.terms' | t }}
+                  {% else %}
+                    {{ policy.title }}
+                  {% endif %}
+                </a>
+              </li>
             {% endfor %}
           {% else %}
             <li><a href="{{ routes.all_products_collection_url }}">{{ 'home.nav.all_products' | t }}</a></li>
@@ -45,7 +59,10 @@
   </div>
 
   <div class="page-width site-footer__meta">
-    <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ powered_by_link }}</p>
+    <p>
+      &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}.
+      <a href="https://www.shopify.com?utm_campaign=poweredby&amp;utm_medium=shopify&amp;utm_source=onlinestore">{{ 'home.footer.powered_by' | t }}</a>
+    </p>
     {% if section.settings.show_payment_icons %}
       <div class="site-footer__payments">
         {% for type in shop.enabled_payment_types %}
@@ -60,15 +77,19 @@
   .site-footer {
     background: #f0eee8;
     border-top: 1px solid var(--brand-border);
-    margin-top: 4rem;
-    padding: 4rem 0 1.5rem;
+    margin-top: 3rem;
+    padding: 2.75rem 0 1.25rem;
   }
 
   .site-footer__inner {
     display: grid;
-    grid-template-columns: 1.3fr 1.3fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
     gap: 2rem;
     align-items: start;
+  }
+
+  .site-footer__inner--with-newsletter {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
   }
 
   .site-footer__name {

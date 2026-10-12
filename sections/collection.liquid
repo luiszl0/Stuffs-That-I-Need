@@ -1,58 +1,66 @@
 {% comment %}
-  Collection product listing for the storefront.
+  This section is used in the collection template to render collection page
+  listing all products within a collection.
+
+  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<section class="collection-page page-width">
-  <header class="collection-page__header">
-    <p class="collection-page__eyebrow">{{ 'collections.kicker' | t }}</p>
-    <h1>{{ collection.title }}</h1>
-  </header>
-
-  {% paginate collection.products by 24 %}
-    {% if collection.products.size > 0 %}
-      <div class="collection-products">
-        {% for product in collection.products %}
-          {% assign product_image = product.featured_image | default: product.images.first %}
-
-          <article class="collection-product">
-            <a class="collection-product__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-              {% if product_image %}
-                {{ product_image | image_url: width: 900 | image_tag: class: 'collection-product__image', alt: product_image.alt | default: product.title, loading: 'lazy', widths: '300, 450, 600, 900', sizes: '(min-width: 1200px) 25vw, (min-width: 641px) 50vw, 100vw' }}
-              {% else %}
-                <div class="collection-product__placeholder">
-                  <span>{{ 'collections.no_image' | t }}</span>
-                </div>
-              {% endif %}
-            </a>
-
-            <div class="collection-product__content">
-              <div class="collection-product__badges">
-                {% if product.compare_at_price > product.price %}
-                  <span class="collection-product__badge">{{ 'collections.promo' | t }}</span>
-                {% endif %}
-                {% unless product.available %}
-                  <span class="collection-product__badge collection-product__badge--sold-out">{{ 'products.sold_out' | t }}</span>
-                {% endunless %}
-              </div>
-
-              <h2><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
-
-              <div class="collection-product__pricing">
-                <span class="collection-product__price">{{ product.price | money }}</span>
-                {% if product.compare_at_price > product.price %}
-                  <span class="collection-product__compare-price">{{ product.compare_at_price | money }}</span>
-                {% endif %}
-              </div>
-            </div>
-          </article>
-        {% endfor %}
-      </div>
+<div class="collection-page">
+  <h1 class="collection-page__heading">
+    {% if collection.handle == 'all' %}
+      {{ 'collections.title' | t }}
     {% else %}
-      <div class="collection-empty">
-        <h2>{{ 'collections.empty_title' | t }}</h2>
-        <p>{{ 'collections.empty_text' | t }}</p>
-      </div>
+      {{ collection.title | escape }}
     {% endif %}
+  </h1>
+
+  {% paginate collection.products by 20 %}
+    <div class="collection-products">
+      {% for product in collection.products %}
+        {% assign product_image = product.featured_image | default: product.images.first %}
+        <article class="collection-product">
+          {% if product_image %}
+            <a class="collection-product__image" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+              {{ product_image
+                | image_url: width: 900
+                | image_tag:
+                  class: 'collection-product__image-element',
+                  alt: product_image.alt | default: product.title,
+                  widths: '300, 450, 600, 900',
+                  sizes: '(min-width: 1200px) 25vw, (min-width: 640px) 33vw, 50vw',
+                  loading: 'lazy'
+              }}
+            </a>
+          {% else %}
+            <a class="collection-product__image collection-product__image--placeholder" href="{{ product.url }}">
+              {{ 'collections.no_image' | t }}
+            </a>
+          {% endif %}
+          <div class="collection-product__content">
+            <div class="collection-product__badges">
+              {% if product.compare_at_price > product.price %}
+                <span class="collection-product__badge">{{ 'collections.promo' | t }}</span>
+              {% endif %}
+              {% unless product.available %}
+                <span class="collection-product__badge collection-product__badge--sold-out">{{ 'products.sold_out' | t }}</span>
+              {% endunless %}
+            </div>
+            <h2><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
+            <div class="collection-product__pricing">
+              <span class="collection-product__price">{{ product.price | money }}</span>
+              {% if product.compare_at_price > product.price %}
+                <span class="collection-product__compare-price">{{ product.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </article>
+      {% else %}
+        <div class="collection-empty">
+          <h2>{{ 'collections.empty_title' | t }}</h2>
+          <p>{{ 'collections.empty_text' | t }}</p>
+        </div>
+      {% endfor %}
+    </div>
 
     {% if paginate.pages > 1 %}
       <div class="collection-pagination">
@@ -60,92 +68,77 @@
       </div>
     {% endif %}
   {% endpaginate %}
-</section>
+</div>
 
 {% stylesheet %}
   .collection-page {
-    padding: clamp(2rem, 4vw, 3.5rem) 0 4rem;
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 5vw, 4rem);
   }
 
-  .collection-page__header {
-    margin-bottom: 2rem;
-  }
-
-  .collection-page__eyebrow {
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+  .collection-page__heading {
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 500;
+    letter-spacing: 0.015em;
     text-transform: uppercase;
-    color: var(--brand-muted);
-    margin-bottom: 0.7rem;
-  }
-
-  .collection-page__header h1 {
-    font-size: clamp(2.3rem, 4vw, 4rem);
-    letter-spacing: -0.07em;
-    line-height: 0.95;
   }
 
   .collection-products {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(0.75rem, 1.5vw, 1.4rem);
+    gap: clamp(0.65rem, 1.25vw, 1rem);
   }
 
   .collection-product {
-    display: flex;
-    flex-direction: column;
     min-width: 0;
-    background: rgba(255, 255, 255, 0.62);
-    border: 1px solid var(--brand-border);
-    border-radius: 1.25rem;
     overflow: hidden;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 0.45rem;
+    border: 1px solid var(--brand-border);
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.48);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
 
   .collection-product:hover,
   .collection-product:focus-within {
-    transform: translateY(-3px);
-    border-color: rgba(36, 36, 36, 0.2);
-    box-shadow: 0 12px 28px var(--brand-shadow);
-  }
-
-  .collection-product__media {
-    display: block;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    padding: 0.75rem;
-    background: #f2f0ea;
+    border-color: #c8c1b4;
+    box-shadow: 0 0.5rem 1.25rem var(--brand-shadow);
+    transform: translateY(-2px);
   }
 
   .collection-product__image {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 0.55rem;
+    overflow: hidden;
+    background: #efece6;
+  }
+
+  .collection-product__image-element {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transition: transform 0.25s ease;
+    object-fit: cover;
   }
 
-  .collection-product:hover .collection-product__image,
-  .collection-product:focus-within .collection-product__image {
-    transform: scale(1.03);
-  }
-
-  .collection-product__placeholder {
+  .collection-product__image--placeholder {
     display: grid;
     place-items: center;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(168, 199, 255, 0.35), rgba(216, 240, 106, 0.35));
-    color: var(--brand-muted);
-    font-weight: 600;
     padding: 1rem;
+    color: var(--brand-muted);
     text-align: center;
+    font-size: 0.85rem;
   }
 
   .collection-product__content {
-    display: grid;
-    gap: 0.65rem;
-    flex: 1;
-    padding: 0.9rem 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 5.2rem;
+    padding: 0.55rem 0.15rem 0.25rem;
   }
 
   .collection-product__badges {
@@ -153,19 +146,19 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 0.35rem;
-    min-height: 1.5rem;
+    min-height: 1.2rem;
   }
 
   .collection-product__badge {
     display: inline-flex;
-    width: fit-content;
-    padding: 0.25rem 0.5rem;
+    align-self: flex-start;
+    padding: 0.2rem 0.45rem;
     border-radius: 999px;
     background: var(--brand-lime);
     color: var(--brand-charcoal);
-    font-size: 0.62rem;
+    font-size: 0.64rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
@@ -173,68 +166,74 @@
     background: #e8e5df;
   }
 
-  .collection-product h2 {
-    font-size: 1.12rem;
-    letter-spacing: -0.04em;
-    line-height: 1.2;
-    min-height: 2.4em;
-  }
-
-  .collection-product h2 a:hover,
-  .collection-product h2 a:focus-visible {
-    text-decoration: underline;
-    text-underline-offset: 0.15em;
+  .collection-product__content h2 {
+    display: -webkit-box;
+    min-height: 2.7em;
+    margin: 0 0 0.35rem;
+    overflow: hidden;
+    font-family: var(--font-body);
+    font-size: clamp(0.78rem, 0.95vw, 0.9rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .collection-product__pricing {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    margin-top: auto;
   }
 
   .collection-product__price {
+    font-size: 0.9rem;
     font-weight: 700;
-    font-size: 1.08rem;
   }
 
   .collection-product__compare-price {
     color: var(--brand-muted);
+    font-size: 0.78rem;
     text-decoration: line-through;
-    font-size: 0.84rem;
   }
 
   .collection-empty {
+    grid-column: 1 / -1;
+    padding: 2.5rem 1.25rem;
     border: 1px dashed var(--brand-border);
-    border-radius: 1.5rem;
-    padding: 3rem 1.5rem;
+    border-radius: 0.85rem;
     text-align: center;
-    background: rgba(255, 255, 255, 0.34);
   }
 
   .collection-empty h2 {
     margin-bottom: 0.5rem;
   }
 
+  .collection-empty p {
+    color: var(--brand-muted);
+  }
+
   .collection-pagination {
-    margin-top: 2rem;
     display: flex;
     justify-content: center;
+    margin-top: 2rem;
   }
 
   .collection-pagination .pagination {
     display: flex;
-    gap: 0.5rem;
     flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .collection-pagination .pagination a,
   .collection-pagination .pagination span {
-    min-width: 2.1rem;
-    min-height: 2.1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 2.1rem;
+    min-height: 2.1rem;
     padding: 0.35rem 0.7rem;
     border: 1px solid var(--brand-border);
     border-radius: 999px;
@@ -242,28 +241,33 @@
   }
 
   .collection-pagination .pagination .current {
+    border-color: var(--brand-charcoal);
     background: var(--brand-charcoal);
     color: #fff;
-    border-color: var(--brand-charcoal);
   }
 
-  @media (max-width: 980px) {
+  @media (max-width: 959px) {
     .collection-products {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 639px) {
     .collection-products {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-  }
 
-  @media (max-width: 360px) {
-    .collection-products {
-      grid-template-columns: 1fr;
+    .collection-product {
+      padding: 0.35rem;
+      border-radius: 0.7rem;
+    }
+
+    .collection-product__content {
+      min-height: 4.7rem;
+      padding-top: 0.45rem;
     }
   }
+
 {% endstylesheet %}
 
 {% schema %}

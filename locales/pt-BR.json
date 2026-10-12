@@ -9,11 +9,13 @@
  */
 {
   "404": {
+    "title": "404",
     "not_found": "Página não encontrada.",
     "back_to_shopping": "Voltar às compras"
   },
   "blog": {
     "article_comments": "Comentários",
+    "article_metadata_html": "{{ date }} por {{ author }}",
     "comment_form_body": "Comentar",
     "comment_form_email": "E-mail",
     "comment_form_name": "Nome",
@@ -24,7 +26,27 @@
     "checkout": "Finalizar compra",
     "title": "Carrinho",
     "update": "Atualizar",
-    "remove": "Remover"
+    "remove": "Remover",
+    "kicker": "Sua seleção",
+    "item_count_one": "1 item selecionado",
+    "item_count_other": "{{ count }} itens selecionados",
+    "your_items": "Seus produtos",
+    "quantity": "Quantidade",
+    "quantity_for": "Quantidade de {{ product }}",
+    "line_total": "Total",
+    "each": "cada",
+    "summary": "Resumo do pedido",
+    "subtotal": "Subtotal",
+    "taxes_included": "Impostos incluídos nos preços dos produtos.",
+    "taxes_calculated": "Impostos calculados no checkout.",
+    "shipping_calculated": "Frete calculado no checkout.",
+    "estimated_total": "Total estimado",
+    "continue_shopping": "Continuar comprando",
+    "empty_kicker": "Ainda há boas descobertas por aí",
+    "empty_title": "Seu carrinho está esperando por algo especial.",
+    "empty_text": "Explore nossos achadinhos e encontre algo para deixar seu dia mais interessante.",
+    "updated": "Seu carrinho foi atualizado.",
+    "error": "Não foi possível atualizar seu carrinho. Tente novamente."
   },
   "customers": {
     "login": {
@@ -35,7 +57,13 @@
     }
   },
   "collections": {
-    "title": "Coleções"
+    "title": "Produtos",
+    "index_title": "Coleções",
+    "kicker": "Catálogo",
+    "promo": "Oferta",
+    "no_image": "Imagem em breve",
+    "empty_title": "Ainda não há produtos nesta coleção",
+    "empty_text": "Volte em breve para descobrir os próximos achadinhos da loja."
   },
   "home": {
     "announcement": {
@@ -59,6 +87,8 @@
       "cta_primary": "Explorar produtos",
       "cta_secondary": "Ver coleções",
       "visual_label": "Imagem principal",
+      "visual_title": "Pequenos achados, grande personalidade",
+      "visual_cta": "Descubra os produtos",
       "placeholder": "Coisas de que preciso",
       "card_title": "Curiosidades",
       "card_value": "+ 100",
@@ -68,13 +98,14 @@
       "kicker": "Descobertas",
       "title": "Pequenas coisas. Grandes vontades.",
       "subtitle": "Os achadinhos que merecem um lugar na sua rotina.",
+      "view_all": "Ver todos os produtos",
       "promo": "Promoção",
       "empty_state": "Mais itens em breve",
       "empty_title": "Mais produtos em breve",
       "empty_text": "Esta coleção ainda está sendo montada. Volte em breve para ver as próximas descobertas."
     },
     "categories": {
-      "kicker": "Discover",
+      "kicker": "Descubra",
       "title": "Encontre seu próximo achado.",
       "explore": "Explorar",
       "stress": "Antiestresse & Sensoriais",
@@ -93,7 +124,8 @@
       "catalog": "Catálogo",
       "about": "Sobre",
       "newsletter": "Receba novidades",
-      "subscribe": "Registrar-se"
+      "subscribe": "Inscrever-se",
+      "powered_by": "Desenvolvido com Shopify"
     }
   },
   "gift_card": {
@@ -110,9 +142,37 @@
   },
   "search": {
     "title": "Pesquisar",
+    "page_title": "Busca por {{ terms }}",
     "placeholder": "Pesquisar artigos, páginas ou produtos",
     "submit": "Pesquisar",
-    "no_results_html": "Nenhum resultado encontrado para {{ terms }}"
+    "no_results_html": "Nenhum resultado encontrado para {{ terms }}",
+    "result_for_html": "{{ count }} resultado encontrado para {{ terms }}",
+    "results_for_html": "{{ count }} resultados encontrados para {{ terms }}"
+  },
+  "products": {
+    "breadcrumbs": "Trilha de navegação",
+    "gallery": "Galeria do produto",
+    "no_media": "Nenhuma imagem disponível",
+    "in_stock": "Em estoque",
+    "out_of_stock": "Indisponível",
+    "quantity": "Quantidade",
+    "add_to_cart": "Adicionar ao carrinho",
+    "sold_out": "Esgotado",
+    "description": "Descrição",
+    "benefits": "Principais benefícios",
+    "shipping": "Frete",
+    "returns": "Trocas e devoluções"
+  },
+  "policies": {
+    "privacy": "Política de privacidade",
+    "returns": "Política de trocas e devoluções",
+    "shipping": "Política de frete",
+    "terms": "Termos de serviço"
+  },
+  "general": {
+    "pagination": {
+      "page": "Página {{ page }}"
+    }
   },
   "pagefly": {
     "products": {

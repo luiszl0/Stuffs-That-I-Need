@@ -8,6 +8,17 @@
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
 
+  if request.page_type == 'search'
+    assign og_title = 'search.title' | t
+    if search.performed
+      assign og_title = 'search.page_title' | t: terms: search.terms
+    endif
+  endif
+
+  if request.page_type == 'collection' and collection.handle == 'all'
+    assign og_title = 'collections.title' | t
+  endif
+
   if request.page_type == 'product'
     assign og_type = 'product'
   elsif request.page_type == 'article'
@@ -86,10 +97,10 @@
 >
 
 <title>
-  {{ page_title }}
+  {{ og_title }}
   {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  {%- if current_page != 1 %} &ndash; {{ 'general.pagination.page' | t: page: current_page }}{% endif -%}
+  {%- unless og_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
 </title>
 
 <link

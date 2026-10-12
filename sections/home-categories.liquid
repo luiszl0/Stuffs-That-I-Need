@@ -35,13 +35,25 @@
               {% if block.settings.image != blank %}
                 {{ block.settings.image | image_url: width: 900 | image_tag: class: 'category-card__image', alt: block.settings.image.alt | default: category_title }}
               {% else %}
-                <div class="category-card__placeholder"><span>{{ category_title }}</span></div>
+                <div class="category-card__placeholder"></div>
               {% endif %}
             </div>
 
             <div class="category-card__body">
+              <span class="category-card__symbol" aria-hidden="true">
+                {% case forloop.index %}
+                  {% when 1 %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5 14.7 9l6.8 3-6.8 2.8-2.7 6.7-2.8-6.7L2.5 12l6.7-3L12 2.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="19" cy="5" r="1.5" fill="currentColor"/></svg>
+                  {% when 2 %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="m3 10 9-7 9 7v10.5H3V10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 20.5v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  {% when 3 %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="m3 15 2-6h12l4 6v4H3v-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 9l2-3h8l2 3M6.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z" fill="currentColor"/></svg>
+                {% endcase %}
+              </span>
               <h3>{{ category_title }}</h3>
-              <span>{{ 'home.categories.explore' | t }}</span>
+              <span class="category-card__explore">{{ 'home.categories.explore' | t }}</span>
             </div>
           </a>
         {% endfor %}
@@ -50,11 +62,23 @@
         {% for fallback_item in fallback_items %}
           <a class="category-card" href="{{ routes.all_products_collection_url }}">
             <div class="category-card__media">
-              <div class="category-card__placeholder"><span>{{ fallback_item | t }}</span></div>
+              <div class="category-card__placeholder"></div>
             </div>
             <div class="category-card__body">
+              <span class="category-card__symbol" aria-hidden="true">
+                {% case forloop.index %}
+                  {% when 1 %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="M12 2.5 14.7 9l6.8 3-6.8 2.8-2.7 6.7-2.8-6.7L2.5 12l6.7-3L12 2.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="19" cy="5" r="1.5" fill="currentColor"/></svg>
+                  {% when 2 %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="m3 10 9-7 9 7v10.5H3V10Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 20.5v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                  {% when 3 %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="m3 15 2-6h12l4 6v4H3v-4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M5 9l2-3h8l2 3M6.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" fill="none"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z" fill="currentColor"/></svg>
+                {% endcase %}
+              </span>
               <h3>{{ fallback_item | t }}</h3>
-              <span>{{ 'home.categories.explore' | t }}</span>
+              <span class="category-card__explore">{{ 'home.categories.explore' | t }}</span>
             </div>
           </a>
         {% endfor %}
@@ -65,12 +89,12 @@
 
 {% stylesheet %}
   .home-categories {
-    padding-top: 5rem;
+    padding-top: clamp(2.75rem, 4vw, 3.5rem);
   }
 
   .home-categories__heading {
-    max-width: 42rem;
-    margin-bottom: 2rem;
+    max-width: 52rem;
+    margin-bottom: 1.25rem;
   }
 
   .home-categories__eyebrow {
@@ -82,7 +106,7 @@
   }
 
   .home-categories__heading h2 {
-    font-size: clamp(2.2rem, 4vw, 3.3rem);
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
     letter-spacing: -0.06em;
     line-height: 0.96;
   }
@@ -94,16 +118,29 @@
   }
 
   .category-card {
-    display: block;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+    min-height: 6rem;
     border: 1px solid var(--brand-border);
-    border-radius: 1.5rem;
+    border-radius: 1rem;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.42);
+    background: linear-gradient(120deg, rgba(216, 240, 106, 0.18), rgba(168, 199, 255, 0.18));
+    transition: transform 0.2s ease, border-color 0.2s ease;
+  }
+
+  .category-card:hover,
+  .category-card:focus-visible {
+    transform: translateY(-2px);
+    border-color: rgba(36, 36, 36, 0.22);
   }
 
   .category-card__media {
-    aspect-ratio: 4 / 4.5;
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    min-height: 6rem;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.3);
   }
 
   .category-card__image,
@@ -118,31 +155,48 @@
   }
 
   .category-card__placeholder {
-    background: linear-gradient(135deg, rgba(168, 199, 255, 0.4), rgba(216, 240, 106, 0.35));
-    display: grid;
-    place-items: center;
-    text-align: center;
-    padding: 1rem;
-    font-weight: 700;
-    letter-spacing: -0.04em;
+    background:
+      radial-gradient(circle at 70% 35%, rgba(255, 255, 255, 0.7), transparent 34%),
+      linear-gradient(135deg, rgba(168, 199, 255, 0.42), rgba(255, 182, 159, 0.38));
   }
 
   .category-card__body {
-    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding: 1rem 1rem 1.2rem;
+    gap: 0.35rem 0.55rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .category-card__symbol {
+    grid-row: 1 / span 2;
+    display: grid;
+    place-items: center;
+    width: 1.65rem;
+    height: 1.65rem;
+    border-radius: 0.55rem;
+    color: var(--brand-charcoal);
+    background: rgba(216, 240, 106, 0.7);
+  }
+
+  .category-card__symbol svg {
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   .category-card__body h3 {
-    font-size: 1.08rem;
+    min-width: 0;
+    font-size: clamp(0.76rem, 1vw, 0.95rem);
+    line-height: 1.15;
     letter-spacing: -0.04em;
   }
 
-  .category-card__body span {
+  .category-card__explore {
     display: inline-flex;
-    font-size: 0.72rem;
+    font-size: 0.62rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--brand-muted);
@@ -155,21 +209,28 @@
   }
 
   @media (max-width: 560px) {
-    .category-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .category-card {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+      min-height: 5.5rem;
+    }
+
+    .category-card__media {
+      min-height: 5.5rem;
     }
 
     .category-card__body {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 0.35rem;
-      padding: 0.8rem;
+      gap: 0.3rem 0.4rem;
+      padding: 0.55rem;
     }
-  }
 
-  @media (max-width: 360px) {
-    .category-grid {
-      grid-template-columns: 1fr;
+    .category-card__symbol {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+
+    .category-card__symbol svg {
+      width: 1rem;
+      height: 1rem;
     }
   }
 {% endstylesheet %}
