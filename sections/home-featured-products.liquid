@@ -28,12 +28,13 @@
     {% if featured_collection.products_count > 0 %}
       <div class="product-grid">
         {% for product in featured_collection.products limit: section.settings.products_to_show %}
+          {% assign product_image = product.featured_image | default: product.images.first %}
           <article class="product-card">
             <a class="product-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-              {% if product.featured_image %}
-                {{ product.featured_image | image_url: width: 800 | image_tag:
+              {% if product_image %}
+                {{ product_image | image_url: width: 800 | image_tag:
                   class: 'product-card__image',
-                  alt: product.featured_image.alt | default: product.title,
+                  alt: product_image.alt | default: product.title,
                   widths: '240, 360, 520, 800',
                   sizes: '(min-width: 1200px) 18vw, (min-width: 821px) 20vw, (min-width: 561px) 45vw, 46vw'
                 }}
@@ -50,6 +51,10 @@
               </div>
 
               <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+
+              {% unless product.available %}
+                <span class="product-card__sold-out">{{ 'products.sold_out' | t }}</span>
+              {% endunless %}
 
               <div class="product-card__pricing">
                 <span class="product-card__price">{{ product.price | money }}</span>
@@ -187,6 +192,20 @@
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .product-card__sold-out {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 0.4rem;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    background: #e8e5df;
+    color: var(--brand-muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 

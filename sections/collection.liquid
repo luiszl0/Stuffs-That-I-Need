@@ -17,28 +17,34 @@
   {% paginate collection.products by 20 %}
     <div class="collection-products">
       {% for product in collection.products %}
+        {% assign product_image = product.featured_image | default: product.images.first %}
         <article class="collection-product">
-          {% if product.featured_image %}
+          {% if product_image %}
             <a class="collection-product__image" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-              {{ product.featured_image
+              {{ product_image
                 | image_url: width: 900
                 | image_tag:
                   class: 'collection-product__image-element',
-                  alt: product.featured_image.alt | default: product.title,
-                  widths: '320, 480, 640, 900',
-                  sizes: '(min-width: 960px) 25vw, (min-width: 640px) 33vw, 50vw',
+                  alt: product_image.alt | default: product.title,
+                  widths: '300, 450, 600, 900',
+                  sizes: '(min-width: 1200px) 25vw, (min-width: 640px) 33vw, 50vw',
                   loading: 'lazy'
               }}
             </a>
           {% else %}
             <a class="collection-product__image collection-product__image--placeholder" href="{{ product.url }}">
-              {{ 'home.products.empty_state' | t }}
+              {{ 'collections.no_image' | t }}
             </a>
           {% endif %}
           <div class="collection-product__content">
-            {% if product.compare_at_price > product.price %}
-              <span class="collection-product__badge">{{ 'home.products.promo' | t }}</span>
-            {% endif %}
+            <div class="collection-product__badges">
+              {% if product.compare_at_price > product.price %}
+                <span class="collection-product__badge">{{ 'collections.promo' | t }}</span>
+              {% endif %}
+              {% unless product.available %}
+                <span class="collection-product__badge collection-product__badge--sold-out">{{ 'products.sold_out' | t }}</span>
+              {% endunless %}
+            </div>
             <h2><a href="{{ product.url }}">{{ product.title | escape }}</a></h2>
             <div class="collection-product__pricing">
               <span class="collection-product__price">{{ product.price | money }}</span>
@@ -50,13 +56,17 @@
         </article>
       {% else %}
         <div class="collection-empty">
-          <h2>{{ 'home.products.empty_title' | t }}</h2>
-          <p>{{ 'home.products.empty_text' | t }}</p>
+          <h2>{{ 'collections.empty_title' | t }}</h2>
+          <p>{{ 'collections.empty_text' | t }}</p>
         </div>
       {% endfor %}
     </div>
 
-    {{ paginate | default_pagination }}
+    {% if paginate.pages > 1 %}
+      <div class="collection-pagination">
+        {{ paginate | default_pagination }}
+      </div>
+    {% endif %}
   {% endpaginate %}
 </div>
 
@@ -131,14 +141,29 @@
     padding: 0.55rem 0.15rem 0.25rem;
   }
 
+  .collection-product__badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    min-height: 1.2rem;
+  }
+
   .collection-product__badge {
+    display: inline-flex;
     align-self: flex-start;
-    margin-bottom: 0.2rem;
-    color: var(--brand-muted);
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    background: var(--brand-lime);
+    color: var(--brand-charcoal);
     font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+  }
+
+  .collection-product__badge--sold-out {
+    background: #e8e5df;
   }
 
   .collection-product__content h2 {
@@ -188,6 +213,37 @@
 
   .collection-empty p {
     color: var(--brand-muted);
+  }
+
+  .collection-pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .collection-pagination .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .collection-pagination .pagination a,
+  .collection-pagination .pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.1rem;
+    min-height: 2.1rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--brand-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .collection-pagination .pagination .current {
+    border-color: var(--brand-charcoal);
+    background: var(--brand-charcoal);
+    color: #fff;
   }
 
   @media (max-width: 959px) {
