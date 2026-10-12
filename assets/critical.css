@@ -124,8 +124,14 @@ img {
 }
 
 .page-width {
-  width: min(var(--page-width, 90rem), calc(100% - (var(--page-margin, 1.25rem) * 2)));
+  width: min(var(--page-width, 110rem), calc(100% - (var(--page-margin, 32px) * 2)));
   margin: 0 auto;
+}
+
+@media (max-width: 749px) {
+  :root {
+    --page-margin: 16px;
+  }
 }
 
 .button {
@@ -187,17 +193,5 @@ img {
 
   /* This is required to make <img> elements work as background images */
   position: relative;
-  grid-template-columns: var(--content-grid);
-  display: grid;
   width: 100%;
-}
-
-/* Child elements, by default, are constrained to the central column of the grid. */
-.shopify-section > * {
-  grid-column: 2;
-}
-
-/* Child elements that use the full-width utility class span the entire viewport. */
-.shopify-section > .full-width {
-  grid-column: 1 / -1;
 }
