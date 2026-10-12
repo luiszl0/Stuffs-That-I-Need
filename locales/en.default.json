@@ -23,10 +23,30 @@
     "comment_form_title": "Add a comment"
   },
   "cart": {
-    "checkout": "Checkout",
-    "title": "Cart",
-    "update": "Update",
-    "remove": "Remove"
+    "checkout": "Ir para o checkout",
+    "title": "Carrinho",
+    "update": "Atualizar carrinho",
+    "remove": "Remover",
+    "kicker": "Sua seleção",
+    "item_count_one": "1 item selecionado",
+    "item_count_other": "{{ count }} itens selecionados",
+    "your_items": "Seus produtos",
+    "quantity": "Quantidade",
+    "quantity_for": "Quantidade de {{ product }}",
+    "line_total": "Total",
+    "each": "cada",
+    "summary": "Resumo do pedido",
+    "subtotal": "Subtotal",
+    "taxes_included": "Impostos incluídos nos preços dos produtos.",
+    "taxes_calculated": "Impostos calculados no checkout.",
+    "shipping_calculated": "Frete calculado no checkout.",
+    "estimated_total": "Total estimado",
+    "continue_shopping": "Continuar comprando",
+    "empty_kicker": "Ainda há boas descobertas por aí",
+    "empty_title": "Seu carrinho está esperando por algo especial.",
+    "empty_text": "Explore nossos achadinhos e encontre algo para deixar seu dia mais interessante.",
+    "updated": "Seu carrinho foi atualizado.",
+    "error": "Não foi possível atualizar seu carrinho. Tente novamente."
   },
   "customers": {
     "login": {
@@ -37,7 +57,12 @@
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "kicker": "Catálogo",
+    "promo": "Promo",
+    "no_image": "Imagem em breve",
+    "empty_title": "Ainda não há produtos nesta coleção",
+    "empty_text": "Volte em breve para descobrir os próximos achadinhos da loja."
   },
   "home": {
     "announcement": {
