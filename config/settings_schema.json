@@ -39,17 +39,17 @@
             "label": "t:options.page_width.wide"
           }
         ],
-        "default": "90rem"
+        "default": "110rem"
       },
       {
         "type": "range",
         "id": "min_page_margin",
-        "min": 10,
+        "min": 16,
         "max": 100,
         "step": 1,
         "unit": "px",
         "label": "t:labels.page_margin",
-        "default": 20
+        "default": 32
       }
     ]
   },
