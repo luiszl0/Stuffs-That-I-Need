@@ -1,160 +1,72 @@
-<h1 align="center" style="position: relative;">
-  <br>
-    <img src="./assets/shoppy-x-ray.svg" alt="logo" width="200">
-  <br>
-  Shopify Skeleton Theme
-</h1>
+# Stuffs That I Need
 
-A minimal, carefully structured Shopify theme designed to help you quickly get started. Designed with modularity, maintainability, and Shopify's best practices in mind.
+A Shopify Online Store theme for **Stuffs That I Need**, a store for curious finds, useful everyday items, and playful gifts. The storefront uses a minimalist visual style with warm neutral colors, responsive product imagery, and reusable sections that can be managed in the Shopify theme editor.
 
-<p align="center">
-  <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
-  <a href="./actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Shopify/skeleton-theme/actions/workflows/ci.yml/badge.svg"></a>
-</p>
+## Development
 
-## Getting started
+### Requirements
 
-### Prerequisites
+- [Shopify CLI](https://shopify.dev/docs/api/shopify-cli)
+- A Shopify development store or theme preview access
 
-Before starting, ensure you have the latest Shopify CLI installed:
+### Run a local theme preview
 
-- [Shopify CLI](https://shopify.dev/docs/api/shopify-cli) – helps you download, upload, preview themes, and streamline your workflows
+From the theme directory, authenticate with Shopify if needed and start the development preview:
 
-If you use VS Code:
-
-- [Shopify Liquid VS Code Extension](https://shopify.dev/docs/storefronts/themes/tools/shopify-liquid-vscode) – provides syntax highlighting, linting, inline documentation, and auto-completion specifically designed for Liquid templates
-
-### Clone
-
-Clone this repository using Git or Shopify CLI:
-
-```bash
-git clone git@github.com:Shopify/skeleton-theme.git
-# or
-shopify theme init
-```
-
-### Preview
-
-Preview this theme using Shopify CLI:
-
-```bash
+```sh
 shopify theme dev
 ```
 
-## Theme architecture
+Shopify CLI prints the local preview URL after the theme is connected to a store. Changes to theme files are synchronized to the preview while the command is running.
 
-```bash
-.
-├── assets          # Stores static assets (CSS, JS, images, fonts, etc.)
-├── blocks          # Reusable, nestable, customizable UI components
-├── config          # Global theme settings and customization options
-├── layout          # Top-level wrappers for pages (layout templates)
-├── locales         # Translation files for theme internationalization
-├── sections        # Modular full-width page components
-├── snippets        # Reusable Liquid code or HTML fragments
-└── templates       # Templates combining sections to define page structures
+### Check the theme
+
+Run Shopify Theme Check before submitting theme changes:
+
+```sh
+shopify theme check
 ```
 
-To learn more, refer to the [theme architecture documentation](https://shopify.dev/docs/storefronts/themes/architecture).
+## Storefront features
 
-### Templates
+- **Homepage:** a responsive split hero, featured products, and category discovery cards.
+- **Product discovery:** collection pages use responsive product cards with product imagery, prices, sale and sold-out states, and Shopify pagination. Search results support products, pages, and articles.
+- **Product pages:** product information and purchase actions use Shopify product and variant data.
+- **Cart:** the cart uses Shopify's native cart form and data, including quantity updates, item removal, discounts, cart attributes, and the native checkout action.
+- **Theme editor:** homepage sections and category cards expose settings for copy, collections, destinations, and images.
+- **Responsive layout:** grids and imagery adapt to desktop, tablet, and mobile widths.
 
-[Templates](https://shopify.dev/docs/storefronts/themes/architecture/templates#template-types) control what's rendered on each type of page in a theme.
+Product and collection content is managed in Shopify Admin. The theme renders store data; it does not create or publish products.
 
-The Skeleton Theme scaffolds [JSON templates](https://shopify.dev/docs/storefronts/themes/architecture/templates/json-templates) to make it easy for merchants to customize their store.
+## Theme structure
 
-None of the template types are required, and not all of them are included in the Skeleton Theme. Refer to the [template types reference](https://shopify.dev/docs/storefronts/themes/architecture/templates#template-types) for a full list.
+```text
+.
+├── assets/       # Global critical styles and static theme assets
+├── blocks/       # Reusable theme blocks
+├── config/       # Theme settings and editor data
+├── layout/       # Document shell and section groups
+├── locales/      # Storefront and theme-editor translations
+├── sections/     # Homepage, catalog, product, cart, and content sections
+├── snippets/     # Shared Liquid fragments
+└── templates/    # JSON and Liquid page compositions
+```
 
-### Sections
+Templates determine which sections render on each page. Sections contain their own styles and Shopify schema settings, so merchants can arrange and configure the storefront in the theme editor without editing Liquid.
 
-[Sections](https://shopify.dev/docs/storefronts/themes/architecture/sections) are Liquid files that allow you to create reusable modules of content that can be customized by merchants. They can also include blocks which allow merchants to add, remove, and reorder content within a section.
+## Localization
 
-Sections are made customizable by including a `{% schema %}` in the body. For more information, refer to the [section schema documentation](https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema).
+User-facing storefront copy should use Shopify's translation filter:
 
-### Blocks
+```liquid
+{{ 'home.products.title' | t }}
+```
 
-[Blocks](https://shopify.dev/docs/storefronts/themes/architecture/blocks) let developers create flexible layouts by breaking down sections into smaller, reusable pieces of Liquid. Each block has its own set of settings, and can be added, removed, and reordered within a section.
+When adding or changing translated copy, keep the key structure consistent across the relevant files in `locales/`. The current default storefront strings are maintained in [`locales/en.default.json`](./locales/en.default.json); `locales/pt-BR.json` provides the Brazilian Portuguese locale. Preserve interpolation placeholders such as `{{ terms }}` and `{{ count }}` exactly in translated values.
 
-Blocks are made customizable by including a `{% schema %}` in the body. For more information, refer to the [block schema documentation](https://shopify.dev/docs/storefronts/themes/architecture/blocks/theme-blocks/schema).
+## Shopify theme resources
 
-## Schemas
-
-When developing components defined by schema settings, we recommend these guidelines to simplify your code:
-
-- **Single property settings**: For settings that correspond to a single CSS property, use CSS variables:
-
-  ```liquid
-  <div class="collection" style="--gap: {{ block.settings.gap }}px">
-    ...
-  </div>
-
-  {% stylesheet %}
-    .collection {
-      gap: var(--gap);
-    }
-  {% endstylesheet %}
-
-  {% schema %}
-  {
-    "settings": [{
-      "type": "range",
-      "label": "gap",
-      "id": "gap",
-      "min": 0,
-      "max": 100,
-      "unit": "px",
-      "default": 0,
-    }]
-  }
-  {% endschema %}
-  ```
-
-- **Multiple property settings**: For settings that control multiple CSS properties, use CSS classes:
-
-  ```liquid
-  <div class="collection {{ block.settings.layout }}">
-    ...
-  </div>
-
-  {% stylesheet %}
-    .collection--full-width {
-      /* multiple styles */
-    }
-    .collection--narrow {
-      /* multiple styles */
-    }
-  {% endstylesheet %}
-
-  {% schema %}
-  {
-    "settings": [{
-      "type": "select",
-      "id": "layout",
-      "label": "layout",
-      "values": [
-        { "value": "collection--full-width", "label": "t:options.full" },
-        { "value": "collection--narrow", "label": "t:options.narrow" }
-      ]
-    }]
-  }
-  {% endschema %}
-  ```
-
-## CSS & JavaScript
-
-For CSS and JavaScript, we recommend using the [`{% stylesheet %}`](https://shopify.dev/docs/api/liquid/tags#stylesheet) and [`{% javascript %}`](https://shopify.dev/docs/api/liquid/tags/javascript) tags. They can be included multiple times, but the code will only appear once.
-
-### `critical.css`
-
-The Skeleton Theme explicitly separates essential CSS necessary for every page into a dedicated `critical.css` file.
-
-## Contributing
-
-We're excited for your contributions to the Skeleton Theme! This repository aims to remain as lean, lightweight, and fundamental as possible, and we kindly ask your contributions to align with this intention.
-
-Visit our [CONTRIBUTING.md](./CONTRIBUTING.md) for a detailed overview of our process, guidelines, and recommendations.
-
-## License
-
-Skeleton Theme is open-sourced under the [MIT](./LICENSE.md) License.
+- [Theme architecture](https://shopify.dev/docs/storefronts/themes/architecture)
+- [Liquid](https://shopify.dev/docs/api/liquid)
+- [Shopify CLI](https://shopify.dev/docs/api/shopify-cli)
+- [Theme Check](https://shopify.dev/docs/storefronts/themes/tools/theme-check)
