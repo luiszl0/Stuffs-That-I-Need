@@ -1,22 +1,22 @@
 {
   "404": {
     "title": "404",
-    "not_found": "Page not found.",
-    "back_to_shopping": "Back to shopping"
+    "not_found": "Página não encontrada.",
+    "back_to_shopping": "Voltar às compras"
   },
   "blog": {
-    "article_comments": "Comments",
-    "article_metadata_html": "{{ date }} by {{ author }}",
-    "comment_form_body": "Comment",
-    "comment_form_email": "Email",
-    "comment_form_name": "Name",
-    "comment_form_submit": "Post",
-    "comment_form_title": "Add a comment"
+    "article_comments": "Comentários",
+    "article_metadata_html": "{{ date }} por {{ author }}",
+    "comment_form_body": "Comentário",
+    "comment_form_email": "E-mail",
+    "comment_form_name": "Nome",
+    "comment_form_submit": "Publicar",
+    "comment_form_title": "Deixe um comentário"
   },
   "cart": {
-    "checkout": "Ir para o checkout",
+    "checkout": "Finalizar compra",
     "title": "Carrinho",
-    "update": "Atualizar carrinho",
+    "update": "Atualizar",
     "remove": "Remover",
     "kicker": "Sua seleção",
     "item_count_one": "1 item selecionado",
@@ -41,14 +41,15 @@
   },
   "customers": {
     "login": {
-      "email": "Email",
-      "password": "Password",
-      "submit": "Sign in",
-      "title": "Login"
+      "email": "E-mail",
+      "password": "Senha",
+      "submit": "Entrar",
+      "title": "Entrar"
     }
   },
   "collections": {
-    "title": "Collections",
+    "title": "Produtos",
+    "index_title": "Coleções",
     "kicker": "Catálogo",
     "promo": "Promo",
     "no_image": "Imagem em breve",
@@ -60,7 +61,7 @@
       "message": "Achadinhos que deixam o dia mais interessante."
     },
     "header": {
-      "navigation": "Primary navigation",
+      "navigation": "Navegação principal",
       "menu": "Menu"
     },
     "nav": {
@@ -77,7 +78,11 @@
       "cta_primary": "Explorar produtos",
       "cta_secondary": "Ver coleções",
       "visual_label": "Hero visual",
-      "placeholder": "Stuff That I Need",
+      "visual_title": "Pequenos achados, grande personalidade",
+      "visual_point_one": "Curiosidades escolhidas para surpreender.",
+      "visual_point_two": "Ideias úteis e divertidas para o dia a dia.",
+      "visual_cta": "Descubra os produtos",
+      "placeholder": "Stuffs That I Need",
       "card_title": "Curiosidades",
       "card_value": "+ 100",
       "card_label": "Achadinhos para a rotina"
@@ -86,7 +91,8 @@
       "kicker": "Descobertas",
       "title": "Pequenas coisas. Grandes vontades.",
       "subtitle": "Os achadinhos que merecem um lugar na sua rotina.",
-      "promo": "Promo",
+      "view_all": "Ver todos os produtos",
+      "promo": "Oferta",
       "empty_state": "Mais itens em breve",
       "empty_title": "Mais produtos em breve",
       "empty_text": "Esta coleção ainda está sendo montada. Volte em breve para ver as próximas descobertas."
@@ -111,40 +117,99 @@
       "catalog": "Catálogo",
       "about": "Sobre",
       "newsletter": "Receba novidades",
-      "subscribe": "Inscrever"
+      "subscribe": "Inscrever",
+      "powered_by": "Desenvolvido com Shopify"
     }
   },
   "gift_card": {
-    "add_to_apple_wallet": "Add to Apple Wallet",
-    "card": "Gift card",
-    "expired": "This gift card has expired",
-    "expires_on": "Expires on {{ expires_on }}",
-    "use_at_checkout": "Use this gift card at checkout"
+    "add_to_apple_wallet": "Adicionar à Carteira da Apple",
+    "card": "Vale-presente",
+    "expired": "Este vale-presente expirou",
+    "expires_on": "Válido até {{ expires_on }}",
+    "use_at_checkout": "Use este vale-presente na finalização da compra"
   },
   "password": {
-    "title": "This shop is private",
-    "password": "Password",
-    "enter": "Enter"
+    "title": "Esta loja está protegida por senha",
+    "password": "Senha",
+    "enter": "Entrar"
   },
   "products": {
-    "breadcrumbs": "Breadcrumbs",
-    "gallery": "Product gallery",
-    "no_media": "No product images available",
-    "in_stock": "In stock",
-    "out_of_stock": "Out of stock",
-    "quantity": "Quantity",
-    "add_to_cart": "Add to cart",
-    "sold_out": "Sold out",
-    "description": "Description",
-    "benefits": "Key features",
-    "shipping": "Shipping",
-    "returns": "Returns"
+    "breadcrumbs": "Trilha de navegação",
+    "gallery": "Galeria do produto",
+    "no_media": "Nenhuma imagem disponível",
+    "in_stock": "Em estoque",
+    "out_of_stock": "Indisponível",
+    "quantity": "Quantidade",
+    "add_to_cart": "Adicionar ao carrinho",
+    "sold_out": "Esgotado",
+    "description": "Descrição",
+    "benefits": "Principais benefícios",
+    "shipping": "Frete",
+    "returns": "Trocas e devoluções"
   },
   "search": {
-    "title": "Search",
-    "placeholder": "Search articles, pages, or products",
-    "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "title": "Buscar",
+    "page_title": "Busca por {{ terms }}",
+    "placeholder": "Buscar artigos, páginas ou produtos",
+    "submit": "Buscar",
+    "no_results_html": "Nenhum resultado encontrado para {{ terms }}",
+    "result_for_html": "{{ count }} resultado encontrado para {{ terms }}",
+    "results_for_html": "{{ count }} resultados encontrados para {{ terms }}"
+  },
+  "policies": {
+    "privacy": "Política de privacidade",
+    "returns": "Política de trocas e devoluções",
+    "shipping": "Política de frete",
+    "terms": "Termos de serviço"
+  },
+  "general": {
+    "pagination": {
+      "page": "Página {{ page }}"
+    }
+  },
+  "pagefly": {
+    "products": {
+      "product": {
+        "regular_price": "Regular price",
+        "sold_out": "Sold out",
+        "unavailable": "Unavailable",
+        "on_sale": "Sale",
+        "quantity": "Quantity",
+        "add_to_cart": "Add to cart",
+        "back_to_collection": "Back to {{ title }}",
+        "view_details": "View details"
+      }
+    },
+    "article": {
+      "tags": "Tags:",
+      "all_topics": "All topics",
+      "by_author": "by {{ author }}",
+      "posted_in": "Posted in",
+      "read_more": "Read more",
+      "back_to_blog": "Back to {{ title }}"
+    },
+    "comments": {
+      "title": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "post": "Post comment",
+      "moderated": "Please note, comments must be approved before they are published",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "success": "Your comment was posted successfully! Thank you!",
+      "comments_with_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
+    },
+    "password_page": {
+      "login_form_message": "Enter store using password:",
+      "login_form_password_label": "Password",
+      "login_form_password_placeholder": "Your password",
+      "login_form_submit": "Enter",
+      "signup_form_email_label": "Email",
+      "signup_form_success": "We will send you an email right before we open!",
+      "password_link": "Enter using password"
+    }
   }
 }
