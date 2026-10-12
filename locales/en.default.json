@@ -101,6 +101,20 @@
     "password": "Password",
     "enter": "Enter"
   },
+  "products": {
+    "breadcrumbs": "Breadcrumbs",
+    "gallery": "Product gallery",
+    "no_media": "No product images available",
+    "in_stock": "In stock",
+    "out_of_stock": "Out of stock",
+    "quantity": "Quantity",
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "description": "Description",
+    "benefits": "Key features",
+    "shipping": "Shipping",
+    "returns": "Returns"
+  },
   "search": {
     "title": "Search",
     "placeholder": "Search articles, pages, or products",
