@@ -1,0 +1,60 @@
+<section class="home-brand-story">
+  <div class="page-width home-brand-story__inner">
+    <div class="home-brand-story__content">
+      <p class="home-brand-story__eyebrow">{{ 'home.story.eyebrow' | t }}</p>
+      <h2>{{ 'home.story.title' | t }}</h2>
+      <p>{{ 'home.story.text' | t }}</p>
+      <a class="button button--primary" href="{{ routes.all_products_collection_url }}">{{ 'home.story.cta' | t }}</a>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .home-brand-story {
+    padding-top: 5rem;
+  }
+
+  .home-brand-story__inner {
+    background: linear-gradient(135deg, rgba(216, 240, 106, 0.62), rgba(168, 199, 255, 0.25));
+    border: 1px solid rgba(36, 36, 36, 0.04);
+    border-radius: 2rem;
+    padding: clamp(2rem, 4vw, 4rem);
+  }
+
+  .home-brand-story__content {
+    max-width: 42rem;
+  }
+
+  .home-brand-story__eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .home-brand-story h2 {
+    font-size: clamp(2.2rem, 4vw, 3.7rem);
+    letter-spacing: -0.06em;
+    line-height: 0.96;
+    margin-bottom: 0.9rem;
+  }
+
+  .home-brand-story p {
+    color: var(--brand-muted);
+    max-width: 38rem;
+    margin-bottom: 1.5rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Brand story",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Brand story",
+      "category": "Homepage"
+    }
+  ]
+}
+{% endschema %}

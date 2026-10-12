@@ -1,0 +1,229 @@
+<section class="home-categories">
+  <div class="page-width">
+    <div class="home-categories__heading">
+      <p class="home-categories__eyebrow">{{ 'home.categories.kicker' | t }}</p>
+      <h2>{{ 'home.categories.title' | t }}</h2>
+    </div>
+
+    <div class="category-grid">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% assign category_title = block.settings.title %}
+          {% if category_title == blank %}
+            {% case forloop.index %}
+              {% when 1 %}
+                {% assign category_title = 'home.categories.stress' | t %}
+              {% when 2 %}
+                {% assign category_title = 'home.categories.home_decor' | t %}
+              {% when 3 %}
+                {% assign category_title = 'home.categories.car' | t %}
+              {% else %}
+                {% assign category_title = 'home.categories.misc' | t %}
+            {% endcase %}
+          {% endif %}
+
+          {% assign category_url = block.settings.link_url %}
+          {% if category_url == blank and block.settings.collection != blank %}
+            {% assign category_url = block.settings.collection.url %}
+          {% endif %}
+          {% if category_url == blank %}
+            {% assign category_url = routes.all_products_collection_url %}
+          {% endif %}
+
+          <a class="category-card" href="{{ category_url }}" {{ block.shopify_attributes }}>
+            <div class="category-card__media">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 900 | image_tag: class: 'category-card__image', alt: block.settings.image.alt | default: category_title }}
+              {% else %}
+                <div class="category-card__placeholder"><span>{{ category_title }}</span></div>
+              {% endif %}
+            </div>
+
+            <div class="category-card__body">
+              <h3>{{ category_title }}</h3>
+              <span>{{ 'home.categories.explore' | t }}</span>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        {% assign fallback_items = 'home.categories.stress|home.categories.home_decor|home.categories.car|home.categories.misc' | split: '|' %}
+        {% for fallback_item in fallback_items %}
+          <a class="category-card" href="{{ routes.all_products_collection_url }}">
+            <div class="category-card__media">
+              <div class="category-card__placeholder"><span>{{ fallback_item | t }}</span></div>
+            </div>
+            <div class="category-card__body">
+              <h3>{{ fallback_item | t }}</h3>
+              <span>{{ 'home.categories.explore' | t }}</span>
+            </div>
+          </a>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .home-categories {
+    padding-top: 5rem;
+  }
+
+  .home-categories__heading {
+    max-width: 42rem;
+    margin-bottom: 2rem;
+  }
+
+  .home-categories__eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .home-categories__heading h2 {
+    font-size: clamp(2.2rem, 4vw, 3.3rem);
+    letter-spacing: -0.06em;
+    line-height: 0.96;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .category-card {
+    display: block;
+    border: 1px solid var(--brand-border);
+    border-radius: 1.5rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.42);
+  }
+
+  .category-card__media {
+    aspect-ratio: 4 / 4.5;
+    overflow: hidden;
+  }
+
+  .category-card__image,
+  .category-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .category-card__image {
+    object-fit: cover;
+  }
+
+  .category-card__placeholder {
+    background: linear-gradient(135deg, rgba(168, 199, 255, 0.4), rgba(216, 240, 106, 0.35));
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  .category-card__body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1rem 1rem 1.2rem;
+  }
+
+  .category-card__body h3 {
+    font-size: 1.08rem;
+    letter-spacing: -0.04em;
+  }
+
+  .category-card__body span {
+    display: inline-flex;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--brand-muted);
+  }
+
+  @media (max-width: 980px) {
+    .category-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Category discovery",
+  "max_blocks": 8,
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Custom destination URL"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category discovery",
+      "category": "Homepage",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "Antiestresse & Sensoriais"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Casa & Decoração"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Carro & Acessórios"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "Achadinhos"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
