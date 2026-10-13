@@ -6,13 +6,19 @@
 {% endcomment %}
 
 <div class="collection-page page-width">
-  <h1 class="collection-page__heading">
+  <header class="collection-page__intro">
+    <p class="collection-page__eyebrow">{{ 'collections.kicker' | t }}</p>
+    <h1 class="collection-page__heading">
     {% if collection.handle == 'all' %}
       {{ 'collections.title' | t }}
     {% else %}
       {{ collection.title | escape }}
     {% endif %}
-  </h1>
+    </h1>
+    {% if collection.description != blank %}
+      <div class="collection-page__description">{{ collection.description }}</div>
+    {% endif %}
+  </header>
 
   {% paginate collection.products by 20 %}
     <div class="collection-products">
@@ -71,23 +77,48 @@
 
 {% stylesheet %}
   .collection-page {
-    padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 5vw, 4rem);
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .collection-page__intro {
+    max-width: 58rem;
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--brand-charcoal);
+  }
+
+  .collection-page__eyebrow {
+    margin-bottom: 1rem;
+    color: var(--brand-cobalt);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
   .collection-page__heading {
     margin-bottom: 1.5rem;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-size: clamp(3.2rem, 8vw, 7.5rem);
     font-weight: 700;
-    letter-spacing: -0.06em;
-    line-height: 0.96;
+    letter-spacing: -0.095em;
+    line-height: 0.84;
     color: var(--brand-charcoal);
+  }
+
+  .collection-page__description {
+    max-width: 36rem;
+    margin-top: 1.25rem;
+    color: var(--brand-muted);
+    line-height: 1.65;
   }
 
   .collection-products {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(0.9rem, 1.6vw, 1.3rem);
+    gap: 1px;
+    border: 1px solid var(--brand-border);
+    background: var(--brand-border);
   }
 
   .collection-product {
@@ -95,18 +126,17 @@
     flex-direction: column;
     min-width: 0;
     overflow: hidden;
-    padding: 0.6rem;
-    border: 1px solid rgba(36, 36, 36, 0.08);
-    border-radius: 1.3rem;
-    background: rgba(255, 255, 255, 0.46);
-    box-shadow: 0 10px 26px rgba(36, 36, 36, 0.04);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    padding: 0.75rem;
+    border: 0;
+    border-radius: 0;
+    background: var(--brand-canvas);
+    box-shadow: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
   }
 
   .collection-product:hover,
   .collection-product:focus-within {
-    border-color: rgba(36, 36, 36, 0.12);
-    box-shadow: 0 16px 30px rgba(36, 36, 36, 0.08);
+    background: var(--brand-white);
     transform: translateY(-2px);
   }
 
@@ -115,9 +145,9 @@
     display: block;
     width: 100%;
     aspect-ratio: 0.96;
-    border-radius: 0.9rem;
+    border-radius: 0;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(216, 240, 106, 0.22), rgba(169, 199, 255, 0.14));
+    background: var(--brand-pale-blue);
   }
 
   .collection-product__image-element {
@@ -164,9 +194,9 @@
     display: inline-flex;
     align-self: flex-start;
     padding: 0.2rem 0.45rem;
-    border-radius: 999px;
-    background: var(--brand-lime);
-    color: var(--brand-charcoal);
+    border-radius: 0;
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
     font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -174,7 +204,7 @@
   }
 
   .collection-product__badge--sold-out {
-    background: #e8e5df;
+    background: var(--brand-border);
   }
 
   .collection-product__content h2 {
@@ -215,9 +245,9 @@
     grid-column: 1 / -1;
     padding: 2.5rem 1.25rem;
     border: 1px dashed var(--brand-border);
-    border-radius: 1.15rem;
+    border-radius: 0;
     text-align: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--brand-white);
   }
 
   .collection-empty h2 {
@@ -249,14 +279,14 @@
     min-height: 2.1rem;
     padding: 0.35rem 0.7rem;
     border: 1px solid var(--brand-border);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.35);
+    border-radius: 0;
+    background: var(--brand-white);
   }
 
   .collection-pagination .pagination .current {
-    border-color: var(--brand-charcoal);
-    background: var(--brand-charcoal);
-    color: #fff;
+    border-color: var(--brand-cobalt);
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
   }
 
   @media (max-width: 959px) {
@@ -271,8 +301,7 @@
     }
 
     .collection-product {
-      padding: 0.35rem;
-      border-radius: 0.7rem;
+      padding: 0.5rem;
     }
 
     .collection-product__content {

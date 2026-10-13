@@ -14,6 +14,7 @@
     "back_to_shopping": "Voltar às compras"
   },
   "blog": {
+    "journal": "Notas & observações",
     "article_comments": "Comentários",
     "article_metadata_html": "{{ date }} por {{ author }}",
     "comment_form_body": "Comentar",
@@ -59,7 +60,7 @@
   "collections": {
     "title": "Produtos",
     "index_title": "Coleções",
-    "kicker": "Catálogo",
+    "kicker": "Explore a coleção",
     "promo": "Oferta",
     "no_image": "Imagem em breve",
     "empty_title": "Ainda não há produtos nesta coleção",
@@ -78,26 +79,28 @@
       "all_products": "Todos os produtos",
       "home_decor": "Casa & Decoração",
       "sensory": "Antiestresse & Sensoriais",
-      "car_accessories": "Carros & Acessórios"
+      "car_accessories": "Carros & Acessórios",
+      "casa": "Casa",
+      "miniaturas": "Miniaturas",
+      "diversao": "Diversão",
+      "gadgets": "Gadgets"
     },
     "hero": {
-      "eyebrow": "Nova seleção",
-      "title": "Você não precisa. Mas vai querer.",
-      "subtitle": "Achadinhos, objetos curiosos e pequenas coisas que deixam o dia mais interessante.",
-      "cta_primary": "Explorar produtos",
-      "cta_secondary": "Ver coleções",
-      "visual_label": "Imagem principal",
-      "visual_title": "Pequenos achados, grande personalidade",
-      "visual_cta": "Descubra os produtos",
-      "placeholder": "Coisas de que preciso",
-      "card_title": "Curiosidades",
-      "card_value": "+ 100",
-      "card_label": "Achadinhos para a rotina"
+      "kicker": "O cotidiano, visto de outro jeito",
+      "eyebrow": "Uma loja para pessoas curiosas",
+      "title": "Coisas úteis. Histórias inesperadas.",
+      "subtitle": "Objetos com personalidade, escolhidos para surpreender e para fazer parte da sua rotina.",
+      "cta_primary": "Explorar a coleção",
+      "note": "Um pouco fora do comum.",
+      "stamp": "Continue olhando",
+      "caption": "Objetos com personalidade",
+      "bottom_note": "Escolhidos para o cotidiano",
+      "visual_label": "Composição gráfica em azul cobalto e creme"
     },
     "products": {
-      "kicker": "Descobertas",
-      "title": "Pequenas coisas. Grandes vontades.",
-      "subtitle": "Os achadinhos que merecem um lugar na sua rotina.",
+      "kicker": "Boas descobertas",
+      "title": "Pequenas coisas. Muita personalidade.",
+      "subtitle": "Uma seleção cuidadosa de objetos úteis e favoritos inesperados.",
       "view_all": "Ver todos os produtos",
       "promo": "Promoção",
       "empty_state": "Mais itens em breve",
@@ -105,19 +108,23 @@
       "empty_text": "Esta coleção ainda está sendo montada. Volte em breve para ver as próximas descobertas."
     },
     "categories": {
-      "kicker": "Descubra",
-      "title": "Encontre seu próximo achadinho.",
+      "kicker": "Escolha um caminho",
+      "title": "Quatro jeitos de encontrar algo especial.",
       "explore": "Explorar",
       "stress": "Antiestresse & Sensoriais",
       "home_decor": "Casa & Decoração",
       "car": "Carros & Acessórios",
-      "misc": "Achadinhos"
+      "misc": "Achadinhos",
+      "casa": "Casa",
+      "miniaturas": "Miniaturas",
+      "diversao": "Diversão",
+      "gadgets": "Gadgets"
     },
     "story": {
-      "eyebrow": "A marca",
-      "title": "Você veio olhar. Agora quer levar.",
-      "text": "Nós gostamos das pequenas descobertas: aquele objeto inesperado, a solução simples que facilita a rotina e a coisinha divertida que melhora o dia. Aqui, cada achadinho tem um motivo para chamar sua atenção.",
-      "cta": "Descobrir achadinhos"
+      "eyebrow": "Uma nota nossa",
+      "title": "Design bom também faz parte da vida real.",
+      "text": "Procuramos objetos do cotidiano com um cuidado a mais: coisas úteis, formas curiosas e detalhes que deixam a rotina mais com a sua cara.",
+      "cta": "Encontre seu próximo favorito"
     },
     "footer": {
       "slogan": "Coisas que você nem sabia que precisava.",
@@ -142,6 +149,7 @@
   },
   "search": {
     "title": "Pesquisar",
+    "kicker": "Encontre o que você procura",
     "page_title": "Busca por {{ terms }}",
     "placeholder": "Pesquisar artigos, páginas ou produtos",
     "submit": "Pesquisar",
@@ -170,9 +178,15 @@
     "terms": "Termos de serviço"
   },
   "general": {
+    "accessibility": {
+      "skip_to_content": "Pular para o conteúdo"
+    },
     "pagination": {
       "page": "Página {{ page }}"
     }
+  },
+  "localization": {
+    "language_label": "Idioma"
   },
   "pagefly": {
     "products": {
