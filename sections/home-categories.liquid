@@ -8,26 +8,41 @@
     <div class="category-grid">
       {% if section.blocks.size > 0 %}
         {% for block in section.blocks %}
+          {% assign category_handle = blank %}
           {% assign category_title = block.settings.title %}
           {% if category_title == blank %}
             {% case forloop.index %}
               {% when 1 %}
-                {% assign category_title = 'home.categories.stress' | t %}
+                {% assign category_handle = 'casa' %}
               {% when 2 %}
-                {% assign category_title = 'home.categories.home_decor' | t %}
+                {% assign category_handle = 'miniaturas' %}
               {% when 3 %}
-                {% assign category_title = 'home.categories.car' | t %}
+                {% assign category_handle = 'diversao' %}
+              {% when 4 %}
+                {% assign category_handle = 'gadgets' %}
               {% else %}
                 {% assign category_title = 'home.categories.misc' | t %}
             {% endcase %}
+            {% if category_handle != blank %}
+              {% assign category_title_key = category_handle | replace: '-', '_' | prepend: 'home.categories.' %}
+              {% assign category_title = category_title_key | t %}
+            {% endif %}
           {% endif %}
 
           {% assign category_url = block.settings.link_url %}
-          {% if category_url == blank and block.settings.collection != blank %}
-            {% assign category_url = block.settings.collection.url %}
-          {% endif %}
           {% if category_url == blank %}
-            {% assign category_url = routes.all_products_collection_url %}
+            {% if block.settings.collection != blank %}
+              {% assign category_url = block.settings.collection.url %}
+            {% elsif category_handle != blank %}
+              {% assign category_collection = collections[category_handle] %}
+              {% if category_collection != blank %}
+                {% assign category_url = category_collection.url %}
+              {% else %}
+                {% assign category_url = routes.collections_url | append: '/' | append: category_handle %}
+              {% endif %}
+            {% else %}
+              {% assign category_url = routes.all_products_collection_url %}
+            {% endif %}
           {% endif %}
 
           <a class="category-card" href="{{ category_url }}" {{ block.shopify_attributes }}>
@@ -58,9 +73,16 @@
           </a>
         {% endfor %}
       {% else %}
-        {% assign fallback_items = 'home.categories.stress|home.categories.home_decor|home.categories.car|home.categories.misc' | split: '|' %}
-        {% for fallback_item in fallback_items %}
-          <a class="category-card" href="{{ routes.all_products_collection_url }}">
+        {% assign fallback_handles = 'casa|miniaturas|diversao|gadgets' | split: '|' %}
+        {% for fallback_handle in fallback_handles %}
+          {% assign fallback_collection = collections[fallback_handle] %}
+          {% assign fallback_title_key = fallback_handle | replace: '-', '_' | prepend: 'home.categories.' %}
+          {% if fallback_collection != blank %}
+            {% assign fallback_url = fallback_collection.url %}
+          {% else %}
+            {% assign fallback_url = routes.collections_url | append: '/' | append: fallback_handle %}
+          {% endif %}
+          <a class="category-card" href="{{ fallback_url }}">
             <div class="category-card__media">
               <div class="category-card__placeholder"></div>
             </div>
@@ -77,7 +99,7 @@
                     <svg viewBox="0 0 24 24" fill="none"><path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="m19 2 .8 2.2L22 5l-2.2.8L19 8l-.8-2.2L16 5l2.2-.8L19 2Z" fill="currentColor"/></svg>
                 {% endcase %}
               </span>
-              <h3>{{ fallback_item | t }}</h3>
+              <h3>{{ fallback_title_key | t }}</h3>
               <span class="category-card__explore">{{ 'home.categories.explore' | t }}</span>
             </div>
           </a>
@@ -272,30 +294,10 @@
       "name": "Category discovery",
       "category": "Homepage",
       "blocks": [
-        {
-          "type": "category",
-          "settings": {
-            "title": "Antiestresse & Sensoriais"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Casa & Decoração"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Carro & Acessórios"
-          }
-        },
-        {
-          "type": "category",
-          "settings": {
-            "title": "Achadinhos"
-          }
-        }
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" },
+        { "type": "category" }
       ]
     }
   ]

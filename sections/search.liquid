@@ -5,62 +5,78 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/search
 {% endcomment %}
 
-<h1>{{ 'search.title' | t }}</h1>
+<div class="search-page page-width">
+  <h1 class="search-page__heading">{{ 'search.title' | t }}</h1>
 
-<form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
-  <input
-    type="search"
-    name="q"
-    value="{{ search.terms | escape }}"
-    placeholder="{{ 'search.placeholder' | t }}"
-    aria-label="{{ 'search.placeholder' | t }}"
-  >
-  <button class="button button--primary" type="submit">{{ 'search.submit' | t }}</button>
-</form>
+  <form class="search-form" action="{{ routes.search_url }}" method="get" role="search">
+    <input
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'search.placeholder' | t }}"
+      aria-label="{{ 'search.placeholder' | t }}"
+    >
+    <button class="button button--primary" type="submit">{{ 'search.submit' | t }}</button>
+  </form>
 
-{% if search.performed %}
-  {% if search.results_count == 0 %}
-    <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
-  {% else %}
-    {% if search.results_count == 1 %}
-      <p>{{ 'search.result_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+  {% if search.performed %}
+    {% if search.results_count == 0 %}
+      <p>{{ 'search.no_results_html' | t: terms: search.terms }}</p>
     {% else %}
-      <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
-    {% endif %}
+      {% if search.results_count == 1 %}
+        <p>{{ 'search.result_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+      {% else %}
+        <p>{{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}</p>
+      {% endif %}
 
-    <div class="search-results">
-      {% paginate search.results by 20 %}
-        {% # Search result items may be an article, a page, or a product. %}
-        {% for result in search.results %}
-          <div class="search-result">
-            {% assign featured_image = result.featured_image | default: result.image %}
-            {% if featured_image %}
-              {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
-            {% endif %}
-            <div class="search-result__content">
-              <p>
-                {{ result.title | link_to: result.url }}
-                {% if result.price %}
-                  {{ result.price | money_with_currency }}
-                {% endif %}
-              </p>
+      <div class="search-results">
+        {% paginate search.results by 20 %}
+          {% # Search result items may be an article, a page, or a product. %}
+          {% for result in search.results %}
+            <div class="search-result">
+              {% assign featured_image = result.featured_image | default: result.image %}
+              {% if featured_image %}
+                {% render 'image', class: 'search-result__image', image: featured_image, url: result.url, width: 400 %}
+              {% endif %}
+              <div class="search-result__content">
+                <p>
+                  {{ result.title | link_to: result.url }}
+                  {% if result.price %}
+                    {{ result.price | money_with_currency }}
+                  {% endif %}
+                </p>
+              </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
 
-        {{ paginate | default_pagination }}
-      {% endpaginate %}
-    </div>
+          {{ paginate | default_pagination }}
+        {% endpaginate %}
+      </div>
+    {% endif %}
   {% endif %}
-{% endif %}
+</div>
 
 {% stylesheet %}
+  .search-page {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3rem, 5vw, 4rem);
+  }
+
+  .search-page__heading {
+    margin-bottom: 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    letter-spacing: -0.06em;
+    line-height: 0.96;
+    color: var(--brand-charcoal);
+  }
+
   .search-form {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 0.75rem;
     width: min(100%, 42rem);
-    margin: 1.5rem 0 2rem;
+    margin: 0 0 2rem;
   }
 
   .search-form input {

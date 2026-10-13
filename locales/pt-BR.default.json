@@ -78,7 +78,11 @@
       "all_products": "Todos os produtos",
       "home_decor": "Casa & Decoração",
       "sensory": "Antiestresse & Sensoriais",
-      "car_accessories": "Carros & Acessórios"
+      "car_accessories": "Carros & Acessórios",
+      "casa": "Casa",
+      "miniaturas": "Miniaturas",
+      "diversao": "Diversão",
+      "gadgets": "Gadgets"
     },
     "hero": {
       "eyebrow": "Nova seleção",
@@ -88,6 +92,8 @@
       "cta_secondary": "Ver coleções",
       "visual_label": "Imagem principal",
       "visual_title": "Pequenos achados, grande personalidade",
+      "visual_point_one": "Curiosidades escolhidas para surpreender.",
+      "visual_point_two": "Ideias úteis e divertidas para o dia a dia.",
       "visual_cta": "Descubra os produtos",
       "placeholder": "Coisas de que preciso",
       "card_title": "Curiosidades",
@@ -111,7 +117,11 @@
       "stress": "Antiestresse & Sensoriais",
       "home_decor": "Casa & Decoração",
       "car": "Carros & Acessórios",
-      "misc": "Achadinhos"
+      "misc": "Achadinhos",
+      "casa": "Casa",
+      "miniaturas": "Miniaturas",
+      "diversao": "Diversão",
+      "gadgets": "Gadgets"
     },
     "story": {
       "eyebrow": "A marca",
@@ -173,6 +183,9 @@
     "pagination": {
       "page": "Página {{ page }}"
     }
+  },
+  "localization": {
+    "language_label": "Idioma"
   },
   "pagefly": {
     "products": {

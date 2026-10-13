@@ -58,16 +58,18 @@ Templates determine which sections render on each page. Sections contain their o
 
 Theme translations live in `locales/` and are split into two kinds of files:
 
-- [`en.default.json`](./locales/en.default.json) contains storefront strings for the theme's default locale.
-- [`pt-BR.json`](./locales/pt-BR.json) contains storefront strings for Brazilian Portuguese.
-- [`en.default.schema.json`](./locales/en.default.schema.json) contains labels shown in the theme editor, such as section names, setting labels, and option names.
+- [`pt-BR.default.json`](./locales/pt-BR.default.json) contains storefront strings for the theme's default Brazilian Portuguese locale.
+- [`en.json`](./locales/en.json) contains English storefront translations.
+- [`pt-BR.default.schema.json`](./locales/pt-BR.default.schema.json) and [`en.schema.json`](./locales/en.schema.json) contain theme-editor labels, such as section names, setting labels, and option names.
+
+Theme locale files don't change which languages are enabled or published by the store. In Shopify Admin, use **Settings > Languages** to set Portuguese (Brazil) as the default language and add and publish English. Before changing the default, export existing language translations: Shopify warns that translations for the language being made default are deleted during this change. Use Shopify's Translate & Adapt app or another compatible translation workflow to translate and publish store-managed content such as products, collections, menus, pages, and policies. The header language selector appears when Shopify makes more than one language available to the storefront. See Shopify's [language management guide](https://help.shopify.com/en/manual/international/languages/manage-languages) for the current steps.
 
 Storefront locale keys are organized by feature and purpose. For example, cart strings use `cart.*`, product discovery uses `home.products.*`, and catalog strings use `collections.*`. Keep keys descriptive and reuse an existing key when the meaning is the same.
 
 ### Add or change storefront copy
 
 1. Add the key under the appropriate namespace in the default storefront locale file.
-2. Add the same key and nesting to every supported storefront locale, including `pt-BR.json`.
+2. Add the same key and nesting to every supported storefront locale, including `en.json`.
 3. Reference the key in Liquid with Shopify's `t` filter instead of hard-coding user-facing copy:
 
 ```liquid
@@ -100,7 +102,7 @@ Theme editor text belongs in a schema locale file rather than a storefront local
 }
 ```
 
-Then add the matching nested key to `locales/en.default.schema.json`:
+Then add the matching nested key to the corresponding schema locale files, including `locales/pt-BR.default.schema.json` and `locales/en.schema.json`:
 
 ```json
 {
@@ -118,7 +120,7 @@ Run Theme Check after editing locale files. It checks theme files and reports mi
 shopify theme check
 ```
 
-Shopify's language editor can update locale files, so review generated changes before committing. Also verify that the `*.default.json` filename matches the store's configured default language. In this repository, `en.default.json` currently contains mostly Portuguese storefront copy; confirm the intended default language before renaming the file or changing the store's language settings.
+Shopify's language editor can update locale files, so review generated changes before committing. Keep the `*.default.json` filename aligned with the store's configured default language.
 
 ## Shopify theme resources
 
