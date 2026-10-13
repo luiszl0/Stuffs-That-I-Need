@@ -5,17 +5,47 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/404
 {% endcomment %}
 
-<div class="page-width">
-  <h1>{{ '404.title' | t }}</h1>
-
-  <p>
-    {{ '404.not_found' | t }}
-  </p>
-
-  <a href="{{ routes.all_products_collection_url }}">
-    {{ '404.back_to_shopping' | t }}
+<div class="page-width not-found-page">
+  <p class="not-found-page__eyebrow">404 — {{ '404.title' | t }}</p>
+  <h1>{{ '404.not_found' | t }}</h1>
+  <a class="button button--primary" href="{{ routes.all_products_collection_url }}">
+    {{ '404.back_to_shopping' | t }} <span aria-hidden="true">↗</span>
   </a>
 </div>
+
+{% stylesheet %}
+  .not-found-page {
+    display: grid;
+    align-content: center;
+    justify-items: start;
+    min-height: min(72svh, 48rem);
+    padding-block: 4rem;
+    border-top: 1px solid var(--brand-charcoal);
+  }
+
+  .not-found-page__eyebrow {
+    margin-bottom: 1rem;
+    color: var(--brand-cobalt);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .not-found-page h1 {
+    max-width: 11ch;
+    margin-bottom: 2rem;
+    font-size: clamp(3.5rem, 10vw, 8rem);
+    letter-spacing: -0.095em;
+    line-height: 0.84;
+  }
+
+  .not-found-page .button {
+    gap: 2rem;
+    background: var(--brand-cobalt);
+    border-color: var(--brand-cobalt);
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

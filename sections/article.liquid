@@ -6,39 +6,45 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/article
 {% endcomment %}
 
-<div class="page-width">
+<article class="page-width article-page">
   {% if article.image %}
-    {{ article.image | image_url: width: 1000 | image_tag }}
+    <div class="article-page__image">
+      {{ article.image | image_url: width: 1800 | image_tag: alt: article.image.alt | default: article.title, loading: 'eager' }}
+    </div>
   {% endif %}
 
-  <h1>{{ article.title }}</h1>
+  <header class="article-page__header">
+    <p class="article-page__eyebrow">{{ blog.title }}</p>
+    <h1>{{ article.title }}</h1>
 
-  {% assign date = article.published_at | time_tag: format: 'date' %}
-  <p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
+    {% assign date = article.published_at | time_tag: format: 'date' %}
+    <p class="article-page__metadata">{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
+  </header>
 
-  {{ article.content }}
+  <div class="article-page__content">{{ article.content }}</div>
 
   {% if blog.comments_enabled? %}
-    <h2>{{ 'blog.article_comments' | t }}</h2>
+    <section class="article-page__comments">
+      <h2>{{ 'blog.article_comments' | t }}</h2>
 
-    <div id="comments">
+      <div id="comments" class="article-page__comment-list">
       {% paginate article.comments by 10 %}
         {% for comment in article.comments %}
-          <div>
+          <article class="article-page__comment">
             <p>{{ comment.author }}</p>
             <p>
               {{- comment.created_at | time_tag: format: 'date' -}}
             </p>
             <p>{{ comment.content }}</p>
-          </div>
+          </article>
         {% endfor %}
 
         {{ paginate | default_pagination: anchor: 'comments' }}
       {% endpaginate %}
-    </div>
+      </div>
 
-    {% form 'new_comment', article %}
-      <h2>{{ 'blog.comment_form_title' | t }}</h2>
+      {% form 'new_comment', article, class: 'article-page__comment-form' %}
+        <h3>{{ 'blog.comment_form_title' | t }}</h3>
 
       {{ form.errors | default_errors }}
 
@@ -58,9 +64,136 @@
       </div>
 
       <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-    {% endform %}
+      {% endform %}
+    </section>
   {% endif %}
-</div>
+</article>
+
+{% stylesheet %}
+  .article-page {
+    padding-block: clamp(2rem, 5vw, 4rem);
+  }
+
+  .article-page__image {
+    max-height: 42rem;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+    background: var(--brand-pale-blue);
+  }
+
+  .article-page__image img {
+    width: 100%;
+    max-height: 42rem;
+    object-fit: cover;
+  }
+
+  .article-page__header {
+    max-width: 58rem;
+    margin: 0 auto clamp(2rem, 5vw, 4rem);
+    text-align: center;
+  }
+
+  .article-page__eyebrow {
+    margin-bottom: 1rem;
+    color: var(--brand-cobalt);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .article-page__header h1 {
+    font-size: clamp(3rem, 7vw, 6.5rem);
+    letter-spacing: -0.095em;
+    line-height: 0.86;
+  }
+
+  .article-page__metadata {
+    margin-top: 1.25rem;
+    color: var(--brand-muted);
+    font-size: 0.8rem;
+  }
+
+  .article-page__content {
+    max-width: 44rem;
+    margin-inline: auto;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .article-page__content h2,
+  .article-page__content h3 {
+    margin-block: 2rem 0.8rem;
+    font-family: var(--font-display);
+    letter-spacing: -0.06em;
+    line-height: 1;
+  }
+
+  .article-page__content a {
+    color: var(--brand-cobalt);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .article-page__content img {
+    height: auto;
+    margin-block: 1.5rem;
+  }
+
+  .article-page__comments {
+    max-width: 44rem;
+    margin: 4rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid var(--brand-charcoal);
+  }
+
+  .article-page__comments h2,
+  .article-page__comment-form h3 {
+    margin-bottom: 1.25rem;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    letter-spacing: -0.07em;
+  }
+
+  .article-page__comment {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: var(--brand-white);
+  }
+
+  .article-page__comment-form {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .article-page__comment-form label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .article-page__comment-form input:not([type="submit"]),
+  .article-page__comment-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--brand-border);
+    border-radius: 0;
+    background: var(--brand-white);
+  }
+
+  .article-page__comment-form input[type="submit"] {
+    justify-self: start;
+    padding: 0.9rem 1.4rem;
+    border: 0;
+    border-radius: 0;
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+    cursor: pointer;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

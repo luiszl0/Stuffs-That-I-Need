@@ -5,6 +5,7 @@
     "back_to_shopping": "Back to shopping"
   },
   "blog": {
+    "journal": "Notes & observations",
     "article_comments": "Comments",
     "article_metadata_html": "{{ date }} by {{ author }}",
     "comment_form_body": "Comment",
@@ -50,7 +51,7 @@
   "collections": {
     "title": "Products",
     "index_title": "Collections",
-    "kicker": "Catalog",
+    "kicker": "Explore the collection",
     "promo": "Sale",
     "no_image": "Image coming soon",
     "empty_title": "There are no products in this collection yet",
@@ -76,16 +77,21 @@
       "gadgets": "Gadgets"
     },
     "hero": {
-      "title": "You don't need it. But you'll want it.",
-      "subtitle": "Great finds, curious objects, and little things that make the day more interesting.",
-      "cta_primary": "Explore products",
-      "cta_secondary": "Browse collections",
-      "visual_label": "Illustration of a bright idea"
+      "kicker": "The everyday, reimagined",
+      "eyebrow": "A shop for the curious",
+      "title": "Useful things. Unexpected stories.",
+      "subtitle": "Objects with a point of view, chosen to surprise and made to find their way into your everyday.",
+      "cta_primary": "Explore the collection",
+      "note": "A little left of ordinary.",
+      "stamp": "Keep looking",
+      "caption": "Objects with a point of view",
+      "bottom_note": "Curated for the everyday",
+      "visual_label": "A graphic composition in cobalt blue and cream"
     },
     "products": {
-      "kicker": "Discoveries",
-      "title": "Little things. Big wants.",
-      "subtitle": "Finds that deserve a place in your everyday life.",
+      "kicker": "The good stuff",
+      "title": "Small things. Strong character.",
+      "subtitle": "A considered edit of useful objects and unexpected favorites.",
       "view_all": "View all products",
       "promo": "Sale",
       "empty_state": "More items coming soon",
@@ -93,8 +99,8 @@
       "empty_text": "This collection is still taking shape. Check back soon for more discoveries."
     },
     "categories": {
-      "kicker": "Explore",
-      "title": "Find your next great find.",
+      "kicker": "Pick a direction",
+      "title": "Four ways to find something good.",
       "explore": "Explore",
       "stress": "Stress relief & sensory",
       "home_decor": "Home & decor",
@@ -106,10 +112,10 @@
       "gadgets": "Gadgets"
     },
     "story": {
-      "eyebrow": "The brand",
-      "title": "You came to look. Now you want to take it home.",
-      "text": "We love little discoveries: the unexpected object, the simple solution that makes everyday life easier, and the fun little thing that brightens your day. Every find here has a reason to catch your eye.",
-      "cta": "Discover great finds"
+      "eyebrow": "A note from us",
+      "title": "Good design belongs in real life.",
+      "text": "We look for the everyday objects with a little extra thought behind them: useful things, curious shapes, and details that make ordinary routines feel more your own.",
+      "cta": "Find your next favorite"
     },
     "footer": {
       "slogan": "Things you didn't know you needed.",
@@ -134,6 +140,7 @@
   },
   "search": {
     "title": "Search",
+    "kicker": "Find the thing you had in mind",
     "page_title": "Search results for {{ terms }}",
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
@@ -162,6 +169,9 @@
     "terms": "Terms of service"
   },
   "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content"
+    },
     "pagination": {
       "page": "Page {{ page }}"
     }

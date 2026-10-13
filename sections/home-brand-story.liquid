@@ -11,38 +11,70 @@
 
 {% stylesheet %}
   .home-brand-story {
-    padding-top: clamp(2rem, 4vw, 3rem);
+    padding: clamp(3rem, 6vw, 5rem) 0 0;
   }
 
   .home-brand-story__inner {
-    background: #FFFFFF;
-    border: 1px solid rgba(36, 36, 36, 0.04);
-    border-radius: 2rem;
-    padding: clamp(2rem, 4vw, 4rem);
+    position: relative;
+    overflow: hidden;
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+    padding: clamp(2rem, 6vw, 5rem);
+  }
+
+  .home-brand-story__inner::after {
+    position: absolute;
+    top: -38%;
+    right: -5%;
+    width: clamp(12rem, 32vw, 30rem);
+    aspect-ratio: 1;
+    border: 1px solid rgba(255, 253, 248, 0.45);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2.2rem rgba(255, 253, 248, 0.08), 0 0 0 4.4rem rgba(255, 253, 248, 0.06);
+    content: "";
+    pointer-events: none;
   }
 
   .home-brand-story__content {
-    max-width: 42rem;
+    position: relative;
+    z-index: 1;
+    max-width: 48rem;
   }
 
   .home-brand-story__eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    color: var(--brand-white);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
     margin-bottom: 0.8rem;
   }
 
   .home-brand-story h2 {
-    font-size: clamp(2.2rem, 4vw, 3.7rem);
-    letter-spacing: -0.06em;
-    line-height: 0.96;
+    max-width: 13ch;
+    font-size: clamp(2.6rem, 6vw, 5.5rem);
+    letter-spacing: -0.09em;
+    line-height: 0.88;
     margin-bottom: 0.9rem;
   }
 
   .home-brand-story p {
-    color: var(--brand-muted);
-    max-width: 38rem;
+    color: rgba(255, 253, 248, 0.86);
+    max-width: 32rem;
     margin-bottom: 1.5rem;
+  }
+
+  .home-brand-story .button--primary {
+    border-color: var(--brand-white);
+    background: var(--brand-white);
+    color: var(--brand-charcoal);
+  }
+
+  .home-brand-story .button--primary:hover,
+  .home-brand-story .button--primary:focus-visible {
+    border-color: var(--brand-charcoal);
+    background: var(--brand-charcoal);
+    color: var(--brand-white);
   }
 {% endstylesheet %}
 

@@ -1,66 +1,75 @@
 <section class="home-hero">
-  <div class="page-width home-hero__layout">
-    <div class="home-hero__content">
-      {% assign hero_title = section.settings.heading %}
-      {% if hero_title == blank %}
-        {% assign hero_title = 'home.hero.title' | t %}
-      {% endif %}
-      <h1>{{ hero_title }}</h1>
+  <div class="page-width">
+    <div class="home-hero__topline">
+      <span>{{ 'home.hero.kicker' | t }}</span>
+      <span aria-hidden="true">01 — 04</span>
+    </div>
 
-      {% assign hero_subheading = section.settings.subheading %}
-      {% if hero_subheading == blank %}
-        {% assign hero_subheading = 'home.hero.subtitle' | t %}
-      {% endif %}
-      <p class="home-hero__subtitle">{{ hero_subheading }}</p>
-
-      {% assign primary_label = section.settings.button_label %}
-      {% if primary_label == blank %}
-        {% assign primary_label = 'home.hero.cta_primary' | t %}
-      {% endif %}
-
-      <div class="home-hero__actions">
-        <a class="button button--primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ primary_label }}</a>
-        {% if section.settings.secondary_link != blank %}
-          {% assign secondary_label = section.settings.secondary_label %}
-          {% if secondary_label == blank %}
-            {% assign secondary_label = 'home.hero.cta_secondary' | t %}
-          {% endif %}
-          <a class="button button--secondary" href="{{ section.settings.secondary_link }}">{{ secondary_label }}</a>
+    <div class="home-hero__layout">
+      <div class="home-hero__content">
+        <p class="home-hero__eyebrow"><span></span>{{ 'home.hero.eyebrow' | t }}</p>
+        {% assign hero_title = section.settings.heading %}
+        {% if hero_title == blank %}
+          {% assign hero_title = 'home.hero.title' | t %}
         {% endif %}
+        <h1>{{ hero_title | escape }}</h1>
+
+        {% assign hero_subheading = section.settings.subheading %}
+        {% if hero_subheading == blank %}
+          {% assign hero_subheading = 'home.hero.subtitle' | t %}
+        {% endif %}
+        <p class="home-hero__subtitle">{{ hero_subheading | escape }}</p>
+
+        {% assign primary_label = section.settings.button_label %}
+        {% if primary_label == blank %}
+          {% assign primary_label = 'home.hero.cta_primary' | t %}
+        {% endif %}
+
+        <div class="home-hero__actions">
+          <a class="button button--primary" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+            {{ primary_label | escape }}
+            <span aria-hidden="true">↗</span>
+          </a>
+          <span class="home-hero__note">{{ 'home.hero.note' | t }}</span>
+        </div>
+      </div>
+
+      {% assign hero_image = section.settings.image %}
+      <div class="home-hero__visual">
+        <span class="home-hero__visual-index" aria-hidden="true">FIG. 001</span>
+        <span class="home-hero__visual-stamp" aria-hidden="true">{{ 'home.hero.stamp' | t }}</span>
+        <div class="home-hero__art">
+          {% if hero_image != blank %}
+            {{ hero_image | image_url: width: 1400 | image_tag:
+              class: 'home-hero__image',
+              widths: '480, 720, 960, 1200, 1400',
+              sizes: '(min-width: 900px) 48vw, 92vw',
+              loading: 'eager',
+              fetchpriority: 'high',
+              alt: hero_image.alt | default: hero_title
+            }}
+          {% else %}
+            <svg class="home-hero__illustration" viewBox="0 0 720 800" role="img" aria-label="{{ 'home.hero.visual_label' | t }}" focusable="false">
+              <circle cx="394" cy="387" r="239" fill="#F2EFE7"/>
+              <circle cx="394" cy="387" r="213" fill="none" stroke="#111111" stroke-width="2"/>
+              <path d="M394 148v-38m0 553v-38M155 387h-38m553 0h-38M225 218l-27-27m391 391-27-27m0-337 27-27M198 583l27-27" stroke="#111111" stroke-width="2"/>
+              <path d="M394 205c-101 0-183 82-183 183 0 67 35 115 74 158 21 23 32 50 35 77h148c3-27 14-54 35-77 39-43 74-91 74-158 0-101-82-183-183-183Z" fill="#2448E8" stroke="#111111" stroke-width="8" stroke-linejoin="round"/>
+              <path d="M344 622h100m-88 24h76m-61 24h46" stroke="#111111" stroke-width="10" stroke-linecap="square"/>
+              <path d="m394 278 33 68 75 11-54 53 13 75-67-36-67 36 13-75-54-53 75-11 33-68Z" fill="#FFFDF8" stroke="#111111" stroke-width="6" stroke-linejoin="round"/>
+              <circle cx="394" cy="387" r="270" fill="none" stroke="#FFFDF8" stroke-width="2" stroke-dasharray="2 14"/>
+              <path d="m138 493 11 29 30 11-30 11-11 29-11-29-29-11 29-11 11-29Zm484-355 9 23 24 9-24 9-9 24-9-24-24-9 24-9 9-23Z" fill="#FFFDF8"/>
+              <circle cx="601" cy="598" r="31" fill="#111111"/>
+              <circle cx="603" cy="596" r="24" fill="#2448E8"/>
+            </svg>
+          {% endif %}
+        </div>
+        <p class="home-hero__caption">{{ 'home.hero.caption' | t }}</p>
       </div>
     </div>
 
-    {% assign hero_image = section.settings.image %}
-    <div class="home-hero__visual">
-      <svg class="home-hero__orbit" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
-        <ellipse cx="300" cy="300" rx="230" ry="184" transform="rotate(-18 300 300)" fill="none" stroke="#172B4D" stroke-opacity="0.24" stroke-width="1.5" stroke-dasharray="2 10"/>
-        <circle cx="91" cy="226" r="5" fill="#172B4D"/>
-        <circle cx="472" cy="390" r="4" fill="#172B4D"/>
-        <path d="M461 119v25m-12.5-12.5h25M143 438v18m-9-9h18" fill="none" stroke="#172B4D" stroke-linecap="round" stroke-width="2"/>
-        <path d="m420 464 4 10 10 4-10 4-4 10-4-10-10-4 10-4 4-10Zm-273-331 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="#172B4D"/>
-      </svg>
-
-      {% if hero_image != blank %}
-        {{ hero_image | image_url: width: 1200 | image_tag:
-          class: 'home-hero__image',
-          widths: '400, 600, 800, 1000, 1200',
-          sizes: '(min-width: 821px) 42vw, 78vw',
-          loading: 'eager',
-          fetchpriority: 'high',
-          alt: hero_image.alt | default: hero_title
-        }}
-      {% else %}
-        <svg class="home-hero__illustration" viewBox="0 0 520 520" role="img" aria-label="{{ 'home.hero.visual_label' | t }}" focusable="false">
-          <circle cx="260" cy="260" r="191" fill="#FFFFFF"/>
-          <circle cx="260" cy="260" r="190" fill="none" stroke="#172B4D" stroke-opacity="0.16" stroke-width="2"/>
-          <path d="M260 105c-72 0-127 55-127 124 0 46 24 78 51 108 14 16 22 34 24 53h104c2-19 10-37 24-53 27-30 51-62 51-108 0-69-55-124-127-124Z" fill="#FFFFFF" stroke="#172B4D" stroke-linejoin="round" stroke-width="5"/>
-          <path d="M236 390h48m-43 15h38m-31 15h24" fill="none" stroke="#172B4D" stroke-linecap="round" stroke-width="7"/>
-          <path d="m260 159 14 35 37 2-29 23 10 36-32-20-32 20 10-36-29-23 37-2 14-35Z" fill="#FFFFFF" stroke="#172B4D" stroke-linejoin="round" stroke-width="4"/>
-          <path d="m103 300 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Zm316-79 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Z" fill="#172B4D"/>
-          <circle cx="127" cy="191" r="7" fill="#172B4D"/>
-          <circle cx="394" cy="337" r="6" fill="#172B4D"/>
-        </svg>
-      {% endif %}
+    <div class="home-hero__bottomline">
+      <span>{{ 'home.hero.bottom_note' | t }}</span>
+      <span aria-hidden="true">↓</span>
     </div>
   </div>
 </section>
@@ -68,164 +77,223 @@
 {% stylesheet %}
   .home-hero {
     position: relative;
-    padding: clamp(2.5rem, 5vw, 5rem) 0 clamp(2.5rem, 4vw, 3.75rem);
-    background: #FFFFFF;
+    overflow: hidden;
+    padding: 1rem 0 clamp(2.5rem, 5vw, 4.5rem);
+    background: var(--brand-canvas);
+  }
+
+  .home-hero__topline,
+  .home-hero__bottomline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--brand-charcoal);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   .home-hero__layout {
-    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 0.94fr) minmax(0, 1.06fr);
     align-items: center;
-    gap: clamp(2rem, 4vw, 4.5rem);
-    padding: clamp(0.5rem, 2vw, 1.5rem) 0;
+    gap: clamp(2rem, 5vw, 5.5rem);
+    padding: clamp(1.5rem, 4vw, 3.5rem) 0;
   }
 
   .home-hero__content {
     position: relative;
-    display: grid;
-    align-content: center;
-    max-width: 36rem;
-    padding-right: clamp(0rem, 2vw, 1rem);
+    z-index: 1;
+    max-width: 39rem;
+    padding: 1.5rem 0;
   }
 
-  .home-hero__content::before {
-    content: "";
-    position: absolute;
-    left: -1rem;
-    top: 3.6rem;
-    width: 0.5rem;
-    height: 0.5rem;
+  .home-hero__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    color: var(--brand-cobalt);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+  }
+
+  .home-hero__eyebrow span {
+    width: 0.55rem;
+    height: 0.55rem;
     border-radius: 50%;
-    background: var(--brand-navy);
-    box-shadow: 0 0 0 8px rgba(23, 43, 77, 0.08);
+    background: var(--brand-cobalt);
   }
 
   .home-hero h1 {
-    position: relative;
-    z-index: 0;
-    display: inline-block;
-    max-width: 12ch;
-    margin-bottom: 1rem;
-    font-size: clamp(2.8rem, 5vw, 5rem);
-    line-height: 0.92;
-    letter-spacing: -0.07em;
+    max-width: 10ch;
+    margin-bottom: 1.35rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.7rem, 8.3vw, 8rem);
+    font-weight: 600;
+    letter-spacing: -0.095em;
+    line-height: 0.83;
     text-wrap: balance;
   }
 
-  .home-hero h1::before {
-    content: "";
-    position: absolute;
-    left: -0.18em;
-    right: -0.12em;
-    bottom: 0.14em;
-    height: 0.46em;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(23, 43, 77, 0.14), rgba(23, 43, 77, 0.05));
-    z-index: -1;
-    transform: rotate(-2deg);
+  .home-hero h1 em {
+    color: var(--brand-cobalt);
+    font-style: normal;
   }
 
   .home-hero__subtitle {
-    max-width: 32rem;
-    margin-bottom: 1.8rem;
+    max-width: 27rem;
+    margin-bottom: 1.75rem;
     color: var(--brand-muted);
-    font-size: clamp(1.05rem, 1.5vw, 1.22rem);
-    line-height: 1.6;
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.65;
   }
 
   .home-hero__actions {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 0.85rem;
+    gap: 1.1rem;
   }
 
   .home-hero__actions .button {
-    box-shadow: 0 12px 24px rgba(36, 36, 36, 0.08);
-    border: 1px solid transparent;
+    min-width: 12rem;
+    justify-content: space-between;
+    padding-inline: 1.1rem;
   }
 
-  .home-hero__actions .button--primary {
-    background: var(--brand-charcoal);
+  .home-hero__actions .button span {
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
   }
 
-  .home-hero__actions .button--secondary {
-    background: rgba(255, 255, 255, 0.45);
-    border-color: rgba(36, 36, 36, 0.1);
+  .home-hero__actions .button:hover span {
+    transform: translate(2px, -2px);
+  }
+
+  .home-hero__note {
+    max-width: 9rem;
+    color: var(--brand-muted);
+    font-size: 0.72rem;
+    line-height: 1.4;
   }
 
   .home-hero__visual {
     position: relative;
-    display: grid;
-    place-items: center;
-    min-height: clamp(22rem, 33vw, 30rem);
+    min-height: clamp(28rem, 48vw, 42rem);
+    background: var(--brand-cobalt);
     isolation: isolate;
   }
 
   .home-hero__visual::before {
     position: absolute;
     z-index: -1;
-    width: min(76%, 25rem);
+    top: -21%;
+    right: -21%;
+    width: 69%;
     aspect-ratio: 1;
-    border-radius: 46% 54% 63% 37% / 48% 40% 60% 52%;
-    background: #F7F7F7;
+    border: 1px solid rgba(255, 253, 248, 0.4);
+    border-radius: 50%;
     content: "";
-    transform: rotate(-12deg);
   }
 
   .home-hero__visual::after {
     position: absolute;
     z-index: -1;
-    right: 8%;
-    bottom: 10%;
-    width: 2.4rem;
-    height: 2.4rem;
+    bottom: -16%;
+    left: -16%;
+    width: 54%;
+    aspect-ratio: 1;
+    border: 1px solid rgba(255, 253, 248, 0.35);
     border-radius: 50%;
-    background: var(--brand-navy);
-    box-shadow: 0 0 0 0.45rem rgba(23, 43, 77, 0.08);
     content: "";
   }
 
-  .home-hero__orbit {
+  .home-hero__art {
     position: absolute;
-    z-index: 0;
-    width: min(100%, 35rem);
-    height: auto;
-    overflow: visible;
-    animation: hero-orbit-drift 18s ease-in-out infinite alternate;
+    inset: 7% 7% 8%;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
   }
 
-  .home-hero__image,
-  .home-hero__illustration {
-    position: relative;
-    z-index: 1;
+  .home-hero__illustration,
+  .home-hero__image {
     display: block;
-    width: min(100%, 30rem);
-    max-height: clamp(22rem, 38vw, 32rem);
-    aspect-ratio: 1;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-hero__illustration {
+    overflow: visible;
+    animation: hero-art-arrive 0.9s cubic-bezier(0.2, 0.75, 0.3, 1) both;
   }
 
   .home-hero__image {
-    filter: drop-shadow(0 1.2rem 1.4rem rgba(23, 43, 77, 0.12));
+    object-fit: contain;
   }
 
-  .home-hero__illustration {
-    overflow: visible;
-    filter: drop-shadow(0 1rem 1rem rgba(23, 43, 77, 0.08));
+  .home-hero__visual-index,
+  .home-hero__visual-stamp,
+  .home-hero__caption {
+    position: absolute;
+    z-index: 2;
+    color: var(--brand-white);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
-  @keyframes hero-orbit-drift {
+  .home-hero__visual-index {
+    top: 1.1rem;
+    left: 1.1rem;
+  }
+
+  .home-hero__visual-stamp {
+    top: 1.25rem;
+    right: 1.1rem;
+    writing-mode: vertical-rl;
+  }
+
+  .home-hero__caption {
+    right: 1.1rem;
+    bottom: 1.1rem;
+    left: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.65rem;
+    border-top: 1px solid rgba(255, 253, 248, 0.5);
+  }
+
+  .home-hero__bottomline {
+    border-top: 0;
+    border-bottom: 1px solid var(--brand-charcoal);
+  }
+
+  .home-hero__bottomline span:last-child {
+    color: var(--brand-cobalt);
+    font-size: 1.15rem;
+  }
+
+  @keyframes hero-art-arrive {
     from {
-      transform: rotate(-3deg) scale(0.98);
+      opacity: 0;
+      transform: scale(0.94) rotate(-5deg);
     }
     to {
-      transform: rotate(3deg) scale(1.02);
+      opacity: 1;
+      transform: scale(1) rotate(0);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .home-hero__orbit {
+    .home-hero__illustration {
       animation: none;
     }
   }
@@ -233,35 +301,55 @@
   @media (max-width: 820px) {
     .home-hero__layout {
       grid-template-columns: 1fr;
-      gap: 1.4rem;
+      gap: 1.5rem;
     }
 
     .home-hero__content {
-      max-width: none;
+      max-width: 40rem;
+      padding-block: 1rem 0;
+    }
+
+    .home-hero h1 {
+      max-width: 11ch;
+      font-size: clamp(4rem, 12vw, 7rem);
+    }
+
+    .home-hero__visual {
+      min-height: min(88vw, 38rem);
     }
   }
 
   @media (max-width: 560px) {
+    .home-hero {
+      padding-top: 0.5rem;
+    }
+
+    .home-hero__topline,
+    .home-hero__bottomline {
+      font-size: 0.58rem;
+    }
+
     .home-hero__layout {
-      gap: 1rem;
+      gap: 1.25rem;
+      padding-block: 1.25rem;
+    }
+
+    .home-hero__eyebrow {
+      margin-bottom: 1rem;
+      font-size: 0.62rem;
     }
 
     .home-hero h1 {
       max-width: 10ch;
+      font-size: clamp(3.5rem, 16vw, 5.3rem);
     }
 
     .home-hero__visual {
-      min-height: clamp(18.5rem, 74vw, 25rem);
+      min-height: min(105vw, 31rem);
     }
 
-    .home-hero__image,
-    .home-hero__illustration {
-      width: min(100%, 24rem);
-      max-height: 24rem;
-    }
-
-    .home-hero__orbit {
-      width: 112%;
+    .home-hero__art {
+      inset: 8%;
     }
   }
 {% endstylesheet %}
@@ -274,35 +362,24 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Você não precisa. Mas vai querer."
+      "default": "Useful things. Unexpected stories."
     },
     {
       "type": "textarea",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Achadinhos, objetos curiosos e pequenas coisas que deixam o dia mais interessante."
+      "default": "Objects with a point of view, chosen to surprise and made to find their way into your everyday."
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Primary button label",
-      "default": "Explorar produtos"
+      "default": "Explore the collection"
     },
     {
       "type": "url",
       "id": "button_link",
       "label": "Primary button link"
-    },
-    {
-      "type": "text",
-      "id": "secondary_label",
-      "label": "Secondary button label",
-      "default": "Ver coleções"
-    },
-    {
-      "type": "url",
-      "id": "secondary_link",
-      "label": "Secondary button link"
     },
     {
       "type": "image_picker",

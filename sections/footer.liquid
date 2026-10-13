@@ -75,8 +75,9 @@
 
 {% stylesheet %}
   .site-footer {
-    background: var(--brand-white);
-    border-top: 1px solid var(--brand-border);
+    background: var(--brand-charcoal);
+    color: var(--brand-white);
+    border-top: 1px solid var(--brand-charcoal);
     margin-top: 3rem;
     padding: 2.75rem 0 1.25rem;
   }
@@ -100,7 +101,7 @@
   }
 
   .site-footer__slogan {
-    color: var(--brand-muted);
+    color: rgba(255, 253, 248, 0.72);
     max-width: 22rem;
   }
 
@@ -116,7 +117,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin-bottom: 0.9rem;
-    color: var(--brand-muted);
+    color: rgba(255, 253, 248, 0.65);
   }
 
   .site-footer__links ul {
@@ -139,15 +140,15 @@
     border: 1px solid var(--brand-border);
     border-radius: 999px;
     padding: 0 1rem;
-    background: #FFFFFF;
+    background: var(--brand-white);
   }
 
   .site-footer__newsletter button {
     min-height: 3rem;
     border: 0;
     border-radius: 999px;
-    background: var(--brand-charcoal);
-    color: #fff;
+    background: var(--brand-white);
+    color: var(--brand-charcoal);
     padding: 0 1.2rem;
     cursor: pointer;
   }
@@ -160,7 +161,19 @@
     margin-top: 2rem;
     padding-top: 1.25rem;
     border-top: 1px solid var(--brand-border);
-    color: var(--brand-muted);
+    color: rgba(255, 253, 248, 0.68);
+  }
+
+  .site-footer__meta a {
+    color: var(--brand-white);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .site-footer__newsletter button:hover,
+  .site-footer__newsletter button:focus-visible {
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
   }
 
   .site-footer__payments {
@@ -173,6 +186,7 @@
   .site-footer__payments svg {
     width: 2rem;
     height: 1.25rem;
+    filter: brightness(0) invert(1);
   }
 
   @media (max-width: 820px) {

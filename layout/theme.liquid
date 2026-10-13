@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
@@ -14,9 +16,12 @@
   </head>
 
   <body>
+    <a class="skip-to-content" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
 
     {% sections 'footer-group' %}
   </body>
