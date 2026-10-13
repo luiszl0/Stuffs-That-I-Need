@@ -24,19 +24,13 @@
           {{ link.title | link_to: link.url }}
         {% endfor %}
       {% else %}
-        <a href="{{ routes.root_url }}">{{ 'home.nav.home' | t }}</a>
-        {% assign category_handles = 'casa|miniaturas|diversao|gadgets' | split: '|' %}
+        {% assign category_handles = 'home|personal|office|play' | split: '|' %}
         {% for category_handle in category_handles %}
           {% assign category = collections[category_handle] %}
-          {% assign category_title_key = category_handle | replace: '-', '_' | prepend: 'home.nav.' %}
           {% if category != blank %}
-            {{ category.title | link_to: category.url }}
-          {% else %}
-            {% assign category_url = routes.collections_url | append: '/' | append: category_handle %}
-            {{ category_title_key | t | link_to: category_url }}
+            {{ category.title | capitalize | link_to: category.url }}
           {% endif %}
         {% endfor %}
-        <a href="{{ routes.all_products_collection_url }}">{{ 'home.nav.all_products' | t }}</a>
       {% endif %}
     </nav>
 
@@ -106,7 +100,7 @@
 {% stylesheet %}
   .announcement-bar {
     background: var(--brand-charcoal);
-    color: #f8f5f0;
+    color: #FFFFFF;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -124,7 +118,7 @@
     position: sticky;
     top: 0;
     z-index: 30;
-    background: rgba(247, 245, 239, 0.92);
+    background: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--brand-border);
   }
@@ -162,6 +156,7 @@
 
   .header__nav a:hover,
   .header__nav a:focus-visible {
+    color: var(--brand-navy);
     opacity: 1;
   }
 
@@ -212,7 +207,7 @@
   .header__icon:focus-visible,
   .header__menu-toggle:focus-visible,
   .header__nav a:focus-visible {
-    outline: 2px solid var(--brand-charcoal);
+    outline: 2px solid var(--brand-navy);
     outline-offset: 3px;
   }
 
@@ -230,8 +225,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--brand-lime);
-    color: var(--brand-charcoal);
+    background: var(--brand-navy);
+    color: #FFFFFF;
     font-size: 0.65rem;
     font-weight: 700;
   }

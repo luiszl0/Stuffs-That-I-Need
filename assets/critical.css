@@ -16,14 +16,12 @@ body {
 }
 
 :root {
-  --brand-ivory: #F7F5EF;
+  --brand-white: #FFFFFF;
   --brand-charcoal: #242424;
-  --brand-lime: #D8F06A;
-  --brand-blue: #A9C7FF;
-  --brand-peach: #FFB69F;
-  --brand-border: #e5e0d5;
-  --brand-card: #f2f0ea;
-  --brand-muted: #544f4a;
+  --brand-navy: #172B4D;
+  --brand-border: #E5E1D9;
+  --brand-card: #FFFFFF;
+  --brand-muted: #4A4A4A;
   --brand-shadow: rgba(36, 36, 36, 0.08);
   --font-body: 'DM Sans', 'Segoe UI', sans-serif;
   --font-display: 'Outfit', 'Arial', sans-serif;
@@ -92,7 +90,7 @@ p:empty {
 /** Theme styles below */
 body {
   font-family: var(--font-body);
-  background-color: var(--brand-ivory);
+  background-color: var(--brand-white);
   color: var(--brand-charcoal);
   line-height: 1.5;
 }

@@ -76,20 +76,11 @@
       "gadgets": "Gadgets"
     },
     "hero": {
-      "eyebrow": "New collection",
       "title": "You don't need it. But you'll want it.",
       "subtitle": "Great finds, curious objects, and little things that make the day more interesting.",
       "cta_primary": "Explore products",
       "cta_secondary": "Browse collections",
-      "visual_label": "Hero image",
-      "visual_title": "Little finds, big personality",
-      "visual_point_one": "Curiosities picked to surprise.",
-      "visual_point_two": "Useful and fun ideas for everyday life.",
-      "visual_cta": "Discover the products",
-      "placeholder": "Stuff That I Need",
-      "card_title": "Curiosities",
-      "card_value": "+ 100",
-      "card_label": "Finds for everyday life"
+      "visual_label": "Illustration of a bright idea"
     },
     "products": {
       "kicker": "Discoveries",

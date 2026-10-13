@@ -1,12 +1,6 @@
 <section class="home-hero">
   <div class="page-width home-hero__layout">
     <div class="home-hero__content">
-      {% assign hero_eyebrow = section.settings.eyebrow %}
-      {% if hero_eyebrow == blank %}
-        {% assign hero_eyebrow = 'home.hero.eyebrow' | t %}
-      {% endif %}
-      <p class="home-hero__eyebrow">{{ hero_eyebrow }}</p>
-
       {% assign hero_title = section.settings.heading %}
       {% if hero_title == blank %}
         {% assign hero_title = 'home.hero.title' | t %}
@@ -37,51 +31,36 @@
     </div>
 
     {% assign hero_image = section.settings.image %}
-    {% if hero_image == blank %}
-      {% assign hero_product = all_products['brinquedo-anti-stress-squishy-em-formato-de-manteiga-e-queijo-elastic-stick'] %}
-      {% assign hero_image = hero_product.featured_image %}
-      {% if hero_product.images.size > 2 %}
-        {% assign hero_image = hero_product.images[2] %}
+    <div class="home-hero__visual">
+      <svg class="home-hero__orbit" viewBox="0 0 600 600" aria-hidden="true" focusable="false">
+        <ellipse cx="300" cy="300" rx="230" ry="184" transform="rotate(-18 300 300)" fill="none" stroke="#172B4D" stroke-opacity="0.24" stroke-width="1.5" stroke-dasharray="2 10"/>
+        <circle cx="91" cy="226" r="5" fill="#172B4D"/>
+        <circle cx="472" cy="390" r="4" fill="#172B4D"/>
+        <path d="M461 119v25m-12.5-12.5h25M143 438v18m-9-9h18" fill="none" stroke="#172B4D" stroke-linecap="round" stroke-width="2"/>
+        <path d="m420 464 4 10 10 4-10 4-4 10-4-10-10-4 10-4 4-10Zm-273-331 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="#172B4D"/>
+      </svg>
+
+      {% if hero_image != blank %}
+        {{ hero_image | image_url: width: 1200 | image_tag:
+          class: 'home-hero__image',
+          widths: '400, 600, 800, 1000, 1200',
+          sizes: '(min-width: 821px) 42vw, 78vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: hero_image.alt | default: hero_title
+        }}
+      {% else %}
+        <svg class="home-hero__illustration" viewBox="0 0 520 520" role="img" aria-label="{{ 'home.hero.visual_label' | t }}" focusable="false">
+          <circle cx="260" cy="260" r="191" fill="#FFFFFF"/>
+          <circle cx="260" cy="260" r="190" fill="none" stroke="#172B4D" stroke-opacity="0.16" stroke-width="2"/>
+          <path d="M260 105c-72 0-127 55-127 124 0 46 24 78 51 108 14 16 22 34 24 53h104c2-19 10-37 24-53 27-30 51-62 51-108 0-69-55-124-127-124Z" fill="#FFFFFF" stroke="#172B4D" stroke-linejoin="round" stroke-width="5"/>
+          <path d="M236 390h48m-43 15h38m-31 15h24" fill="none" stroke="#172B4D" stroke-linecap="round" stroke-width="7"/>
+          <path d="m260 159 14 35 37 2-29 23 10 36-32-20-32 20 10-36-29-23 37-2 14-35Z" fill="#FFFFFF" stroke="#172B4D" stroke-linejoin="round" stroke-width="4"/>
+          <path d="m103 300 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Zm316-79 4 11 11 4-11 4-4 11-4-11-11-4 11-4 4-11Z" fill="#172B4D"/>
+          <circle cx="127" cy="191" r="7" fill="#172B4D"/>
+          <circle cx="394" cy="337" r="6" fill="#172B4D"/>
+        </svg>
       {% endif %}
-    {% endif %}
-
-    <div class="home-hero__visual" role="group" aria-label="{{ 'home.hero.visual_label' | t }}">
-      <div class="home-hero__visual-stage">
-        <div class="home-hero__photo">
-          {% if hero_image != blank %}
-            {{ hero_image | image_url: width: 1000 | image_tag:
-              class: 'home-hero__image',
-              widths: '400, 600, 800, 1000',
-              sizes: '(min-width: 821px) 32vw, (min-width: 561px) 42vw, 52vw',
-              loading: 'eager',
-              fetchpriority: 'high',
-              alt: hero_image.alt | default: hero_title
-            }}
-          {% else %}
-            <div class="home-hero__placeholder">
-              <span>{{ 'home.hero.placeholder' | t }}</span>
-            </div>
-          {% endif %}
-        </div>
-
-        <div class="home-hero__visual-copy">
-          <p class="home-hero__visual-title">{{ 'home.hero.visual_title' | t }}</p>
-          <p>{{ 'home.hero.visual_point_one' | t }}</p>
-          <p>{{ 'home.hero.visual_point_two' | t }}</p>
-          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
-            {{ 'home.hero.visual_cta' | t }}
-          </a>
-        </div>
-      </div>
-
-      <div class="home-hero__card home-hero__card--soft">
-        <p>{{ 'home.hero.card_label' | t }}</p>
-      </div>
-
-      <div class="home-hero__card home-hero__card--lime">
-        <p>{{ 'home.hero.card_title' | t }}</p>
-        <strong>{{ 'home.hero.card_value' | t }}</strong>
-      </div>
     </div>
   </div>
 </section>
@@ -90,10 +69,7 @@
   .home-hero {
     position: relative;
     padding: clamp(2.5rem, 5vw, 5rem) 0 clamp(2.5rem, 4vw, 3.75rem);
-    background:
-      radial-gradient(circle at top left, rgba(169, 199, 255, 0.48), transparent 29%),
-      radial-gradient(circle at 82% 18%, rgba(255, 182, 159, 0.25), transparent 24%),
-      linear-gradient(180deg, rgba(247, 245, 239, 0.98), rgba(247, 245, 239, 1));
+    background: #FFFFFF;
   }
 
   .home-hero__layout {
@@ -121,25 +97,8 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background: var(--brand-lime);
-    box-shadow: 0 0 0 8px rgba(216, 240, 106, 0.22);
-  }
-
-  .home-hero__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    padding: 0.5rem 0.8rem;
-    margin-bottom: 1.1rem;
-    border: 1px solid rgba(36, 36, 36, 0.08);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.78);
-    box-shadow: 0 10px 20px rgba(36, 36, 36, 0.04);
-    color: var(--brand-charcoal);
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+    background: var(--brand-navy);
+    box-shadow: 0 0 0 8px rgba(23, 43, 77, 0.08);
   }
 
   .home-hero h1 {
@@ -162,7 +121,7 @@
     bottom: 0.14em;
     height: 0.46em;
     border-radius: 999px;
-    background: linear-gradient(90deg, rgba(216, 240, 106, 0.88), rgba(216, 240, 106, 0.62));
+    background: linear-gradient(90deg, rgba(23, 43, 77, 0.14), rgba(23, 43, 77, 0.05));
     z-index: -1;
     transform: rotate(-2deg);
   }
@@ -187,7 +146,7 @@
   }
 
   .home-hero__actions .button--primary {
-    background: linear-gradient(180deg, #2b2b2b, #181818);
+    background: var(--brand-charcoal);
   }
 
   .home-hero__actions .button--secondary {
@@ -197,192 +156,84 @@
 
   .home-hero__visual {
     position: relative;
-    display: flex;
+    display: grid;
+    place-items: center;
     min-height: clamp(22rem, 33vw, 30rem);
-    padding: clamp(0.75rem, 1.3vw, 1.15rem);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.18));
-    border: 1px solid rgba(36, 36, 36, 0.06);
-    border-radius: 2rem;
-    box-shadow: 0 28px 60px rgba(36, 36, 36, 0.08);
-    overflow: hidden;
     isolation: isolate;
   }
 
-  .home-hero__visual::before,
-  .home-hero__visual::after {
-    content: "";
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(1px);
-  }
-
   .home-hero__visual::before {
-    width: 16rem;
-    height: 16rem;
-    top: -4.75rem;
-    right: -2.8rem;
-    background: rgba(216, 240, 106, 0.42);
+    position: absolute;
+    z-index: -1;
+    width: min(76%, 25rem);
+    aspect-ratio: 1;
+    border-radius: 46% 54% 63% 37% / 48% 40% 60% 52%;
+    background: #F7F7F7;
+    content: "";
+    transform: rotate(-12deg);
   }
 
   .home-hero__visual::after {
-    width: 13rem;
-    height: 13rem;
-    left: -3rem;
-    bottom: -3.5rem;
-    background: rgba(255, 182, 159, 0.3);
-  }
-
-  .home-hero__card {
     position: absolute;
-    z-index: 2;
-    border: 1px solid rgba(36, 36, 36, 0.08);
-    border-radius: 1rem;
-    box-shadow: 0 12px 30px rgba(36, 36, 36, 0.1);
-    backdrop-filter: blur(10px);
-    transform: translateZ(0);
+    z-index: -1;
+    right: 8%;
+    bottom: 10%;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--brand-navy);
+    box-shadow: 0 0 0 0.45rem rgba(23, 43, 77, 0.08);
+    content: "";
   }
 
-  .home-hero__visual-stage {
+  .home-hero__orbit {
+    position: absolute;
+    z-index: 0;
+    width: min(100%, 35rem);
+    height: auto;
+    overflow: visible;
+    animation: hero-orbit-drift 18s ease-in-out infinite alternate;
+  }
+
+  .home-hero__image,
+  .home-hero__illustration {
     position: relative;
     z-index: 1;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: center;
-    gap: 1rem;
-    flex: 1;
-    width: 100%;
-    height: calc(clamp(22rem, 33vw, 30rem) - 2rem);
-    min-height: 0;
-    padding: 1rem;
-    border-radius: 1.5rem;
-    background: linear-gradient(135deg, rgba(216, 240, 106, 0.96), rgba(236, 245, 191, 0.88));
-    border: 1px solid rgba(36, 36, 36, 0.05);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-
-  .home-hero__photo {
-    min-width: 0;
-    align-self: center;
+    display: block;
+    width: min(100%, 30rem);
+    max-height: clamp(22rem, 38vw, 32rem);
     aspect-ratio: 1;
-    height: auto;
-    min-height: 0;
-    border-radius: 1.2rem;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.42);
-    box-shadow: 0 14px 28px rgba(36, 36, 36, 0.12);
-    border: 1px solid rgba(36, 36, 36, 0.04);
-    transform: rotate(-2deg);
+    object-fit: contain;
   }
 
   .home-hero__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(1.08) contrast(1.03);
+    filter: drop-shadow(0 1.2rem 1.4rem rgba(23, 43, 77, 0.12));
   }
 
-  .home-hero__placeholder {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-items: center;
-    background: linear-gradient(135deg, var(--brand-lime), #eef8b7);
-    font-size: clamp(1.1rem, 2vw, 1.7rem);
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    text-align: center;
-    padding: 1rem;
+  .home-hero__illustration {
+    overflow: visible;
+    filter: drop-shadow(0 1rem 1rem rgba(23, 43, 77, 0.08));
   }
 
-  .home-hero__visual-copy {
-    display: grid;
-    gap: 0.7rem;
-    min-width: 0;
-    padding: 1rem 0.75rem 1rem 0.45rem;
-    border-radius: 1rem;
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(36, 36, 36, 0.06);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+  @keyframes hero-orbit-drift {
+    from {
+      transform: rotate(-3deg) scale(0.98);
+    }
+    to {
+      transform: rotate(3deg) scale(1.02);
+    }
   }
 
-  .home-hero__visual-copy p {
-    margin: 0;
-    color: var(--brand-charcoal);
-    font-size: clamp(0.76rem, 1vw, 0.9rem);
-    line-height: 1.45;
-  }
-
-  .home-hero__visual-copy .home-hero__visual-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.15rem, 1.8vw, 1.7rem);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 1.05;
-  }
-
-  .home-hero__visual-copy a {
-    width: fit-content;
-    border-bottom: 1px solid currentColor;
-    font-size: 0.75rem;
-    font-weight: 700;
-    transition: opacity 0.2s ease;
-  }
-
-  .home-hero__visual-copy a:hover,
-  .home-hero__visual-copy a:focus-visible {
-    opacity: 0.7;
-  }
-
-  .home-hero__card--soft {
-    top: 1.2rem;
-    left: 1.2rem;
-    padding: 0.55rem 0.8rem;
-    background: rgba(255, 255, 255, 0.82);
-  }
-
-  .home-hero__card--soft p {
-    margin: 0;
-    color: var(--brand-charcoal);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .home-hero__card--lime {
-    right: 1.3rem;
-    bottom: 1.3rem;
-    min-width: 9rem;
-    padding: 0.8rem 1rem;
-    background: var(--brand-lime);
-    box-shadow: 0 18px 32px rgba(36, 36, 36, 0.12);
-  }
-
-  .home-hero__card--lime p {
-    margin: 0 0 0.25rem;
-    color: var(--brand-muted);
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .home-hero__card--lime strong {
-    display: block;
-    font-size: 1.15rem;
-    letter-spacing: -0.04em;
+  @media (prefers-reduced-motion: reduce) {
+    .home-hero__orbit {
+      animation: none;
+    }
   }
 
   @media (max-width: 820px) {
     .home-hero__layout {
       grid-template-columns: 1fr;
       gap: 1.4rem;
-    }
-
-    .home-hero__visual {
-      min-height: clamp(19rem, 58vw, 24rem);
-    }
-
-    .home-hero__visual-stage {
-      height: calc(clamp(19rem, 58vw, 24rem) - 2rem);
     }
 
     .home-hero__content {
@@ -400,47 +251,17 @@
     }
 
     .home-hero__visual {
-      min-height: 18.5rem;
-      padding: 0.75rem;
+      min-height: clamp(18.5rem, 74vw, 25rem);
     }
 
-    .home-hero__visual-stage {
-      height: 17rem;
-      min-height: 17rem;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-      gap: 0.6rem;
-      padding: 0.7rem;
+    .home-hero__image,
+    .home-hero__illustration {
+      width: min(100%, 24rem);
+      max-height: 24rem;
     }
 
-    .home-hero__photo {
-      min-height: 0;
-    }
-
-    .home-hero__visual-copy {
-      gap: 0.5rem;
-      padding: 1rem 0.15rem 0.25rem 0.2rem;
-    }
-
-    .home-hero__visual-copy p {
-      font-size: 0.68rem;
-    }
-
-    .home-hero__visual-copy .home-hero__visual-title {
-      font-size: 0.95rem;
-    }
-
-    .home-hero__card--soft {
-      top: 0.9rem;
-      left: 0.9rem;
-      padding: 0.45rem 0.6rem;
-    }
-
-    .home-hero__card--soft p {
-      font-size: 0.52rem;
-    }
-
-    .home-hero__card--lime {
-      display: none;
+    .home-hero__orbit {
+      width: 112%;
     }
   }
 {% endstylesheet %}
@@ -449,12 +270,6 @@
 {
   "name": "Home hero",
   "settings": [
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow",
-      "default": "Nova seleção"
-    },
     {
       "type": "text",
       "id": "heading",

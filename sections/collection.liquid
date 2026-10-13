@@ -98,14 +98,14 @@
     padding: 0.6rem;
     border: 1px solid rgba(36, 36, 36, 0.08);
     border-radius: 1.3rem;
-    background: rgba(255, 255, 255, 0.46);
+    background: #FFFFFF;
     box-shadow: 0 10px 26px rgba(36, 36, 36, 0.04);
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
 
   .collection-product:hover,
   .collection-product:focus-within {
-    border-color: rgba(36, 36, 36, 0.12);
+    border-color: var(--brand-navy);
     box-shadow: 0 16px 30px rgba(36, 36, 36, 0.08);
     transform: translateY(-2px);
   }
@@ -117,7 +117,7 @@
     aspect-ratio: 0.96;
     border-radius: 0.9rem;
     overflow: hidden;
-    background: linear-gradient(135deg, rgba(216, 240, 106, 0.22), rgba(169, 199, 255, 0.14));
+    background: linear-gradient(135deg, #F7F7F7, #FFFFFF);
   }
 
   .collection-product__image-element {
@@ -165,8 +165,8 @@
     align-self: flex-start;
     padding: 0.2rem 0.45rem;
     border-radius: 999px;
-    background: var(--brand-lime);
-    color: var(--brand-charcoal);
+    background: var(--brand-navy);
+    color: #FFFFFF;
     font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.06em;
@@ -174,7 +174,7 @@
   }
 
   .collection-product__badge--sold-out {
-    background: #e8e5df;
+    background: var(--brand-border);
   }
 
   .collection-product__content h2 {
@@ -217,7 +217,7 @@
     border: 1px dashed var(--brand-border);
     border-radius: 1.15rem;
     text-align: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: #FFFFFF;
   }
 
   .collection-empty h2 {
@@ -250,12 +250,12 @@
     padding: 0.35rem 0.7rem;
     border: 1px solid var(--brand-border);
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.35);
+    background: #FFFFFF;
   }
 
   .collection-pagination .pagination .current {
-    border-color: var(--brand-charcoal);
-    background: var(--brand-charcoal);
+    border-color: var(--brand-navy);
+    background: var(--brand-navy);
     color: #fff;
   }
 

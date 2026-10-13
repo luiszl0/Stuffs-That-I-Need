@@ -85,20 +85,11 @@
       "gadgets": "Gadgets"
     },
     "hero": {
-      "eyebrow": "Nova seleção",
       "title": "Você não precisa. Mas vai querer.",
       "subtitle": "Achadinhos, objetos curiosos e pequenas coisas que deixam o dia mais interessante.",
       "cta_primary": "Explorar produtos",
       "cta_secondary": "Ver coleções",
-      "visual_label": "Imagem principal",
-      "visual_title": "Pequenos achados, grande personalidade",
-      "visual_point_one": "Curiosidades escolhidas para surpreender.",
-      "visual_point_two": "Ideias úteis e divertidas para o dia a dia.",
-      "visual_cta": "Descubra os produtos",
-      "placeholder": "Coisas de que preciso",
-      "card_title": "Curiosidades",
-      "card_value": "+ 100",
-      "card_label": "Achadinhos para a rotina"
+      "visual_label": "Ilustração de uma ideia brilhante"
     },
     "products": {
       "kicker": "Descobertas",
