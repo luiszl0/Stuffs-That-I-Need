@@ -27,6 +27,8 @@ body {
   --brand-shadow: rgba(36, 36, 36, 0.08);
   --font-body: 'DM Sans', 'Segoe UI', sans-serif;
   --font-display: 'Outfit', 'Arial', sans-serif;
+  --page-width: 1200px;
+  --page-margin: clamp(1rem, 2vw, 2rem);
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
@@ -121,11 +123,21 @@ select {
 
 img {
   width: 100%;
+  object-fit: cover;
 }
 
 .page-width {
-  width: min(var(--page-width, 110rem), calc(100% - (var(--page-margin, 32px) * 2)));
-  margin: 0 auto;
+  width: min(var(--page-width, 1200px), calc(100% - (var(--page-margin, 24px) * 2)));
+  max-width: calc(100% - (var(--page-margin, 24px) * 2));
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.full-width,
+.shopify-section > .full-width {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
 }
 
 @media (max-width: 749px) {
@@ -185,13 +197,14 @@ img {
  */
 .shopify-section {
   --content-width: min(
-    calc(var(--page-width) - var(--page-margin) * 2),
-    calc(100% - var(--page-margin) * 2)
+    calc(var(--page-width, 1200px) - var(--page-margin, 24px) * 2),
+    calc(100% - var(--page-margin, 24px) * 2)
   );
-  --content-margin: minmax(var(--page-margin), 1fr);
+  --content-margin: minmax(var(--page-margin, 24px), 1fr);
   --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
 
   /* This is required to make <img> elements work as background images */
   position: relative;
   width: 100%;
+  max-width: 100%;
 }
