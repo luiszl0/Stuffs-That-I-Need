@@ -1,0 +1,73 @@
+{%- assign steps = product.metafields.custom.how_to_use.value -%}
+{%- if steps.size > 0 -%}
+  {%- assign heading = section.settings.heading -%}
+  {%- if heading == blank -%}
+    {%- assign heading = 'product_page.how.heading' | t -%}
+  {%- endif -%}
+  <section class="pp-section pp-how">
+    <div class="page-width">
+      {%- assign heading_eyebrow = 'product_page.how.eyebrow' | t -%}
+      {% render 'product-section-heading', eyebrow: heading_eyebrow, heading: heading %}
+      <ol class="pp-how__steps">
+        {% for step in steps limit: 6 %}
+          <li class="pp-how__step">
+            <span class="pp-how__number">{{ forloop.index }}</span>
+            <div>{% render 'product-labeled-item', item: step %}</div>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .pp-how__steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: clamp(1rem, 2.5vw, 2rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pp-how__step {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--brand-charcoal);
+  }
+  .pp-how__number {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1;
+    letter-spacing: -0.08em;
+    color: var(--brand-cobalt);
+  }
+  .pp-how__step div {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .pp-how__step strong {
+    font-size: 1.05rem;
+  }
+  .pp-how__step span:not(.pp-how__number) {
+    color: var(--brand-muted);
+    line-height: 1.6;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:product_page.how.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "info": "t:product_page.settings.metafield_info_how"
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] },
+  "presets": [{ "name": "t:product_page.how.name" }]
+}
+{% endschema %}

@@ -1,0 +1,130 @@
+{%- assign cta_text = section.settings.text -%}
+{%- if cta_text == blank -%}
+  {%- assign cta_text = product.metafields.custom.short_description.value -%}
+{%- endif -%}
+{%- if cta_text == blank -%}
+  {%- assign cta_text = product.description | strip_html | strip | truncatewords: 24 -%}
+{%- endif -%}
+{%- assign cta_variant = product.selected_or_first_available_variant -%}
+
+<section class="pp-cta">
+  <div class="page-width">
+    <div class="pp-cta__panel">
+      <div class="pp-cta__copy">
+        <p class="pp-heading__eyebrow">{{ 'product_page.cta.eyebrow' | t }}</p>
+        <h2>{{ product.title }}</h2>
+        {% if cta_text != blank %}
+          <p>{{ cta_text }}</p>
+        {% endif %}
+      </div>
+      <div class="pp-cta__action">
+        <p class="pp-cta__price">
+          {{ cta_variant.price | money }}
+          {% if cta_variant.compare_at_price > cta_variant.price %}
+            <s>{{ cta_variant.compare_at_price | money }}</s>
+          {% endif %}
+        </p>
+        <a class="button pp-cta__button" href="#product-buy">
+          {{ 'product_page.cta.back_to_purchase' | t }}
+          {% render 'icon', name: 'arrow-right', size: 18 %}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pp-cta {
+    padding-block: var(--section-space);
+    border-top: 1px solid var(--brand-border);
+  }
+  .pp-cta__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    align-items: center;
+    padding: clamp(1.75rem, 5vw, 4rem);
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+  }
+  .pp-cta__copy {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 40rem;
+  }
+  .pp-cta__copy .pp-heading__eyebrow {
+    margin: 0;
+    color: var(--brand-pale-blue);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .pp-cta__copy h2 {
+    margin: 0;
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+    line-height: 0.92;
+    letter-spacing: -0.07em;
+    overflow-wrap: anywhere;
+  }
+  .pp-cta__copy p:last-child {
+    margin: 0;
+    line-height: 1.7;
+    color: var(--brand-pale-blue);
+  }
+  .pp-cta__action {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+  .pp-cta__price {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    letter-spacing: -0.06em;
+  }
+  .pp-cta__price s {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    opacity: 0.75;
+  }
+  .pp-cta__button {
+    gap: 0.6rem;
+    border-color: var(--brand-white);
+    background: var(--brand-white);
+    color: var(--brand-charcoal);
+  }
+  .pp-cta__button:hover,
+  .pp-cta__button:focus-visible {
+    border-color: var(--brand-charcoal);
+    background: var(--brand-charcoal);
+    color: var(--brand-white);
+  }
+  @media (max-width: 820px) {
+    .pp-cta__panel {
+      grid-template-columns: 1fr;
+    }
+    .pp-cta__action,
+    .pp-cta__button {
+      width: 100%;
+      justify-items: stretch;
+      justify-content: center;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:product_page.cta.name",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:labels.text",
+      "info": "t:product_page.cta.text_info"
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] },
+  "presets": [{ "name": "t:product_page.cta.name" }]
+}
+{% endschema %}

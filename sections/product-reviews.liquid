@@ -1,0 +1,74 @@
+{%- assign rating = product.metafields.reviews.rating.value -%}
+{%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+{%- assign has_rating = false -%}
+{%- if rating != blank and rating_count > 0 -%}
+  {%- assign has_rating = true -%}
+{%- endif -%}
+
+{%- if has_rating or section.blocks.size > 0 -%}
+  {%- assign heading = section.settings.heading -%}
+  {%- if heading == blank -%}
+    {%- assign heading = 'product_page.reviews.heading' | t -%}
+  {%- endif -%}
+  <section class="pp-section pp-reviews" id="reviews">
+    <div class="page-width">
+      {%- assign heading_eyebrow = 'product_page.reviews.eyebrow' | t -%}
+      {% render 'product-section-heading', eyebrow: heading_eyebrow, heading: heading %}
+      {% if has_rating %}
+        <p class="pp-reviews__summary">
+          <span class="pp-reviews__score">{{ rating.rating }}</span>
+          <span class="pp-reviews__meta">
+            <span class="pp-reviews__stars">{% render 'icon', name: 'star', size: 18 %}</span>
+            {{ 'product_page.reviews.count' | t: count: rating_count }}
+          </span>
+        </p>
+      {% endif %}
+      <div class="pp-reviews__body">
+        {% content_for 'blocks' %}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .pp-reviews__summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 0 0 2rem;
+  }
+  .pp-reviews__score {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.08em;
+  }
+  .pp-reviews__meta {
+    display: grid;
+    gap: 0.2rem;
+    color: var(--brand-muted);
+  }
+  .pp-reviews__stars {
+    color: var(--brand-cobalt);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:product_page.reviews.name",
+  "blocks": [{ "type": "@app" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:product_page.reviews.app_info"
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] },
+  "presets": [{ "name": "t:product_page.reviews.name" }]
+}
+{% endschema %}

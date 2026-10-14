@@ -1,0 +1,19 @@
+{% doc %}
+  Renders a merchant-entered "Título: descrição" line as a bold title plus text.
+  When the line has no colon, only the text is rendered.
+
+  @param {string} item - The raw line from a list metafield
+
+  @example
+  {% render 'product-labeled-item', item: 'Resistente: feito para uso diário' %}
+{% enddoc %}
+
+{%- assign item_parts = item | split: ':' -%}
+{%- if item_parts.size > 1 -%}
+  {%- assign item_label = item_parts.first | strip -%}
+  {%- assign item_text = item | remove_first: item_parts.first | remove_first: ':' | strip -%}
+  <strong>{{ item_label }}</strong>
+  <span>{{ item_text }}</span>
+{%- else -%}
+  <strong>{{ item | strip }}</strong>
+{%- endif -%}
