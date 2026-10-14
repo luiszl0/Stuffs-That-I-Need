@@ -1,26 +1,15 @@
 <footer class="site-footer">
-  <div class="page-width site-footer__inner{% if section.settings.show_newsletter %} site-footer__inner--with-newsletter{% endif %}">
+  <div class="page-width site-footer__inner">
     <div class="site-footer__brand">
       <p class="site-footer__name">{{ shop.name }}</p>
       <p class="site-footer__slogan">{{ 'home.footer.slogan' | t }}</p>
     </div>
 
-    <div class="site-footer__links">
-      <div>
-        <h3>{{ 'home.footer.catalog' | t }}</h3>
-        <ul>
-          <li><a href="{{ routes.root_url }}">{{ 'home.nav.home' | t }}</a></li>
-          <li><a href="{{ routes.all_products_collection_url }}">{{ 'home.nav.all_products' | t }}</a></li>
-          {% for link in section.settings.menu.links %}
-            <li>{{ link.title | link_to: link.url }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div>
-        <h3>{{ 'home.footer.about' | t }}</h3>
-        <ul>
-          {% if shop.policies.size > 0 %}
+    {% if shop.policies.size > 0 %}
+      <div class="site-footer__links">
+        <div class="site-footer__policies">
+          <h3>Informações</h3>
+          <ul>
             {% for policy in shop.policies %}
               <li>
                 <a href="{{ policy.url }}">
@@ -38,20 +27,17 @@
                 </a>
               </li>
             {% endfor %}
-          {% else %}
-            <li><a href="{{ routes.all_products_collection_url }}">{{ 'home.nav.all_products' | t }}</a></li>
-            <li><a href="{{ routes.search_url }}">{{ 'search.title' | t }}</a></li>
-          {% endif %}
-        </ul>
+          </ul>
+        </div>
       </div>
-    </div>
+    {% endif %}
 
     {% if section.settings.show_newsletter %}
       <div class="site-footer__newsletter">
         <h3>{{ 'home.footer.newsletter' | t }}</h3>
         {% form 'customer', class: 'site-footer__form' %}
           <input type="hidden" name="contact[tags]" value="newsletter">
-          <input type="email" name="contact[email]" placeholder="{{ 'customers.login.email' | t }}" aria-label="{{ 'customers.login.email' | t }}" required>
+          <input type="email" name="contact[email]" placeholder="Seu e-mail" aria-label="Seu e-mail" required>
           <button type="submit">{{ 'home.footer.subscribe' | t }}</button>
         {% endform %}
       </div>
@@ -84,13 +70,9 @@
 
   .site-footer__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
     gap: 2rem;
     align-items: start;
-  }
-
-  .site-footer__inner--with-newsletter {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr);
   }
 
   .site-footer__name {
@@ -107,8 +89,8 @@
 
   .site-footer__links {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
   }
 
   .site-footer__links h3,
@@ -203,23 +185,18 @@
 
 {% schema %}
 {
-  "name": "t:general.footer",
+  "name": "Rodapé",
   "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
     {
       "type": "checkbox",
       "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
+      "label": "Mostrar ícones de pagamento",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "show_newsletter",
-      "label": "t:labels.newsletter",
+      "label": "Exibir cadastro de novidades",
       "default": false
     }
   ]

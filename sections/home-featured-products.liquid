@@ -20,7 +20,7 @@
         {% endif %}
         <p>{{ section_subtitle }}</p>
       </div>
-      <a class="section-heading__link" href="{{ featured_collection.url | default: routes.all_products_collection_url }}">
+      <a class="section-heading__link" href="{{ routes.all_products_collection_url }}">
         {{ 'home.products.view_all' | t }}
       </a>
     </div>
@@ -78,7 +78,7 @@
 
 {% stylesheet %}
   .home-featured-products {
-    padding: clamp(3.5rem, 6vw, 6rem) 0;
+    padding-block: var(--section-space);
     background: var(--brand-white);
   }
 
@@ -274,12 +274,12 @@
 
 {% schema %}
 {
-  "name": "Featured products",
+  "name": "Produtos em destaque",
   "settings": [
     {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Coleção"
     },
     {
       "type": "range",
@@ -287,26 +287,26 @@
       "min": 2,
       "max": 10,
       "step": 1,
-      "label": "Products to show",
+      "label": "Produtos exibidos",
       "default": 4
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
+      "label": "Título",
       "default": "Pequenas coisas. Grandes vontades."
     },
     {
       "type": "text",
       "id": "subheading",
-      "label": "Subheading",
+      "label": "Subtítulo",
       "default": "Os achadinhos que merecem um lugar na sua rotina."
     }
   ],
   "presets": [
     {
-      "name": "Featured products",
-      "category": "Homepage"
+      "name": "Produtos em destaque",
+      "category": "Página inicial"
     }
   ]
 }

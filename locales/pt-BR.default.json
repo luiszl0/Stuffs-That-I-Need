@@ -58,7 +58,7 @@
     }
   },
   "collections": {
-    "title": "Produtos",
+    "title": "Catálogo",
     "index_title": "Coleções",
     "kicker": "Explore a coleção",
     "promo": "Oferta",
@@ -75,15 +75,7 @@
       "menu": "Menu"
     },
     "nav": {
-      "home": "Início",
-      "all_products": "Todos os produtos",
-      "home_decor": "Casa e decoração",
-      "sensory": "Antiestresse e sensoriais",
-      "car_accessories": "Carros e acessórios",
-      "casa": "Casa",
-      "miniaturas": "Miniaturas",
-      "diversao": "Diversão",
-      "gadgets": "Gadgets"
+      "home": "Início"
     },
     "hero": {
       "kicker": "O cotidiano, visto de outro jeito",
@@ -107,19 +99,6 @@
       "empty_title": "Mais produtos em breve",
       "empty_text": "Esta coleção ainda está sendo montada. Volte em breve para ver as próximas descobertas."
     },
-    "categories": {
-      "kicker": "Escolha um caminho",
-      "title": "Quatro jeitos de encontrar algo especial.",
-      "explore": "Explorar",
-      "stress": "Antiestresse e sensoriais",
-      "home_decor": "Casa e decoração",
-      "car": "Carros e acessórios",
-      "misc": "Achadinhos",
-      "casa": "Casa",
-      "miniaturas": "Miniaturas",
-      "diversao": "Diversão",
-      "gadgets": "Gadgets"
-    },
     "story": {
       "eyebrow": "Uma nota nossa",
       "title": "Design bom também faz parte da vida real.",
@@ -128,8 +107,6 @@
     },
     "footer": {
       "slogan": "Coisas que você nem sabia que precisava.",
-      "catalog": "Catálogo",
-      "about": "Sobre",
       "newsletter": "Receba novidades",
       "subscribe": "Inscrever-se",
       "powered_by": "Desenvolvido com Shopify"
@@ -184,23 +161,6 @@
     "pagination": {
       "page": "Página {{ page }}"
     }
-  },
-  "localization": {
-    "language_label": "Idioma"
-  },
-  "demo": {
-    "title": "Olá, mundo!",
-    "intro": "O tema Skeleton é um tema Shopify minimalista e cuidadosamente estruturado, criado para ajudar você a começar rapidamente. Ele foi desenvolvido com foco em modularidade, facilidade de manutenção e boas práticas da Shopify.",
-    "themes": "Os temas definem a experiência da loja virtual para lojistas e clientes. Crie temas rápidos e flexíveis em escala usando Liquid, a linguagem de templates da Shopify, além de HTML, CSS, JavaScript e JSON.",
-    "key_concepts": "Conceitos principais",
-    "key_concepts_description": "Os temas da Shopify são compostos por arquivos de templates, blocos de construção e recursos de suporte. Use esses elementos para criar temas modulares e personalizáveis.",
-    "learn_key_concepts": "Saiba mais sobre os conceitos principais",
-    "liquid": "Liquid",
-    "liquid_description": "A linguagem de templates Liquid é a base dos temas Shopify e é usada para carregar conteúdo dinâmico nas lojas virtuais. Amplie os objetos Liquid para armazenar e apresentar dados personalizados usando metacampos.",
-    "liquid_reference": "Consulte a referência de Liquid",
-    "best_practices": "Boas práticas",
-    "best_practices_description": "Para otimizar sua experiência de desenvolvimento de temas, a Shopify estabeleceu boas práticas que você pode consultar ao desenvolver seu tema e configurar suas ferramentas e processos.",
-    "best_practices_link": "Confira as boas práticas"
   },
   "pagefly": {
     "products": {
