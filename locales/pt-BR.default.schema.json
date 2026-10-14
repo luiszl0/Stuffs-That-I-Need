@@ -2,6 +2,7 @@
   "general": {
     "404": "Não encontrado",
     "article": "Artigo",
+    "branding": "Marca",
     "block": "Bloco",
     "blog": "Blog",
     "cart": "Carrinho",
@@ -17,6 +18,8 @@
     "footer": "Rodapé",
     "group": "Grupo",
     "header": "Cabeçalho",
+    "hello_world": "Olá, mundo",
+    "hello_world_template": "Template Olá, mundo",
     "layout": "Layout",
     "main": "Principal",
     "page": "Página",
@@ -31,12 +34,14 @@
     "sidebar": "Barra lateral",
     "text": "Texto",
     "theme": "Tema",
-    "typography": "Tipografia"
+    "typography": "Tipografia",
+    "demo": "Demonstração"
   },
   "labels": {
     "alignment": "Alinhamento",
     "background": "Plano de fundo",
     "foreground": "Texto",
+    "favicon": "Ícone da aba do navegador",
     "grid_gap": "Espaçamento da grade",
     "grid_item_width": "Largura dos itens da grade",
     "input_corner_radius": "Arredondamento dos campos",

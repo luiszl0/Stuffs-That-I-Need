@@ -39,8 +39,8 @@
     "summary": "Resumo do pedido",
     "subtotal": "Subtotal",
     "taxes_included": "Impostos incluídos nos preços dos produtos.",
-    "taxes_calculated": "Impostos calculados no checkout.",
-    "shipping_calculated": "Frete calculado no checkout.",
+    "taxes_calculated": "Impostos calculados na finalização da compra.",
+    "shipping_calculated": "Frete calculado na finalização da compra.",
     "estimated_total": "Total estimado",
     "continue_shopping": "Continuar comprando",
     "empty_kicker": "Ainda há boas descobertas por aí",
@@ -77,9 +77,9 @@
     "nav": {
       "home": "Início",
       "all_products": "Todos os produtos",
-      "home_decor": "Casa & Decoração",
-      "sensory": "Antiestresse & Sensoriais",
-      "car_accessories": "Carros & Acessórios",
+      "home_decor": "Casa e decoração",
+      "sensory": "Antiestresse e sensoriais",
+      "car_accessories": "Carros e acessórios",
       "casa": "Casa",
       "miniaturas": "Miniaturas",
       "diversao": "Diversão",
@@ -92,7 +92,7 @@
       "subtitle": "Objetos com personalidade, escolhidos para surpreender e para fazer parte da sua rotina.",
       "cta_primary": "Explorar a coleção",
       "note": "Um pouco fora do comum.",
-      "stamp": "Continue olhando",
+      "stamp": "Continue explorando",
       "caption": "Objetos com personalidade",
       "bottom_note": "Escolhidos para o cotidiano",
       "visual_label": "Composição gráfica em azul cobalto e creme"
@@ -102,7 +102,7 @@
       "title": "Pequenas coisas. Muita personalidade.",
       "subtitle": "Uma seleção cuidadosa de objetos úteis e favoritos inesperados.",
       "view_all": "Ver todos os produtos",
-      "promo": "Promoção",
+      "promo": "Oferta",
       "empty_state": "Mais itens em breve",
       "empty_title": "Mais produtos em breve",
       "empty_text": "Esta coleção ainda está sendo montada. Volte em breve para ver as próximas descobertas."
@@ -111,9 +111,9 @@
       "kicker": "Escolha um caminho",
       "title": "Quatro jeitos de encontrar algo especial.",
       "explore": "Explorar",
-      "stress": "Antiestresse & Sensoriais",
-      "home_decor": "Casa & Decoração",
-      "car": "Carros & Acessórios",
+      "stress": "Antiestresse e sensoriais",
+      "home_decor": "Casa e decoração",
+      "car": "Carros e acessórios",
       "misc": "Achadinhos",
       "casa": "Casa",
       "miniaturas": "Miniaturas",
@@ -138,12 +138,12 @@
   "gift_card": {
     "add_to_apple_wallet": "Adicionar à Apple Wallet",
     "card": "Cartão-presente",
-    "expired": "Este vale-presente expirou",
+    "expired": "Este cartão-presente expirou",
     "expires_on": "Expira em {{ expires_on }}",
-    "use_at_checkout": "Utilize este vale-presente na finalização da compra"
+    "use_at_checkout": "Use este cartão-presente ao finalizar a compra."
   },
   "password": {
-    "title": "Esta loja é particular",
+    "title": "Esta loja está protegida por senha.",
     "password": "Senha",
     "enter": "Entrar"
   },
@@ -188,49 +188,63 @@
   "localization": {
     "language_label": "Idioma"
   },
+  "demo": {
+    "title": "Olá, mundo!",
+    "intro": "O tema Skeleton é um tema Shopify minimalista e cuidadosamente estruturado, criado para ajudar você a começar rapidamente. Ele foi desenvolvido com foco em modularidade, facilidade de manutenção e boas práticas da Shopify.",
+    "themes": "Os temas definem a experiência da loja virtual para lojistas e clientes. Crie temas rápidos e flexíveis em escala usando Liquid, a linguagem de templates da Shopify, além de HTML, CSS, JavaScript e JSON.",
+    "key_concepts": "Conceitos principais",
+    "key_concepts_description": "Os temas da Shopify são compostos por arquivos de templates, blocos de construção e recursos de suporte. Use esses elementos para criar temas modulares e personalizáveis.",
+    "learn_key_concepts": "Saiba mais sobre os conceitos principais",
+    "liquid": "Liquid",
+    "liquid_description": "A linguagem de templates Liquid é a base dos temas Shopify e é usada para carregar conteúdo dinâmico nas lojas virtuais. Amplie os objetos Liquid para armazenar e apresentar dados personalizados usando metacampos.",
+    "liquid_reference": "Consulte a referência de Liquid",
+    "best_practices": "Boas práticas",
+    "best_practices_description": "Para otimizar sua experiência de desenvolvimento de temas, a Shopify estabeleceu boas práticas que você pode consultar ao desenvolver seu tema e configurar suas ferramentas e processos.",
+    "best_practices_link": "Confira as boas práticas"
+  },
   "pagefly": {
     "products": {
       "product": {
-        "regular_price": "Regular price",
-        "sold_out": "Sold out",
-        "unavailable": "Unavailable",
-        "on_sale": "Sale",
-        "quantity": "Quantity",
-        "add_to_cart": "Add to cart",
-        "back_to_collection": "Back to {{ title }}",
-        "view_details": "View details"
+        "regular_price": "Preço normal",
+        "sold_out": "Esgotado",
+        "unavailable": "Indisponível",
+        "on_sale": "Oferta",
+        "quantity": "Quantidade",
+        "add_to_cart": "Adicionar ao carrinho",
+        "back_to_collection": "Voltar para {{ title }}",
+        "view_details": "Ver detalhes"
       }
     },
     "article": {
-      "tags": "Tags:",
-      "all_topics": "All topics",
-      "by_author": "by {{ author }}",
-      "posted_in": "Posted in",
-      "read_more": "Read more",
-      "back_to_blog": "Back to {{ title }}"
+      "tags": "Marcadores:",
+      "all_topics": "Todos os tópicos",
+      "by_author": "por {{ author }}",
+      "posted_in": "Publicado em",
+      "read_more": "Leia mais",
+      "back_to_blog": "Voltar para {{ title }}"
     },
     "comments": {
-      "title": "Leave a comment",
-      "name": "Name",
-      "email": "Email",
-      "message": "Message",
-      "post": "Post comment",
-      "moderated": "Please note, comments must be approved before they are published",
-      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
-      "success": "Your comment was posted successfully! Thank you!",
+      "title": "Deixe um comentário",
+      "name": "Nome",
+      "email": "E-mail",
+      "message": "Mensagem",
+      "post": "Publicar comentário",
+      "moderated": "Os comentários precisam ser aprovados antes de serem publicados.",
+      "success_moderated": "Seu comentário foi publicado com sucesso. Ele será exibido em breve, após a moderação.",
+      "success": "Seu comentário foi publicado com sucesso. Agradecemos!",
       "comments_with_count": {
-        "one": "{{ count }} comment",
-        "other": "{{ count }} comments"
+        "one": "{{ count }} comentário",
+        "other": "{{ count }} comentários"
       }
     },
     "password_page": {
-      "login_form_message": "Enter store using password:",
-      "login_form_password_label": "Password",
-      "login_form_password_placeholder": "Your password",
-      "login_form_submit": "Enter",
-      "signup_form_email_label": "Email",
-      "signup_form_success": "We will send you an email right before we open!",
-      "password_link": "Enter using password"
+      "login_form_message": "Acesse a loja usando a senha:",
+      "login_form_password_label": "Senha",
+      "login_form_password_placeholder": "Sua senha",
+      "login_form_submit": "Entrar",
+      "signup_form_email_label": "E-mail",
+      "signup_form_success": "Enviaremos um e-mail para você pouco antes da abertura da loja.",
+      "password_link": "Acessar usando uma senha"
     }
   }
 }
