@@ -10,37 +10,48 @@
 {
   "sections": {
     "main": {
-      "type": "product"
+      "type": "product",
+      "settings": {}
     },
     "benefits": {
-      "type": "product-benefits"
+      "type": "product-benefits",
+      "settings": {}
     },
     "showcase": {
-      "type": "product-showcase"
+      "type": "product-showcase",
+      "settings": {}
     },
     "specs": {
-      "type": "product-specs"
+      "type": "product-specs",
+      "settings": {}
     },
     "how": {
-      "type": "product-how-it-works"
+      "type": "product-how-it-works",
+      "settings": {}
     },
     "why": {
-      "type": "product-why-choose"
+      "type": "product-why-choose",
+      "settings": {}
     },
     "reviews": {
-      "type": "product-reviews"
+      "type": "product-reviews",
+      "settings": {}
     },
     "policies": {
-      "type": "product-policies"
+      "type": "product-policies",
+      "settings": {}
     },
     "faq": {
-      "type": "product-faq"
+      "type": "product-faq",
+      "settings": {}
     },
     "related": {
-      "type": "product-related"
+      "type": "product-related",
+      "settings": {}
     },
     "cta": {
-      "type": "product-final-cta"
+      "type": "product-final-cta",
+      "settings": {}
     }
   },
   "order": [
