@@ -60,7 +60,14 @@
           <select class="header__language-select" id="HeaderLanguage" name="language_code" aria-label="{{ 'localization.language_label' | t }}">
             {% for language in localization.available_languages %}
               <option value="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}selected{% endif %}>
-                {{ language.endonym_name | escape }}
+                {% case language.iso_code %}
+                  {% when 'pt-BR' %}
+                    Português (Brasil)
+                  {% when 'en' %}
+                    English
+                  {% else %}
+                    {{ language.endonym_name | escape }}
+                {% endcase %}
               </option>
             {% endfor %}
           </select>
