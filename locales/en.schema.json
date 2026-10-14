@@ -2,6 +2,7 @@
   "general": {
     "404": "Not found",
     "article": "Article",
+    "branding": "Branding",
     "block": "Block",
     "blog": "Blog",
     "cart": "Cart",
@@ -17,6 +18,8 @@
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
+    "hello_world": "Hello world",
+    "hello_world_template": "Hello world template",
     "layout": "Layout",
     "main": "Main",
     "page": "Page",
@@ -31,12 +34,14 @@
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
-    "typography": "Typography"
+    "typography": "Typography",
+    "demo": "Demo"
   },
   "labels": {
     "alignment": "Alignment",
     "background": "Background",
     "foreground": "Foreground",
+    "favicon": "Browser tab icon",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
     "input_corner_radius": "Input corner radius",
