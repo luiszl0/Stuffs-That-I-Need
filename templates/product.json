@@ -10,11 +10,50 @@
 {
   "sections": {
     "main": {
-      "type": "product",
-      "settings": {}
+      "type": "product"
+    },
+    "benefits": {
+      "type": "product-benefits"
+    },
+    "showcase": {
+      "type": "product-showcase"
+    },
+    "specs": {
+      "type": "product-specs"
+    },
+    "how": {
+      "type": "product-how-it-works"
+    },
+    "why": {
+      "type": "product-why-choose"
+    },
+    "reviews": {
+      "type": "product-reviews"
+    },
+    "policies": {
+      "type": "product-policies"
+    },
+    "faq": {
+      "type": "product-faq"
+    },
+    "related": {
+      "type": "product-related"
+    },
+    "cta": {
+      "type": "product-final-cta"
     }
   },
   "order": [
-    "main"
+    "main",
+    "benefits",
+    "showcase",
+    "specs",
+    "how",
+    "why",
+    "reviews",
+    "policies",
+    "faq",
+    "related",
+    "cta"
   ]
 }

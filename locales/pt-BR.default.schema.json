@@ -91,5 +91,61 @@
       "subtitle": "Subtítulo",
       "normal": "Texto normal"
     }
+  },
+  "product_page": {
+    "settings": {
+      "purchase": "Compra",
+      "show_dynamic_checkout": "Mostrar botões de compra rápida",
+      "show_installments": "Mostrar parcelamento quando disponível",
+      "store_info": "Informações da loja",
+      "shipping_note": "Texto sobre frete",
+      "returns_note": "Texto sobre trocas e devoluções",
+      "verified_info": "Use apenas informações verificadas da sua loja.",
+      "metafield_info_benefits": "Os itens vêm do metacampo custom.benefits (lista de texto). Use \"Título: descrição\".",
+      "metafield_info_specs": "Linhas do metacampo custom.specifications (\"Nome: valor\") e custom.included_items.",
+      "metafield_info_how": "Passos do metacampo custom.how_to_use. Use \"Título: descrição\".",
+      "metafield_info_why": "Itens do metacampo custom.why_choose. Use \"Título: descrição\".",
+      "metafield_info_faq": "Perguntas do metacampo custom.faq (\"Pergunta | Resposta\"). Você também pode adicionar blocos."
+    },
+    "benefits": {
+      "name": "Benefícios do produto"
+    },
+    "showcase": {
+      "name": "Vitrine do produto",
+      "max_images": "Máximo de imagens",
+      "initial_images": "Imagens visíveis inicialmente"
+    },
+    "specs": {
+      "name": "Especificações"
+    },
+    "how": {
+      "name": "Como funciona"
+    },
+    "why": {
+      "name": "Por que escolher"
+    },
+    "reviews": {
+      "name": "Avaliações",
+      "app_info": "Adicione um bloco de app de avaliações para exibir avaliações reais."
+    },
+    "policies": {
+      "name": "Entrega e pagamento"
+    },
+    "faq": {
+      "name": "Perguntas frequentes",
+      "item": "Pergunta",
+      "question": "Pergunta",
+      "answer": "Resposta"
+    },
+    "related": {
+      "name": "Produtos relacionados",
+      "collection": "Coleção",
+      "collection_info": "Se vazio, usa a primeira coleção do produto.",
+      "count": "Produtos exibidos"
+    },
+    "cta": {
+      "name": "Chamada final",
+      "text_info": "Se vazio, usa a descrição curta do produto."
+    }
   }
 }

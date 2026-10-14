@@ -1,0 +1,53 @@
+{% doc %}
+  Renders the eyebrow, heading and optional intro used by the product page sections.
+
+  @param {string} eyebrow - Small uppercase label above the heading
+  @param {string} heading - Section heading (h2)
+  @param {string} [text] - Optional supporting paragraph
+  @param {string} [id] - Optional id for the heading element
+
+  @example
+  {% render 'product-section-heading', eyebrow: 'Detalhes', heading: 'Especificações' %}
+{% enddoc %}
+
+<header class="pp-heading">
+  {% if eyebrow != blank %}
+    <p class="pp-heading__eyebrow">{{ eyebrow }}</p>
+  {% endif %}
+  <h2{% if id != blank %} id="{{ id }}"{% endif %}>{{ heading }}</h2>
+  {% if text != blank %}
+    <p class="pp-heading__text">{{ text }}</p>
+  {% endif %}
+</header>
+
+{% stylesheet %}
+  .pp-section {
+    padding-block: var(--section-space);
+    border-top: 1px solid var(--brand-border);
+  }
+  .pp-heading {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 44rem;
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
+  }
+  .pp-heading__eyebrow {
+    margin: 0;
+    color: var(--brand-cobalt);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .pp-heading h2 {
+    margin: 0;
+    font-size: clamp(1.9rem, 3.6vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+  }
+  .pp-heading__text {
+    margin: 0;
+    color: var(--brand-muted);
+    line-height: 1.7;
+  }
+{% endstylesheet %}

@@ -1,0 +1,74 @@
+{%- assign benefits = product.metafields.custom.benefits.value -%}
+{%- if benefits.size > 0 -%}
+  {%- assign heading = section.settings.heading -%}
+  {%- if heading == blank -%}
+    {%- assign heading = 'product_page.benefits.heading' | t -%}
+  {%- endif -%}
+  <section class="pp-section pp-benefits">
+    <div class="page-width">
+      {%- assign heading_eyebrow = 'product_page.benefits.eyebrow' | t -%}
+      {% render 'product-section-heading', eyebrow: heading_eyebrow, heading: heading %}
+      <ul class="pp-benefits__grid">
+        {% for item in benefits limit: 4 %}
+          <li class="pp-benefits__item">
+            <span class="pp-benefits__icon">{% render 'icon', name: 'check', size: 22 %}</span>
+            {% render 'product-labeled-item', item: item %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .pp-benefits__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--brand-border);
+    border: 1px solid var(--brand-border);
+  }
+  .pp-benefits__item {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+    background: var(--brand-white);
+  }
+  .pp-benefits__item strong {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: -0.04em;
+  }
+  .pp-benefits__item span:not(.pp-benefits__icon) {
+    color: var(--brand-muted);
+    line-height: 1.6;
+  }
+  .pp-benefits__icon {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    background: var(--brand-pale-blue);
+    color: var(--brand-cobalt);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:product_page.benefits.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "info": "t:product_page.settings.metafield_info_benefits"
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] },
+  "presets": [{ "name": "t:product_page.benefits.name" }]
+}
+{% endschema %}

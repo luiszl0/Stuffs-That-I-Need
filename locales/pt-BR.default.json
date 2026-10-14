@@ -206,5 +206,99 @@
       "signup_form_success": "Enviaremos um e-mail para você pouco antes da abertura da loja.",
       "password_link": "Acessar usando uma senha"
     }
+  },
+  "product_page": {
+    "gallery": {
+      "previous": "Imagem anterior",
+      "next": "Próxima imagem",
+      "show_image": "Mostrar imagem {{ number }}"
+    },
+    "purchase": {
+      "save_percent": "Economize {{ percent }}%",
+      "unavailable_combination": "Combinação indisponível",
+      "decrease": "Diminuir quantidade",
+      "increase": "Aumentar quantidade"
+    },
+    "payment": {
+      "title": "Pagamento",
+      "methods": "Formas de pagamento aceitas",
+      "secure_title": "Compra segura",
+      "secure_text": "O pagamento é processado no checkout seguro da Shopify."
+    },
+    "reviews": {
+      "eyebrow": "Avaliações",
+      "heading": "O que os clientes dizem",
+      "count": {
+        "one": "{{ count }} avaliação",
+        "other": "{{ count }} avaliações"
+      }
+    },
+    "benefits": {
+      "eyebrow": "Vantagens",
+      "heading": "Por que você vai gostar"
+    },
+    "showcase": {
+      "eyebrow": "No dia a dia",
+      "heading": "Veja de perto",
+      "see_more": "Ver mais",
+      "see_less": "Ver menos"
+    },
+    "specs": {
+      "eyebrow": "Detalhes",
+      "heading": "Características e especificações",
+      "type": "Tipo",
+      "brand": "Marca",
+      "weight": "Peso",
+      "included": "O que acompanha"
+    },
+    "how": {
+      "eyebrow": "Como usar",
+      "heading": "Simples de usar"
+    },
+    "why": {
+      "eyebrow": "Diferenciais",
+      "heading": "Por que escolher este produto"
+    },
+    "policies": {
+      "eyebrow": "Compra tranquila",
+      "heading": "Entrega, trocas e pagamento"
+    },
+    "faq": {
+      "eyebrow": "Dúvidas",
+      "heading": "Perguntas frequentes"
+    },
+    "related": {
+      "eyebrow": "Continue explorando",
+      "heading": "Você também pode gostar"
+    },
+    "cta": {
+      "eyebrow": "Pronto para levar?",
+      "back_to_purchase": "Voltar para a compra"
+    }
+  },
+  "contact": {
+    "eyebrow": "Fale com a gente",
+    "title": "Entre em contato",
+    "intro": "Tem uma dúvida sobre um produto, um pedido ou quer apenas dizer oi? Escreva para nós e vamos ajudar com o maior cuidado.",
+    "email_title": "E-mail",
+    "email_hint": "Se a dúvida for sobre um pedido, informe o número para agilizar o atendimento.",
+    "success_title": "Mensagem enviada!",
+    "success_text": "Obrigado pelo contato. Recebemos sua mensagem.",
+    "error_title": "Não foi possível enviar a mensagem",
+    "form": {
+      "name": "Nome",
+      "email": "E-mail",
+      "order": "Número do pedido",
+      "optional": "(opcional)",
+      "order_placeholder": "Ex.: #1001",
+      "subject": "Assunto",
+      "message": "Mensagem",
+      "submit": "Enviar mensagem",
+      "required_note": "* Campos obrigatórios"
+    },
+    "validation": {
+      "required": "Preencha este campo.",
+      "email": "Informe um e-mail válido, como nome@exemplo.com."
+    }
   }
 }

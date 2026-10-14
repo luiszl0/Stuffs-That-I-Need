@@ -1,0 +1,140 @@
+{%- assign faq_lines = product.metafields.custom.faq.value -%}
+{%- if faq_lines.size > 0 or section.blocks.size > 0 -%}
+  {%- assign heading = section.settings.heading -%}
+  {%- if heading == blank -%}
+    {%- assign heading = 'product_page.faq.heading' | t -%}
+  {%- endif -%}
+  <section class="pp-section pp-faq">
+    <div class="page-width pp-faq__layout">
+      {%- assign heading_eyebrow = 'product_page.faq.eyebrow' | t -%}
+      {% render 'product-section-heading', eyebrow: heading_eyebrow, heading: heading, text: section.settings.text %}
+      <div class="pp-faq__list">
+        {% for line in faq_lines %}
+          {%- assign faq_parts = line | split: '|' -%}
+          {%- if faq_parts.size > 1 -%}
+            {%- assign faq_question = faq_parts.first | strip -%}
+            {%- assign faq_answer = line | remove_first: faq_parts.first | remove_first: '|' | strip -%}
+            <details class="pp-faq__item">
+              <summary>{{ faq_question }}</summary>
+              <div class="pp-faq__answer"><p>{{ faq_answer }}</p></div>
+            </details>
+          {%- endif -%}
+        {% endfor %}
+        {% for block in section.blocks %}
+          <details class="pp-faq__item" {{ block.shopify_attributes }}>
+            <summary>{{ block.settings.question }}</summary>
+            <div class="pp-faq__answer">{{ block.settings.answer }}</div>
+          </details>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .pp-faq__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+  .pp-faq__layout .pp-heading {
+    position: sticky;
+    top: 7rem;
+    margin-bottom: 0;
+  }
+  .pp-faq__list {
+    border-top: 1px solid var(--brand-charcoal);
+  }
+  .pp-faq__item {
+    border-bottom: 1px solid var(--brand-border);
+  }
+  .pp-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: -0.03em;
+    cursor: pointer;
+    list-style: none;
+  }
+  .pp-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .pp-faq__item summary::after {
+    content: '+';
+    flex: none;
+    color: var(--brand-cobalt);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .pp-faq__item[open] summary::after {
+    content: '\2212';
+  }
+  .pp-faq__item summary:focus-visible {
+    outline: 2px solid var(--brand-cobalt);
+    outline-offset: 2px;
+  }
+  .pp-faq__answer {
+    padding-bottom: 1.25rem;
+    color: var(--brand-muted);
+    line-height: 1.7;
+  }
+  .pp-faq__answer > :first-child {
+    margin-top: 0;
+  }
+  .pp-faq__answer > :last-child {
+    margin-bottom: 0;
+  }
+  @media (max-width: 820px) {
+    .pp-faq__layout {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .pp-faq__layout .pp-heading {
+      position: static;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:product_page.faq.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "info": "t:product_page.settings.metafield_info_faq"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:labels.text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "t:product_page.faq.item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:product_page.faq.question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "t:product_page.faq.answer"
+        }
+      ]
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] },
+  "presets": [{ "name": "t:product_page.faq.name" }]
+}
+{% endschema %}

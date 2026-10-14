@@ -1,0 +1,155 @@
+{%- assign source = section.settings.collection -%}
+{%- if source == blank -%}
+  {%- for candidate in product.collections -%}
+    {%- if source == blank -%}
+      {%- if candidate.handle != 'frontpage' and candidate.handle != 'all' -%}
+        {%- assign source = candidate -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if source == blank -%}
+  {%- assign source = collections.all -%}
+{%- endif -%}
+
+{%- assign related_count = 0 -%}
+{%- capture related_cards -%}
+  {%- for item in source.products limit: 8 -%}
+    {%- if item.id != product.id and related_count < section.settings.products_to_show -%}
+      {%- assign related_count = related_count | plus: 1 -%}
+      {%- assign item_image = item.featured_image | default: item.images.first -%}
+      <article class="pp-related__card">
+        <a class="pp-related__media" href="{{ item.url }}" aria-label="{{ item.title | escape }}">
+          {% if item_image %}
+            {{ item_image | image_url: width: 700 | image_tag:
+              alt: item_image.alt | default: item.title,
+              widths: '240, 360, 520, 700',
+              sizes: '(min-width: 821px) 22vw, 46vw',
+              loading: 'lazy'
+            }}
+          {% endif %}
+          {% if item.compare_at_price > item.price %}
+            <span class="pp-related__badge">{{ 'home.products.promo' | t }}</span>
+          {% endif %}
+        </a>
+        <h3><a href="{{ item.url }}">{{ item.title }}</a></h3>
+        <p class="pp-related__price">
+          {% if item.available %}
+            {{ item.price | money }}
+            {% if item.compare_at_price > item.price %}
+              <s>{{ item.compare_at_price | money }}</s>
+            {% endif %}
+          {% else %}
+            {{ 'products.sold_out' | t }}
+          {% endif %}
+        </p>
+      </article>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if related_count > 0 -%}
+  {%- assign heading = section.settings.heading -%}
+  {%- if heading == blank -%}
+    {%- assign heading = 'product_page.related.heading' | t -%}
+  {%- endif -%}
+  <section class="pp-section pp-related">
+    <div class="page-width">
+      {%- assign heading_eyebrow = 'product_page.related.eyebrow' | t -%}
+      {% render 'product-section-heading', eyebrow: heading_eyebrow, heading: heading %}
+      <div class="pp-related__grid">{{ related_cards }}</div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .pp-related__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+  .pp-related__card {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+  .pp-related__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    background: var(--brand-pale-blue);
+    overflow: hidden;
+  }
+  .pp-related__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .pp-related__media:hover img {
+    transform: scale(1.04);
+  }
+  .pp-related__badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    padding: 0.25rem 0.6rem;
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .pp-related__card h3 {
+    margin: 0;
+    font-size: 1rem;
+    letter-spacing: -0.03em;
+  }
+  .pp-related__card h3 a:hover {
+    color: var(--brand-cobalt);
+  }
+  .pp-related__price {
+    margin: 0;
+    color: var(--brand-muted);
+  }
+  .pp-related__price s {
+    margin-left: 0.4rem;
+    opacity: 0.8;
+  }
+  @media (max-width: 820px) {
+    .pp-related__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:product_page.related.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:product_page.related.collection",
+      "info": "t:product_page.related.collection_info"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "t:product_page.related.count",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4
+    }
+  ],
+  "disabled_on": { "groups": ["header", "footer"] },
+  "presets": [{ "name": "t:product_page.related.name" }]
+}
+{% endschema %}
