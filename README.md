@@ -1,6 +1,6 @@
-# Stuffs That I Need
+# Stuff That I Need
 
-A Shopify Online Store theme for **Stuffs That I Need**, a store for curious finds, useful everyday items, and playful gifts. The storefront uses a minimalist visual style with warm neutral colors, responsive product imagery, and reusable sections that can be managed in the Shopify theme editor.
+A Shopify Online Store theme for **Stuff That I Need**, a store for curious finds, useful everyday items, and playful gifts. The storefront uses a minimalist visual style with warm neutral colors, responsive product imagery, and reusable sections that can be managed in the Shopify theme editor.
 
 ## Development
 
@@ -29,12 +29,13 @@ shopify theme check
 
 ## Storefront features
 
-- **Homepage:** a responsive split hero, featured products, and category discovery cards.
+- **Homepage:** a responsive split hero, featured products, and a brand-story section.
 - **Product discovery:** collection pages use responsive product cards with product imagery, prices, sale and sold-out states, and Shopify pagination. Search results support products, pages, and articles.
 - **Product pages:** product information and purchase actions use Shopify product and variant data.
 - **Cart:** the cart uses Shopify's native cart form and data, including quantity updates, item removal, discounts, cart attributes, and the native checkout action.
-- **Theme editor:** homepage sections and category cards expose settings for copy, collections, destinations, and images.
+- **Theme editor:** homepage sections expose settings for copy, product collections, and images.
 - **Responsive layout:** grids and imagery adapt to desktop, tablet, and mobile widths.
+- **Navigation:** the header always shows Início, Catálogo, Contato, and Play. Catálogo uses Shopify's all-products collection.
 
 Product and collection content is managed in Shopify Admin. The theme renders store data; it does not create or publish products.
 
@@ -46,7 +47,7 @@ Product and collection content is managed in Shopify Admin. The theme renders st
 ├── blocks/       # Reusable theme blocks
 ├── config/       # Theme settings and editor data
 ├── layout/       # Document shell and section groups
-├── locales/      # Storefront and theme-editor translations
+├── locales/      # Brazilian Portuguese storefront and theme-editor strings
 ├── sections/     # Homepage, catalog, product, cart, and content sections
 ├── snippets/     # Shared Liquid fragments
 └── templates/    # JSON and Liquid page compositions
@@ -54,73 +55,11 @@ Product and collection content is managed in Shopify Admin. The theme renders st
 
 Templates determine which sections render on each page. Sections contain their own styles and Shopify schema settings, so merchants can arrange and configure the storefront in the theme editor without editing Liquid.
 
-## Localization
+## Language
 
-Theme translations live in `locales/` and are split into two kinds of files:
+The theme ships Brazilian Portuguese only. Storefront strings and theme-editor labels are in `locales/pt-BR.default.json` and `locales/pt-BR.default.schema.json`. The header has no language selector or configurable menu; Portuguese (Brazil) should remain the default language in Shopify Admin.
 
-- [`pt-BR.default.json`](./locales/pt-BR.default.json) contains storefront strings for the theme's default Brazilian Portuguese locale.
-- [`en.json`](./locales/en.json) contains English storefront translations.
-- [`pt-BR.default.schema.json`](./locales/pt-BR.default.schema.json) and [`en.schema.json`](./locales/en.schema.json) contain theme-editor labels, such as section names, setting labels, and option names.
-
-Theme locale files don't change which languages are enabled or published by the store. In Shopify Admin, use **Settings > Languages** to set Portuguese (Brazil) as the default language and add and publish English. Before changing the default, export existing language translations: Shopify warns that translations for the language being made default are deleted during this change. Use Shopify's Translate & Adapt app or another compatible translation workflow to translate and publish store-managed content such as products, collections, menus, pages, and policies. The header language selector appears when Shopify makes more than one language available to the storefront. See Shopify's [language management guide](https://help.shopify.com/en/manual/international/languages/manage-languages) for the current steps.
-
-Storefront locale keys are organized by feature and purpose. For example, cart strings use `cart.*`, product discovery uses `home.products.*`, and catalog strings use `collections.*`. Keep keys descriptive and reuse an existing key when the meaning is the same.
-
-### Add or change storefront copy
-
-1. Add the key under the appropriate namespace in the default storefront locale file.
-2. Add the same key and nesting to every supported storefront locale, including `en.json`.
-3. Reference the key in Liquid with Shopify's `t` filter instead of hard-coding user-facing copy:
-
-```liquid
-{{ 'home.products.title' | t }}
-```
-
-For dynamic text, use named interpolation parameters and keep placeholder names identical in every locale:
-
-```json
-{
-  "search": {
-    "page_title": "Busca por {{ terms }}"
-  }
-}
-```
-
-```liquid
-{{ 'search.page_title' | t: terms: search.terms }}
-```
-
-Keep plural forms consistent too. The cart uses `item_count_one` and `item_count_other`, with `count` passed to the plural form. Do not translate, rename, or remove placeholders such as `{{ terms }}`, `{{ count }}`, or `{{ product }}`.
-
-### Translate theme editor labels
-
-Theme editor text belongs in a schema locale file rather than a storefront locale file. Reference it in a section or block schema with a `t:` key:
-
-```json
-{
-  "name": "t:general.collection"
-}
-```
-
-Then add the matching nested key to the corresponding schema locale files, including `locales/pt-BR.default.schema.json` and `locales/en.schema.json`:
-
-```json
-{
-  "general": {
-    "collection": "Collection"
-  }
-}
-```
-
-### Validate locale changes
-
-Run Theme Check after editing locale files. It checks theme files and reports missing or inconsistent translations:
-
-```sh
-shopify theme check
-```
-
-Shopify's language editor can update locale files, so review generated changes before committing. Keep the `*.default.json` filename aligned with the store's configured default language.
+Create a Shopify page with the handle `contato` for the Contato link. The page template automatically displays a contact form on that page. The Play link targets the collection with handle `play`.
 
 ## Shopify theme resources
 

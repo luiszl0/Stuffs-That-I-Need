@@ -16,6 +16,7 @@ body {
 }
 
 :root {
+  --section-space: clamp(2.5rem, 6vw, 5rem);
   --brand-white: #FFFDF8;
   --brand-charcoal: #111111;
   --brand-cobalt: #2448E8;

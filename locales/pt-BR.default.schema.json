@@ -18,8 +18,6 @@
     "footer": "Rodapé",
     "group": "Grupo",
     "header": "Cabeçalho",
-    "hello_world": "Olá, mundo",
-    "hello_world_template": "Template Olá, mundo",
     "home_hero": "Destaque inicial",
     "homepage": "Página inicial",
     "layout": "Layout",
@@ -36,8 +34,7 @@
     "sidebar": "Barra lateral",
     "text": "Texto",
     "theme": "Tema",
-    "typography": "Tipografia",
-    "demo": "Demonstração"
+    "typography": "Tipografia"
   },
   "labels": {
     "alignment": "Alinhamento",

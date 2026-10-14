@@ -10,28 +10,21 @@
       {{ shop.name | link_to: routes.root_url }}
     </div>
 
-    {% liquid
-      assign nav_menu = section.settings.menu
-      assign header_links = nil
-      if nav_menu != blank
-        assign header_links = nav_menu.links
-      endif
-    %}
-
+    {% assign contact_page = pages['contato'] %}
+    {% assign play_collection = collections['play'] %}
+    {% assign contact_url = routes.root_url | append: 'pages/contato' %}
+    {% assign play_url = routes.collections_url | append: '/play' %}
+    {% if contact_page != blank %}
+      {% assign contact_url = contact_page.url %}
+    {% endif %}
+    {% if play_collection != blank %}
+      {% assign play_url = play_collection.url %}
+    {% endif %}
     <nav class="header__nav" id="site-navigation" aria-label="{{ 'home.header.navigation' | t }}">
-      {% if header_links != blank %}
-        {% for link in header_links %}
-          {{ link.title | link_to: link.url }}
-        {% endfor %}
-      {% else %}
-        {% assign category_handles = 'home|personal|office|play' | split: '|' %}
-        {% for category_handle in category_handles %}
-          {% assign category = collections[category_handle] %}
-          {% if category != blank %}
-            {{ category.title | capitalize | link_to: category.url }}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+      <a href="{{ routes.root_url }}">Início</a>
+      <a href="{{ routes.all_products_collection_url }}">Catálogo</a>
+      <a href="{{ contact_url }}">Contato</a>
+      <a href="{{ play_url }}">Play</a>
     </nav>
 
     <div class="header__icons">
@@ -55,25 +48,6 @@
         {% endif %}
       </a>
 
-      {% if localization.available_languages.size > 1 %}
-        {% form 'localization', class: 'header__localization' %}
-          <select class="header__language-select" id="HeaderLanguage" name="language_code" aria-label="{{ 'localization.language_label' | t }}">
-            {% for language in localization.available_languages %}
-              <option value="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}selected{% endif %}>
-                {% case language.iso_code %}
-                  {% when 'pt-BR' %}
-                    Português (Brasil)
-                  {% when 'en' %}
-                    English
-                  {% else %}
-                    {{ language.endonym_name | escape }}
-                {% endcase %}
-              </option>
-            {% endfor %}
-          </select>
-        {% endform %}
-      {% endif %}
-
       <button class="header__menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false" aria-label="{{ 'home.header.menu' | t }}">
         <span></span>
         <span></span>
@@ -86,7 +60,6 @@
   document.addEventListener('DOMContentLoaded', function () {
     var menuToggle = document.querySelector('.header__menu-toggle');
     var nav = document.querySelector('.header__nav');
-    var languageSelect = document.querySelector('.header__language-select');
 
     if (menuToggle && nav) {
       menuToggle.addEventListener('click', function () {
@@ -94,11 +67,20 @@
         menuToggle.setAttribute('aria-expanded', String(!isExpanded));
         nav.classList.toggle('is-open', !isExpanded);
       });
-    }
 
-    if (languageSelect) {
-      languageSelect.addEventListener('change', function () {
-        languageSelect.form.submit();
+      nav.addEventListener('click', function (event) {
+        if (event.target.closest('a')) {
+          nav.classList.remove('is-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && nav.classList.contains('is-open')) {
+          nav.classList.remove('is-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.focus();
+        }
       });
     }
   });
@@ -193,22 +175,6 @@
     display: flex;
     align-items: center;
     gap: 0.8rem;
-  }
-
-  .header__localization {
-    margin: 0;
-  }
-
-  .header__language-select {
-    max-width: 10rem;
-    min-height: 2.6rem;
-    padding: 0.4rem 1.8rem 0.4rem 0.65rem;
-    border: 1px solid var(--brand-border);
-    border-radius: 0;
-    background: transparent;
-    color: var(--brand-charcoal);
-    font: inherit;
-    cursor: pointer;
   }
 
   .header__icon {
@@ -328,24 +294,12 @@
     .header__icons {
       gap: 0.35rem;
     }
-
-    .header__language-select {
-      max-width: 7.5rem;
-      min-height: 2.4rem;
-      font-size: 0.78rem;
-    }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:general.header",
-  "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    }
-  ]
+  "name": "Cabeçalho",
+  "settings": []
 }
 {% endschema %}
