@@ -62,6 +62,10 @@
     "index_title": "Coleções",
     "kicker": "Explore a coleção",
     "promo": "Oferta",
+    "filter": {
+      "label": "Filtrar por coleção",
+      "all": "Todos"
+    },
     "no_image": "Imagem em breve",
     "empty_title": "Ainda não há produtos nesta coleção",
     "empty_text": "Volte em breve para descobrir os próximos achadinhos da loja."

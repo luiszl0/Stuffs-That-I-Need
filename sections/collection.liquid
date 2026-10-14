@@ -27,6 +27,36 @@
       {% endif %}
     </header>
 
+    {%- assign filter_handles = 'casa-organizacao,gadgets-acessorios,fidgets-diversao' | split: ',' -%}
+    <nav class="collection-filter" aria-label="{{ 'collections.filter.label' | t }}">
+      <ul class="collection-filter__list">
+        <li>
+          <a
+            class="collection-filter__link"
+            href="{{ routes.all_products_collection_url }}"
+            {% if collection.handle == 'all' %}aria-current="page"{% endif %}
+          >
+            {{ 'collections.filter.all' | t }}
+          </a>
+        </li>
+        {%- for filter_handle in filter_handles -%}
+          {%- assign filter_collection = collections[filter_handle] -%}
+          {%- if filter_collection != blank and filter_collection.title != blank -%}
+            <li>
+              <a
+                class="collection-filter__link"
+                href="{{ filter_collection.url }}"
+                {% if collection.handle == filter_handle %}aria-current="page"{% endif %}
+              >
+                {{ filter_collection.title | escape }}
+                <span class="collection-filter__count">{{ filter_collection.all_products_count }}</span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </nav>
+
     {% paginate collection.products by 20 %}
       <div class="collection-products">
         {% for product in collection.products %}
@@ -123,6 +153,64 @@
     margin-top: 1.25rem;
     color: var(--brand-muted);
     line-height: 1.65;
+  }
+
+  .collection-filter {
+    margin: -0.5rem 0 clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .collection-filter__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-filter__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.75rem;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--brand-charcoal);
+    background: transparent;
+    color: var(--brand-charcoal);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .collection-filter__link:hover,
+  .collection-filter__link:focus-visible,
+  .collection-filter__link[aria-current='page'] {
+    border-color: var(--brand-cobalt);
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+  }
+
+  .collection-filter__count {
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 639px) {
+    .collection-filter__list {
+      flex-wrap: nowrap;
+      margin-inline: calc(var(--page-margin) * -1);
+      padding-inline: var(--page-margin);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .collection-filter__link {
+      flex: none;
+      white-space: nowrap;
+    }
   }
 
   .collection-products {
