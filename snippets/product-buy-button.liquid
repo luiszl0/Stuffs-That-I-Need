@@ -1,0 +1,93 @@
+{% doc %}
+  Renders the discreet "Comprar" button shown over a product card image.
+  The parent must be position: relative and sit inside .collection-product or .product-card.
+
+  @param {product} product - The product the button links to
+
+  @example
+  {% render 'product-buy-button', product: product %}
+{% enddoc %}
+
+{% if product.available %}
+  <a class="product-buy-button" href="{{ product.url }}" aria-label="{{ 'collections.buy_label' | t: product: product.title }}">
+    {{ 'collections.buy' | t }}
+  </a>
+{% endif %}
+
+{% stylesheet %}
+  .product-buy-button {
+    position: absolute;
+    inset-inline: 0.6rem;
+    bottom: 0.6rem;
+    display: block;
+    padding: 0.7rem 0.75rem;
+    border: 1px solid var(--brand-border);
+    background: var(--brand-white);
+    color: var(--brand-charcoal);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease,
+      letter-spacing 0.25s ease;
+  }
+
+  .product-buy-button:hover,
+  .product-buy-button:focus-visible {
+    border-color: var(--brand-cobalt);
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+    letter-spacing: 0.14em;
+  }
+
+  .product-buy-button:focus-visible {
+    outline: 2px solid var(--brand-cobalt);
+    outline-offset: 2px;
+  }
+
+  .product-buy-button:active {
+    transform: translateY(1px);
+  }
+
+  /* Only hide the button where hover exists; touch devices always see it. */
+  @media (hover: hover) {
+    .product-buy-button {
+      opacity: 0;
+      transform: translateY(0.5rem);
+      pointer-events: none;
+    }
+
+    :is(.collection-product, .product-card):hover .product-buy-button,
+    :is(.collection-product, .product-card):focus-within .product-buy-button {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    :is(.collection-product, .product-card):hover .product-buy-button:active {
+      transform: translateY(1px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .product-buy-button {
+      transition: none;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .product-buy-button {
+      inset-inline: 0.4rem;
+      bottom: 0.4rem;
+      padding: 0.45rem 0.5rem;
+      font-size: 0.7rem;
+    }
+  }
+{% endstylesheet %}

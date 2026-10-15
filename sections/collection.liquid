@@ -70,6 +70,7 @@
         {% for product in collection.products %}
           {% assign product_image = product.featured_image | default: product.images.first %}
           <article class="collection-product">
+            <div class="collection-product__media">
             {% if product_image %}
               <a class="collection-product__image" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
                 {{ product_image
@@ -86,6 +87,10 @@
                 {{ 'collections.no_image' | t }}
               </a>
             {% endif %}
+            {% if product.available %}
+              {% render 'product-buy-button', product: product %}
+            {% endif %}
+            </div>
             <div class="collection-product__content">
               <div class="collection-product__badges">
                 {% if product.compare_at_price > product.price %}
@@ -113,9 +118,33 @@
       </div>
 
       {% if paginate.pages > 1 %}
-        <div class="collection-pagination">
-          {{ paginate | default_pagination }}
-        </div>
+        <nav class="collection-pagination" aria-label="{{ 'general.pagination.label' | t }}">
+          {%- if paginate.previous -%}
+            <a class="collection-pagination__nav" href="{{ paginate.previous.url }}" rel="prev">« {{ 'general.pagination.previous' | t }}</a>
+          {%- else -%}
+            <span class="collection-pagination__nav is-disabled" aria-disabled="true">« {{ 'general.pagination.previous' | t }}</span>
+          {%- endif -%}
+
+          <ul class="collection-pagination__pages">
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: page: part.title }}">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="is-current" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span>{{ part.title }}</span>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if paginate.next -%}
+            <a class="collection-pagination__nav" href="{{ paginate.next.url }}" rel="next">{{ 'general.pagination.next' | t }} »</a>
+          {%- else -%}
+            <span class="collection-pagination__nav is-disabled" aria-disabled="true">{{ 'general.pagination.next' | t }} »</span>
+          {%- endif -%}
+        </nav>
       {% endif %}
     {% endpaginate %}
     {%- endif -%}
@@ -225,12 +254,13 @@
   .collection-products {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1px;
-    border: 1px solid var(--brand-border);
-    background: var(--brand-border);
+    gap: 0;
+    border-right: 1px solid var(--brand-border);
+    border-bottom: 1px solid var(--brand-border);
   }
 
   .collection-product {
+    position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -239,18 +269,48 @@
     border: 0;
     border-radius: 0;
     background: var(--brand-canvas);
-    box-shadow: none;
+    /* Each card draws its own top and left lines so they rise with it on hover. */
+    box-shadow: inset 1px 1px 0 var(--brand-border);
     transition: background-color 0.2s ease, transform 0.2s ease;
   }
 
   .collection-product:hover,
   .collection-product:focus-within {
     background: var(--brand-white);
+    z-index: 1;
     transform: translateY(-2px);
+  }
+
+  /* Cobalt underline that grows from the left; sits inside the card so nothing shifts. */
+  .collection-product::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--brand-cobalt);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collection-product:hover::after,
+  .collection-product:focus-within::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-product::after {
+      transition: none;
+    }
   }
 
   .collection-page-section--white .collection-product {
     background: var(--brand-white);
+  }
+
+  .collection-product__media {
+    position: relative;
   }
 
   .collection-product__image {
@@ -373,18 +433,22 @@
 
   .collection-pagination {
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 0.75rem;
     margin-top: 2rem;
   }
 
-  .collection-pagination .pagination {
+  .collection-pagination__pages {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .collection-pagination .pagination a,
-  .collection-pagination .pagination span {
+  .collection-pagination a,
+  .collection-pagination span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -394,12 +458,26 @@
     border: 1px solid var(--brand-border);
     border-radius: 0;
     background: var(--brand-white);
+    color: var(--brand-charcoal);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
   }
 
-  .collection-pagination .pagination .current {
+  .collection-pagination a:hover,
+  .collection-pagination a:focus-visible {
+    border-color: var(--brand-cobalt);
+    color: var(--brand-cobalt);
+  }
+
+  .collection-pagination .is-current {
     border-color: var(--brand-cobalt);
     background: var(--brand-cobalt);
     color: var(--brand-white);
+  }
+
+  .collection-pagination .is-disabled {
+    color: var(--brand-muted);
+    opacity: 0.5;
   }
 
   @media (max-width: 959px) {
