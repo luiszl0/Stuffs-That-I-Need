@@ -62,6 +62,8 @@
     "index_title": "Coleções",
     "kicker": "Explore a coleção",
     "promo": "Oferta",
+    "buy": "Comprar",
+    "buy_label": "Comprar {{ product }}",
     "filter": {
       "label": "Filtrar por coleção",
       "all": "Todos"
@@ -163,6 +165,9 @@
       "skip_to_content": "Pular para o conteúdo"
     },
     "pagination": {
+      "label": "Paginação",
+      "previous": "Anterior",
+      "next": "Avançar",
       "page": "Página {{ page }}"
     }
   },
@@ -220,6 +225,8 @@
     "purchase": {
       "save_percent": "Economize {{ percent }}%",
       "unavailable_combination": "Combinação indisponível",
+      "select_options": "Selecione as opções",
+      "price_from": "A partir de {{ price }}",
       "decrease": "Diminuir quantidade",
       "increase": "Aumentar quantidade"
     },

@@ -4,7 +4,21 @@
   custom.short_description metafield and the section settings.
 {% endcomment %}
 
-{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- comment -%}
+  Products with several variants start with no selection (unless ?variant= is
+  present), so the price shown always belongs to a variant the customer chose.
+{%- endcomment -%}
+{%- if product.has_only_default_variant or product.variants.size == 1 -%}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- else -%}
+  {%- assign current_variant = product.selected_variant -%}
+{%- endif -%}
+{%- assign price_varies = false -%}
+{%- if product.price_min != product.price_max -%}
+  {%- assign price_varies = true -%}
+{%- endif -%}
+{%- assign from_price = product.price_min | money -%}
+{%- assign default_variant = product.selected_or_first_available_variant -%}
 {%- assign gallery_media = product.media -%}
 {%- assign featured_media = current_variant.featured_media | default: product.featured_media -%}
 {%- assign initial_media = featured_media | default: gallery_media.first -%}
@@ -23,6 +37,7 @@
   {%- assign saving_percent = saving_diff | times: 100 | divided_by: current_variant.compare_at_price -%}
 {%- endif -%}
 
+<div class="product-page-section">
 <div
   class="product-page page-width"
   data-product-root
@@ -30,6 +45,7 @@
   data-label-out-of-stock="{{ 'products.out_of_stock' | t | escape }}"
   data-label-add="{{ 'products.add_to_cart' | t | escape }}"
   data-label-sold-out="{{ 'products.sold_out' | t | escape }}"
+  data-label-select="{{ 'product_page.purchase.select_options' | t | escape }}"
   data-label-unavailable="{{ 'product_page.purchase.unavailable_combination' | t | escape }}"
 >
   <nav class="product-breadcrumbs" aria-label="{{ 'products.breadcrumbs' | t }}">
@@ -153,7 +169,19 @@
       {% endif %}
 
       <div class="product-price-block" data-product-price-block>
-        <span class="product-price" data-product-price>{{ current_variant.price | money }}</span>
+        <span
+          class="product-price"
+          data-product-price
+          data-price-default="{% if price_varies %}{{ 'product_page.purchase.price_from' | t: price: from_price | escape }}{% else %}{{ product.price_min | money | escape }}{% endif %}"
+        >
+          {%- if current_variant -%}
+            {{ current_variant.price | money }}
+          {%- elsif price_varies -%}
+            {{ 'product_page.purchase.price_from' | t: price: from_price }}
+          {%- else -%}
+            {{ product.price_min | money }}
+          {%- endif -%}
+        </span>
         <span
           class="product-price product-price--compare"
           data-product-compare-price
@@ -171,10 +199,12 @@
       </div>
 
       {% if section.settings.show_installments %}
+        <div data-installments{% unless current_variant %} hidden{% endunless %}>
         {%- form 'product', product, id: 'product-installments-form', class: 'product-installments' -%}
-          <input type="hidden" name="id" value="{{ current_variant.id }}" data-installments-variant-id>
+          <input type="hidden" name="id" value="{{ default_variant.id }}" data-installments-variant-id>
           {{ form | payment_terms }}
         {%- endform -%}
+        </div>
       {% endif %}
 
       {% form 'product', product, class: 'product-form', data-product-form: product.id %}
@@ -205,11 +235,20 @@
           {% for option in product.options_with_values %}
             {%- assign option_index = forloop.index0 -%}
             {%- assign option_name_key = option.name | downcase | strip -%}
+            {%- assign option_selected = option.selected_value -%}
+            {%- if current_variant == blank -%}
+              {%- assign option_selected = nil -%}
+              {%- if option.values.size == 1 -%}
+                {%- assign option_selected = option.values.first -%}
+              {%- elsif option_name_key == 'ships from' -%}
+                {%- assign option_selected = default_variant.options[option_index] -%}
+              {%- endif -%}
+            {%- endif -%}
             {%- comment -%} "Ships from" is hidden for now; the fieldset stays in the DOM so variant matching keeps working. {%- endcomment -%}
             <fieldset class="product-option" data-product-option{% if option_name_key == 'ships from' %} hidden{% endif %}>
               <legend>
                 {{ option.name }}
-                <span class="product-option__selected" data-option-selected>{{ option.selected_value }}</span>
+                <span class="product-option__selected" data-option-selected>{{ option_selected }}</span>
               </legend>
               <div class="product-option__values">
                 {% for value in option.values %}
@@ -219,7 +258,7 @@
                       name="pp-option-{{ section.id }}-{{ option_index }}"
                       value="{{ value | escape }}"
                       data-option-index="{{ option_index }}"
-                      {% if option.selected_value == value %}checked{% endif %}
+                      {% if option_selected == value %}checked{% endif %}
                     >
                     <span>{{ value }}</span>
                   </label>
@@ -229,7 +268,7 @@
           {% endfor %}
         {% endunless %}
 
-        <p class="product-availability{% unless current_variant.available %} is-unavailable{% endunless %}" data-product-availability role="status">
+        <p class="product-availability{% if current_variant and current_variant.available == false %} is-unavailable{% endif %}" data-product-availability role="status"{% unless current_variant %} hidden{% endunless %}>
           {% if current_variant.available %}
             {{ 'products.in_stock' | t }}
           {% else %}
@@ -258,7 +297,9 @@
             data-product-submit
             {% unless current_variant.available %}disabled{% endunless %}
           >
-            {% if current_variant.available %}
+            {% if current_variant == blank %}
+              {{ 'product_page.purchase.select_options' | t }}
+            {% elsif current_variant.available %}
               {{ 'products.add_to_cart' | t }}
             {% else %}
               {{ 'products.sold_out' | t }}
@@ -267,7 +308,7 @@
         </div>
 
         {% if section.settings.show_dynamic_checkout %}
-          <div class="product-form__dynamic">
+          <div class="product-form__dynamic" data-product-dynamic{% unless current_variant %} hidden{% endunless %}>
             {{ form | payment_button }}
           </div>
         {% endif %}
@@ -325,6 +366,7 @@
       </ul>
     </div>
   </div>
+</div>
 </div>
 
 {% javascript %}
@@ -399,6 +441,24 @@
       var availabilityNode = root.querySelector('[data-product-availability]');
       var submit = root.querySelector('[data-product-submit]');
       var groups = root.querySelectorAll('[data-product-option]');
+      var installmentsForm = document.querySelector('[data-installments]');
+      var dynamicNode = root.querySelector('[data-product-dynamic]');
+
+      function showSelectionPrompt() {
+        if (idInput) idInput.value = '';
+        if (priceNode) priceNode.textContent = priceNode.dataset.priceDefault;
+        setHidden(compareNode, true);
+        setHidden(savingNode, true);
+        setHidden(badgeNode, true);
+        setHidden(availabilityNode, true);
+        setHidden(installmentsForm, true);
+        setHidden(dynamicNode, true);
+        if (submit) {
+          submit.disabled = true;
+          submit.textContent = root.dataset.labelSelect;
+        }
+        document.dispatchEvent(new CustomEvent('product:variant-change', { detail: { variant: null } }));
+      }
 
       function selectedOptions() {
         return Array.prototype.map.call(groups, function (group) {
@@ -420,6 +480,11 @@
           if (label && chosen[i]) label.textContent = chosen[i];
         });
 
+        if (chosen.indexOf(null) !== -1) {
+          showSelectionPrompt();
+          return;
+        }
+
         var variant = variants.find(function (item) {
           return item.options.every(function (value, i) { return value === chosen[i]; });
         });
@@ -429,10 +494,14 @@
             availabilityNode.textContent = root.dataset.labelUnavailable;
             availabilityNode.classList.add('is-unavailable');
           }
+          setHidden(availabilityNode, false);
+          setHidden(installmentsForm, true);
+          setHidden(dynamicNode, true);
           if (submit) {
             submit.disabled = true;
             submit.textContent = root.dataset.labelUnavailable;
           }
+          document.dispatchEvent(new CustomEvent('product:variant-change', { detail: { variant: null } }));
           return;
         }
 
@@ -448,6 +517,9 @@
           window.history.replaceState({}, '', url.toString());
         }
 
+        setHidden(availabilityNode, false);
+        setHidden(installmentsForm, false);
+        setHidden(dynamicNode, false);
         if (priceNode) priceNode.textContent = variant.price;
         setHidden(compareNode, !variant.compare, variant.compare);
         setHidden(savingNode, !variant.saving, variant.saving);
@@ -462,6 +534,7 @@
           submit.textContent = variant.available ? root.dataset.labelAdd : root.dataset.labelSoldOut;
         }
         if (variant.media) goToMedia(variant.media);
+        document.dispatchEvent(new CustomEvent('product:variant-change', { detail: { variant: variant } }));
       }
 
       groups.forEach(function (group) {
@@ -489,6 +562,10 @@
 {% endjavascript %}
 
 {% stylesheet %}
+  .product-page-section {
+    background: var(--brand-white);
+  }
+
   .product-page {
     padding-block: var(--section-space);
   }

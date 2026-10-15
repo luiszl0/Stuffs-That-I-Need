@@ -70,6 +70,7 @@
         {% for product in collection.products %}
           {% assign product_image = product.featured_image | default: product.images.first %}
           <article class="collection-product">
+            <div class="collection-product__media">
             {% if product_image %}
               <a class="collection-product__image" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
                 {{ product_image
@@ -86,6 +87,12 @@
                 {{ 'collections.no_image' | t }}
               </a>
             {% endif %}
+            {% if product.available %}
+              <a class="collection-product__buy" href="{{ product.url }}" aria-label="{{ 'collections.buy_label' | t: product: product.title }}">
+                {{ 'collections.buy' | t }}
+              </a>
+            {% endif %}
+            </div>
             <div class="collection-product__content">
               <div class="collection-product__badges">
                 {% if product.compare_at_price > product.price %}
@@ -113,9 +120,33 @@
       </div>
 
       {% if paginate.pages > 1 %}
-        <div class="collection-pagination">
-          {{ paginate | default_pagination }}
-        </div>
+        <nav class="collection-pagination" aria-label="{{ 'general.pagination.label' | t }}">
+          {%- if paginate.previous -%}
+            <a class="collection-pagination__nav" href="{{ paginate.previous.url }}" rel="prev">« {{ 'general.pagination.previous' | t }}</a>
+          {%- else -%}
+            <span class="collection-pagination__nav is-disabled" aria-disabled="true">« {{ 'general.pagination.previous' | t }}</span>
+          {%- endif -%}
+
+          <ul class="collection-pagination__pages">
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" aria-label="{{ 'general.pagination.page' | t: page: part.title }}">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span class="is-current" aria-current="page">{{ part.title }}</span>
+                {%- else -%}
+                  <span>{{ part.title }}</span>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- if paginate.next -%}
+            <a class="collection-pagination__nav" href="{{ paginate.next.url }}" rel="next">{{ 'general.pagination.next' | t }} »</a>
+          {%- else -%}
+            <span class="collection-pagination__nav is-disabled" aria-disabled="true">{{ 'general.pagination.next' | t }} »</span>
+          {%- endif -%}
+        </nav>
       {% endif %}
     {% endpaginate %}
     {%- endif -%}
@@ -253,6 +284,10 @@
     background: var(--brand-white);
   }
 
+  .collection-product__media {
+    position: relative;
+  }
+
   .collection-product__image {
     position: relative;
     display: block;
@@ -275,6 +310,73 @@
   .collection-product:hover .collection-product__image-element,
   .collection-product:focus-within .collection-product__image-element {
     transform: scale(1.03);
+  }
+
+  .collection-product__buy {
+    position: absolute;
+    inset-inline: 0.6rem;
+    bottom: 0.6rem;
+    display: block;
+    padding: 0.7rem 0.75rem;
+    border: 1px solid var(--brand-border);
+    background: var(--brand-white);
+    color: var(--brand-charcoal);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease,
+      letter-spacing 0.25s ease;
+  }
+
+  .collection-product__buy:hover,
+  .collection-product__buy:focus-visible {
+    border-color: var(--brand-cobalt);
+    background: var(--brand-cobalt);
+    color: var(--brand-white);
+    letter-spacing: 0.14em;
+  }
+
+  .collection-product__buy:focus-visible {
+    outline: 2px solid var(--brand-cobalt);
+    outline-offset: 2px;
+  }
+
+  .collection-product__buy:active {
+    transform: translateY(1px);
+  }
+
+  /* Only hide the button where hover exists; touch devices always see it. */
+  @media (hover: hover) {
+    .collection-product__buy {
+      opacity: 0;
+      transform: translateY(0.5rem);
+      pointer-events: none;
+    }
+
+    .collection-product:hover .collection-product__buy,
+    .collection-product:focus-within .collection-product__buy {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .collection-product:hover .collection-product__buy:active {
+      transform: translateY(1px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-product__buy {
+      transition: none;
+    }
   }
 
   .collection-product__image--placeholder {
@@ -373,18 +475,22 @@
 
   .collection-pagination {
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 0.75rem;
     margin-top: 2rem;
   }
 
-  .collection-pagination .pagination {
+  .collection-pagination__pages {
     display: flex;
-    flex-wrap: wrap;
     gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
 
-  .collection-pagination .pagination a,
-  .collection-pagination .pagination span {
+  .collection-pagination a,
+  .collection-pagination span {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -394,12 +500,26 @@
     border: 1px solid var(--brand-border);
     border-radius: 0;
     background: var(--brand-white);
+    color: var(--brand-charcoal);
+    text-decoration: none;
+    transition: border-color 0.2s ease, color 0.2s ease;
   }
 
-  .collection-pagination .pagination .current {
+  .collection-pagination a:hover,
+  .collection-pagination a:focus-visible {
+    border-color: var(--brand-cobalt);
+    color: var(--brand-cobalt);
+  }
+
+  .collection-pagination .is-current {
     border-color: var(--brand-cobalt);
     background: var(--brand-cobalt);
     color: var(--brand-white);
+  }
+
+  .collection-pagination .is-disabled {
+    color: var(--brand-muted);
+    opacity: 0.5;
   }
 
   @media (max-width: 959px) {
@@ -415,6 +535,13 @@
 
     .collection-product {
       padding: 0.5rem;
+    }
+
+    .collection-product__buy {
+      inset-inline: 0.4rem;
+      bottom: 0.4rem;
+      padding: 0.45rem 0.5rem;
+      font-size: 0.7rem;
     }
 
     .collection-product__content {

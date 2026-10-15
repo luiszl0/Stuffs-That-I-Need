@@ -5,7 +5,12 @@
 {%- if cta_text == blank -%}
   {%- assign cta_text = product.description | strip_html | strip | truncatewords: 24 -%}
 {%- endif -%}
-{%- assign cta_variant = product.selected_or_first_available_variant -%}
+{%- assign from_price = product.price_min | money -%}
+{%- if product.variants.size == 1 -%}
+  {%- assign cta_variant = product.variants.first -%}
+{%- else -%}
+  {%- assign cta_variant = product.selected_variant -%}
+{%- endif -%}
 
 <section class="pp-cta">
   <div class="page-width">
@@ -18,11 +23,21 @@
         {% endif %}
       </div>
       <div class="pp-cta__action">
-        <p class="pp-cta__price">
-          {{ cta_variant.price | money }}
-          {% if cta_variant.compare_at_price > cta_variant.price %}
-            <s>{{ cta_variant.compare_at_price | money }}</s>
-          {% endif %}
+        <p
+          class="pp-cta__price"
+          data-cta-price
+          data-price-default="{% if product.price_min != product.price_max %}{{ 'product_page.purchase.price_from' | t: price: from_price | escape }}{% else %}{{ product.price_min | money | escape }}{% endif %}"
+        >
+          {%- if cta_variant -%}
+            {{ cta_variant.price | money }}
+            {% if cta_variant.compare_at_price > cta_variant.price %}
+              <s>{{ cta_variant.compare_at_price | money }}</s>
+            {% endif %}
+          {%- elsif product.price_min != product.price_max -%}
+            {{ 'product_page.purchase.price_from' | t: price: from_price }}
+          {%- else -%}
+            {{ product.price_min | money }}
+          {%- endif -%}
         </p>
         <a class="button pp-cta__button" href="#product-buy">
           {{ 'product_page.cta.back_to_purchase' | t }}
@@ -32,6 +47,20 @@
     </div>
   </div>
 </section>
+
+{% javascript %}
+  document.addEventListener('product:variant-change', function (event) {
+    var node = document.querySelector('[data-cta-price]');
+    if (!node) return;
+    var variant = event.detail.variant;
+    node.textContent = variant ? variant.price : node.dataset.priceDefault;
+    if (variant && variant.compare) {
+      var old = document.createElement('s');
+      old.textContent = variant.compare;
+      node.append(' ', old);
+    }
+  });
+{% endjavascript %}
 
 {% stylesheet %}
   .pp-cta {
