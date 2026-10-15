@@ -204,7 +204,9 @@
         {% unless product.has_only_default_variant %}
           {% for option in product.options_with_values %}
             {%- assign option_index = forloop.index0 -%}
-            <fieldset class="product-option" data-product-option>
+            {%- assign option_name_key = option.name | downcase | strip -%}
+            {%- comment -%} "Ships from" is hidden for now; the fieldset stays in the DOM so variant matching keeps working. {%- endcomment -%}
+            <fieldset class="product-option" data-product-option{% if option_name_key == 'ships from' %} hidden{% endif %}>
               <legend>
                 {{ option.name }}
                 <span class="product-option__selected" data-option-selected>{{ option.selected_value }}</span>
@@ -830,6 +832,10 @@
 
   .product-pill:hover span {
     border-color: var(--brand-charcoal);
+  }
+
+  .product-option[hidden] {
+    display: none;
   }
 
   .product-pill input:checked + span {

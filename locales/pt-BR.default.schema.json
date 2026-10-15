@@ -83,6 +83,11 @@
       "normal": "Texto normal"
     }
   },
+  "play_game": {
+    "code_small": "Código de desconto de 2% (30 pontos)",
+    "code_max": "Código de desconto de 5% (50 pontos)",
+    "code_info": "Informe um código já criado em Descontos no admin da Shopify. Usado apenas na coleção Play. Em branco, o jogo não promete desconto."
+  },
   "product_page": {
     "settings": {
       "purchase": "Compra",

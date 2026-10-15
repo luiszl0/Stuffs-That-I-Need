@@ -62,6 +62,10 @@
     "index_title": "Coleções",
     "kicker": "Explore a coleção",
     "promo": "Oferta",
+    "filter": {
+      "label": "Filtrar por coleção",
+      "all": "Todos"
+    },
     "no_image": "Imagem em breve",
     "empty_title": "Ainda não há produtos nesta coleção",
     "empty_text": "Volte em breve para descobrir os próximos achadinhos da loja."
@@ -246,6 +250,8 @@
     "specs": {
       "eyebrow": "Detalhes",
       "heading": "Características e especificações",
+      "table_title": "Especificações técnicas",
+      "highlights_title": "Destaques e cuidados",
       "type": "Tipo",
       "brand": "Marca",
       "weight": "Peso",
@@ -274,6 +280,42 @@
     "cta": {
       "eyebrow": "Pronto para levar?",
       "back_to_purchase": "Voltar para a compra"
+    }
+  },
+  "play_game": {
+    "title": "Jogue e descubra",
+    "score": "Pontos",
+    "canvas_label": "Jogo de arcade: mova o mouse ou o dedo para cima e para baixo para guiar o passarinho pelas aberturas.",
+    "paused": "Pausado: volte ao jogo para continuar",
+    "restart": "Jogar de novo",
+    "copy": "Copiar código",
+    "copied": "Copiado!",
+    "discover_hint": "A cada 5 pontos você descobre um produto da loja.",
+    "start": {
+      "title": "Passe pelas aberturas",
+      "text": "Mova o mouse (ou o dedo) para cima e para baixo para guiar o passarinho.",
+      "button": "Jogar"
+    },
+    "over": {
+      "title": "Fim de jogo",
+      "text": "Você fez {{ score }} pontos. Tente de novo!"
+    },
+    "product": {
+      "label": "Achadinho da loja",
+      "view": "Ver produto"
+    },
+    "reward": {
+      "milestone_badge": "30 pontos",
+      "win_badge": "50 pontos",
+      "small_title": "Você desbloqueou 2% de desconto!",
+      "small_text": "Use este código no carrinho para ganhar 2% de desconto.",
+      "win_title": "Você venceu!",
+      "win_text": "Use este código no carrinho para ganhar o desconto máximo de 5%.",
+      "no_code_title": "Parabéns!",
+      "no_code": "Você chegou lá! O código deste desconto ainda não foi configurado pela loja.",
+      "code_note": "Digite o código no carrinho ou na finalização da compra.",
+      "continue_playing": "Continuar jogando",
+      "keep_shopping": "Continuar comprando"
     }
   },
   "contact": {
