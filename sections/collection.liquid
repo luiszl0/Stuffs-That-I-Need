@@ -88,9 +88,7 @@
               </a>
             {% endif %}
             {% if product.available %}
-              <a class="collection-product__buy" href="{{ product.url }}" aria-label="{{ 'collections.buy_label' | t: product: product.title }}">
-                {{ 'collections.buy' | t }}
-              </a>
+              {% render 'product-buy-button', product: product %}
             {% endif %}
             </div>
             <div class="collection-product__content">
@@ -256,12 +254,13 @@
   .collection-products {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1px;
-    border: 1px solid var(--brand-border);
-    background: var(--brand-border);
+    gap: 0;
+    border-right: 1px solid var(--brand-border);
+    border-bottom: 1px solid var(--brand-border);
   }
 
   .collection-product {
+    position: relative;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -270,14 +269,40 @@
     border: 0;
     border-radius: 0;
     background: var(--brand-canvas);
-    box-shadow: none;
+    /* Each card draws its own top and left lines so they rise with it on hover. */
+    box-shadow: inset 1px 1px 0 var(--brand-border);
     transition: background-color 0.2s ease, transform 0.2s ease;
   }
 
   .collection-product:hover,
   .collection-product:focus-within {
     background: var(--brand-white);
+    z-index: 1;
     transform: translateY(-2px);
+  }
+
+  /* Cobalt underline that grows from the left; sits inside the card so nothing shifts. */
+  .collection-product::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--brand-cobalt);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collection-product:hover::after,
+  .collection-product:focus-within::after {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-product::after {
+      transition: none;
+    }
   }
 
   .collection-page-section--white .collection-product {
@@ -310,73 +335,6 @@
   .collection-product:hover .collection-product__image-element,
   .collection-product:focus-within .collection-product__image-element {
     transform: scale(1.03);
-  }
-
-  .collection-product__buy {
-    position: absolute;
-    inset-inline: 0.6rem;
-    bottom: 0.6rem;
-    display: block;
-    padding: 0.7rem 0.75rem;
-    border: 1px solid var(--brand-border);
-    background: var(--brand-white);
-    color: var(--brand-charcoal);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition:
-      opacity 0.3s ease,
-      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.25s ease,
-      border-color 0.25s ease,
-      color 0.25s ease,
-      letter-spacing 0.25s ease;
-  }
-
-  .collection-product__buy:hover,
-  .collection-product__buy:focus-visible {
-    border-color: var(--brand-cobalt);
-    background: var(--brand-cobalt);
-    color: var(--brand-white);
-    letter-spacing: 0.14em;
-  }
-
-  .collection-product__buy:focus-visible {
-    outline: 2px solid var(--brand-cobalt);
-    outline-offset: 2px;
-  }
-
-  .collection-product__buy:active {
-    transform: translateY(1px);
-  }
-
-  /* Only hide the button where hover exists; touch devices always see it. */
-  @media (hover: hover) {
-    .collection-product__buy {
-      opacity: 0;
-      transform: translateY(0.5rem);
-      pointer-events: none;
-    }
-
-    .collection-product:hover .collection-product__buy,
-    .collection-product:focus-within .collection-product__buy {
-      opacity: 1;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-
-    .collection-product:hover .collection-product__buy:active {
-      transform: translateY(1px);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .collection-product__buy {
-      transition: none;
-    }
   }
 
   .collection-product__image--placeholder {
@@ -535,13 +493,6 @@
 
     .collection-product {
       padding: 0.5rem;
-    }
-
-    .collection-product__buy {
-      inset-inline: 0.4rem;
-      bottom: 0.4rem;
-      padding: 0.45rem 0.5rem;
-      font-size: 0.7rem;
     }
 
     .collection-product__content {

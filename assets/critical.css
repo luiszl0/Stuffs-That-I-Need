@@ -29,6 +29,12 @@ body {
   --font-display: 'Space Grotesk', 'Arial', sans-serif;
 }
 
+/* Page content uses the brand white; the header and footer sit outside <main>. */
+main {
+  --brand-canvas: var(--brand-white);
+  background-color: var(--brand-white);
+}
+
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
   overflow: hidden;
 }

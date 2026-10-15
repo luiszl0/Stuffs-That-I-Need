@@ -30,19 +30,22 @@
         {% for product in featured_collection.products limit: section.settings.products_to_show %}
           {% assign product_image = product.featured_image | default: product.images.first %}
           <article class="product-card">
-            <a class="product-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
-              {% if product_image %}
-                {{ product_image | image_url: width: 800 | image_tag:
-                  class: 'product-card__image',
-                  alt: product_image.alt | default: product.title,
-                  widths: '240, 360, 520, 800',
-                  sizes: '(min-width: 1200px) 18vw, (min-width: 821px) 20vw, (min-width: 561px) 45vw, 46vw',
-                  loading: 'lazy'
-                }}
-              {% else %}
-                <div class="product-card__placeholder">{{ 'home.products.empty_state' | t }}</div>
-              {% endif %}
-            </a>
+            <div class="product-card__frame">
+              <a class="product-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                {% if product_image %}
+                  {{ product_image | image_url: width: 800 | image_tag:
+                    class: 'product-card__image',
+                    alt: product_image.alt | default: product.title,
+                    widths: '240, 360, 520, 800',
+                    sizes: '(min-width: 1200px) 18vw, (min-width: 821px) 20vw, (min-width: 561px) 45vw, 46vw',
+                    loading: 'lazy'
+                  }}
+                {% else %}
+                  <div class="product-card__placeholder">{{ 'home.products.empty_state' | t }}</div>
+                {% endif %}
+              </a>
+              {% render 'product-buy-button', product: product %}
+            </div>
 
             <div class="product-card__body">
               <div class="product-card__meta">
@@ -148,6 +151,10 @@
   .product-card:hover,
   .product-card:focus-within {
     transform: translateY(-4px);
+  }
+
+  .product-card__frame {
+    position: relative;
   }
 
   .product-card__media {
