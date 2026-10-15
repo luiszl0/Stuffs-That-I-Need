@@ -27,6 +27,14 @@
       {% endif %}
     </header>
 
+    {%- if collection.handle == 'play' -%}
+      {% render 'play-game',
+        collection: collection,
+        code_small: section.settings.play_code_small,
+        code_max: section.settings.play_code_max
+      %}
+    {%- else -%}
+
     {%- assign filter_handles = 'casa-organizacao,gadgets-acessorios,fidgets-diversao' | split: ',' -%}
     <nav class="collection-filter" aria-label="{{ 'collections.filter.label' | t }}">
       <ul class="collection-filter__list">
@@ -110,6 +118,7 @@
         </div>
       {% endif %}
     {% endpaginate %}
+    {%- endif -%}
   </div>
 </div>
 
@@ -419,6 +428,18 @@
 {% schema %}
 {
   "name": "Coleção de produtos",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "play_code_small",
+      "label": "t:play_game.code_small",
+      "info": "t:play_game.code_info"
+    },
+    {
+      "type": "text",
+      "id": "play_code_max",
+      "label": "t:play_game.code_max"
+    }
+  ]
 }
 {% endschema %}
