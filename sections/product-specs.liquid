@@ -32,6 +32,8 @@
                 {% endif %}
                 {% unless product.has_only_default_variant %}
                   {% for option in product.options_with_values %}
+                    {%- assign option_name_key = option.name | downcase | strip -%}
+                    {%- if option_name_key == 'ships from' -%}{%- continue -%}{%- endif -%}
                     <tr><th scope="row">{{ option.name }}</th><td>{{ option.values | join: ', ' }}</td></tr>
                   {% endfor %}
                 {% endunless %}
