@@ -11,7 +11,10 @@
   "sections": {
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "play_code_small": "PLAY30",
+        "play_code_max": "PLAY50"
+      }
     }
   },
   "order": [
