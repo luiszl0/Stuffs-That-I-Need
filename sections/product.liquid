@@ -578,7 +578,7 @@
         });
 
         // Shopify's accelerated checkout buttons ignore cart attributes, so "Buy now" goes
-        // through the cart: add the item, save CPF/Birthday as cart attributes, then checkout.
+        // through the cart: save CPF/Birthday as cart attributes, add the item, then checkout.
         continueButton.addEventListener('click', function () {
           if (!window.CustomerFields || !idInput || !idInput.value) return;
           if (!window.CustomerFields.check(panelFields, true)) return;
@@ -587,19 +587,20 @@
           var cartRoot = window.CustomerFields.root();
           var quantityValue = quantity ? Math.max(1, parseInt(quantity.value, 10) || 1) : 1;
 
-          fetch(cartRoot + 'cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({ items: [{ id: Number(idInput.value), quantity: quantityValue }] })
+          // Attributes are saved before adding so a failed attempt can be retried without duplicating the item.
+          window.CustomerFields.save(panelFields).then(function (saved) {
+            if (!saved) throw new Error('');
+            return fetch(cartRoot + 'cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({ items: [{ id: Number(idInput.value), quantity: quantityValue }] })
+            });
           }).then(function (response) {
             if (!response.ok) {
               return response.json().catch(function () { return {}; }).then(function (result) {
                 throw new Error(result.description || '');
               });
             }
-            return window.CustomerFields.save(panelFields);
-          }).then(function (saved) {
-            if (!saved) throw new Error('');
             window.location.assign(cartRoot + 'checkout');
           }).catch(function (error) {
             continueButton.disabled = false;
