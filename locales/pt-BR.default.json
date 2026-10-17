@@ -25,6 +25,8 @@
   },
   "cart": {
     "checkout": "Finalizar compra",
+    "cpf": "CPF",
+    "birthday": "Data de nascimento",
     "title": "Carrinho",
     "update": "Atualizar",
     "remove": "Remover",
