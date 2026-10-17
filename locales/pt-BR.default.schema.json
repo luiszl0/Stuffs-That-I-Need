@@ -100,7 +100,7 @@
   "product_page": {
     "settings": {
       "purchase": "Compra",
-      "show_dynamic_checkout": "Mostrar botões de compra rápida",
+      "show_dynamic_checkout": "Mostrar botão Comprar agora",
       "show_installments": "Mostrar parcelamento quando disponível",
       "store_info": "Informações da loja",
       "shipping_note": "Texto sobre frete",

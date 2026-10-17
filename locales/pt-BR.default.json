@@ -32,6 +32,7 @@
     "birthday_invalid": "Data de nascimento inválida.",
     "birthday_underage": "É necessário ter 18 anos ou mais para comprar.",
     "save_error": "Não foi possível salvar seus dados. Tente novamente.",
+    "buy_now": "Comprar agora",
     "buy_now_title": "Antes de finalizar",
     "buy_now_continue": "Continuar para o pagamento"
   },
