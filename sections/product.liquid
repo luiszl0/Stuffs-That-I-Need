@@ -309,8 +309,15 @@
         </div>
 
         {% if section.settings.show_dynamic_checkout %}
-          <div class="product-form__dynamic" data-product-dynamic{% unless current_variant %} hidden{% endunless %}>
-            {{ form | payment_button }}
+          <div class="product-form__dynamic" data-product-dynamic>
+            <button
+              type="button"
+              class="button product-form__buy-now"
+              data-buy-now
+              {% unless current_variant.available %}disabled{% endunless %}
+            >
+              {{ 'customer_fields.buy_now' | t }}
+            </button>
 
             <div class="buy-now-panel" data-buy-now-panel hidden>
               <p class="buy-now-panel__title">{{ 'customer_fields.buy_now_title' | t }}</p>
@@ -452,7 +459,14 @@
       var submit = root.querySelector('[data-product-submit]');
       var groups = root.querySelectorAll('[data-product-option]');
       var installmentsForm = document.querySelector('[data-installments]');
-      var dynamicNode = root.querySelector('[data-product-dynamic]');
+      var buyNowButton = root.querySelector('[data-buy-now]');
+      var buyNowPanel = root.querySelector('[data-buy-now-panel]');
+
+      function setBuyNowEnabled(enabled) {
+        if (!buyNowButton) return;
+        buyNowButton.disabled = !enabled;
+        if (!enabled && buyNowPanel) buyNowPanel.hidden = true;
+      }
 
       function showSelectionPrompt() {
         if (idInput) idInput.value = '';
@@ -462,7 +476,7 @@
         setHidden(badgeNode, true);
         setHidden(availabilityNode, true);
         setHidden(installmentsForm, true);
-        setHidden(dynamicNode, true);
+        setBuyNowEnabled(false);
         if (submit) {
           submit.disabled = true;
           submit.textContent = root.dataset.labelSelect;
@@ -506,7 +520,7 @@
           }
           setHidden(availabilityNode, false);
           setHidden(installmentsForm, true);
-          setHidden(dynamicNode, true);
+          setBuyNowEnabled(false);
           if (submit) {
             submit.disabled = true;
             submit.textContent = root.dataset.labelUnavailable;
@@ -529,7 +543,7 @@
 
         setHidden(availabilityNode, false);
         setHidden(installmentsForm, false);
-        setHidden(dynamicNode, false);
+        setBuyNowEnabled(variant.available);
         if (priceNode) priceNode.textContent = variant.price;
         setHidden(compareNode, !variant.compare, variant.compare);
         setHidden(savingNode, !variant.saving, variant.saving);
@@ -551,45 +565,45 @@
         group.addEventListener('change', update);
       });
 
-      var buyNowPanel = root.querySelector('[data-buy-now-panel]');
-      if (dynamicNode && buyNowPanel) {
+      if (buyNowButton && buyNowPanel) {
         var panelFields = buyNowPanel.querySelector('[data-customer-fields]');
         var continueButton = buyNowPanel.querySelector('[data-buy-now-continue]');
         var panelError = buyNowPanel.querySelector('[data-buy-now-error]');
-        var pendingButton = null;
-        var confirmed = false;
+        var productForm = root.querySelector('form.product-form');
 
         function showPanelError(message) {
           panelError.textContent = message || '';
           panelError.hidden = !message;
         }
 
-        // Capture phase: CPF and birthday must be saved before the dynamic button reaches checkout.
-        dynamicNode.addEventListener('click', function (event) {
-          if (buyNowPanel.contains(event.target)) return;
-          var button = event.target.closest('button, a, [role="button"]');
-          if (!button) return;
-          if (confirmed) {
-            confirmed = false;
-            return;
-          }
-          event.preventDefault();
-          event.stopPropagation();
-          pendingButton = button;
-          buyNowPanel.hidden = false;
+        buyNowButton.addEventListener('click', function () {
+          buyNowPanel.hidden = !buyNowPanel.hidden;
           showPanelError('');
-          panelFields.querySelector('[data-customer-cpf]').focus();
-        }, true);
+          if (!buyNowPanel.hidden) panelFields.querySelector('[data-customer-cpf]').focus();
+        });
 
+        // Saves CPF and birthday on the cart, adds the product and goes straight to checkout.
         continueButton.addEventListener('click', function () {
-          if (!window.CustomerFields) return;
+          var variantId = idInput && idInput.value;
+          if (!variantId || !window.CustomerFields) return;
           showPanelError('');
           continueButton.disabled = true;
+          var base = window.CustomerFields.root();
+          var quantityValue = parseInt(productForm.elements.quantity.value, 10) || 1;
+
           window.CustomerFields.save(panelFields).then(function (saved) {
-            continueButton.disabled = false;
-            if (!saved || !pendingButton) return;
-            confirmed = true;
-            pendingButton.click();
+            if (!saved) {
+              continueButton.disabled = false;
+              return;
+            }
+            return fetch(base + 'cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+              body: JSON.stringify({ items: [{ id: Number(variantId), quantity: quantityValue }] })
+            }).then(function (response) {
+              if (!response.ok) throw new Error('cart_add_failed');
+              window.location.assign(base + 'checkout');
+            });
           }).catch(function () {
             continueButton.disabled = false;
             showPanelError(root.dataset.labelSaveError);
@@ -1080,6 +1094,25 @@
   }
 
   .product-form__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .product-form__buy-now {
+    width: 100%;
+    min-height: 3.4rem;
+    border: 1px solid var(--brand-charcoal);
+    background: transparent;
+    color: var(--brand-charcoal);
+    cursor: pointer;
+  }
+
+  .product-form__buy-now:hover:not(:disabled) {
+    background: var(--brand-charcoal);
+    color: var(--brand-white);
+  }
+
+  .product-form__buy-now:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
