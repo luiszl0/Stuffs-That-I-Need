@@ -114,8 +114,7 @@
     "footer": {
       "slogan": "Coisas que você nem sabia que precisava.",
       "newsletter": "Receba novidades",
-      "subscribe": "Inscrever-se",
-      "powered_by": "Desenvolvido com Shopify"
+      "subscribe": "Inscrever-se"
     }
   },
   "gift_card": {
@@ -314,10 +313,10 @@
     "reward": {
       "milestone_badge": "30 pontos",
       "win_badge": "50 pontos",
-      "small_title": "Você desbloqueou 2% de desconto!",
-      "small_text": "Use este código no carrinho para ganhar 2% de desconto.",
-      "win_title": "Você venceu!",
-      "win_text": "Use este código no carrinho para ganhar o desconto máximo de 5%.",
+      "small_title": "Você desbloqueou 3% de desconto!",
+      "small_text": "Use este código no carrinho para ganhar 3% de desconto.",
+      "win_title": "Você desbloqueou 5% de desconto!",
+      "win_text": "Use este código no carrinho para ganhar 5% de desconto.",
       "no_code_title": "Parabéns!",
       "no_code": "Você chegou lá! O código deste desconto ainda não foi configurado pela loja.",
       "code_note": "Digite o código no carrinho ou na finalização da compra.",
