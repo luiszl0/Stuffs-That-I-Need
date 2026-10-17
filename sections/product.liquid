@@ -572,11 +572,21 @@
         }
 
         // Keeps the selection fixed while the purchase is being submitted.
+        var buyNowPending = false;
         function lockSelection(locked) {
+          buyNowPending = locked;
           continueButton.disabled = locked;
           groups.forEach(function (group) { group.disabled = locked; });
-          root.querySelectorAll('[data-quantity-input], [data-quantity-minus], [data-quantity-plus]').forEach(function (node) {
+          if (quantity) quantity.readOnly = locked;
+          root.querySelectorAll('[data-quantity-minus], [data-quantity-plus]').forEach(function (node) {
             node.disabled = locked;
+          });
+        }
+
+        var productForm = buyNowPanel.closest('form');
+        if (productForm) {
+          productForm.addEventListener('submit', function (event) {
+            if (buyNowPending) event.preventDefault();
           });
         }
 
