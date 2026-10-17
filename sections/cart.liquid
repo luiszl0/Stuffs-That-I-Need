@@ -176,33 +176,7 @@
             <strong>{{ cart.total_price | money }}</strong>
           </div>
 
-          <div class="cart-summary__fields">
-            <label class="cart-summary__field">
-              <span>{{ 'cart.cpf' | t }}</span>
-              <input
-                type="text"
-                name="attributes[CPF]"
-                value="{{ cart.attributes['CPF'] | escape }}"
-                inputmode="numeric"
-                autocomplete="off"
-                maxlength="14"
-                pattern="(\d{3}\.?\d{3}\.?\d{3}-?\d{2})"
-                placeholder="000.000.000-00"
-                required
-              >
-            </label>
-            <label class="cart-summary__field">
-              <span>{{ 'cart.birthday' | t }}</span>
-              <input
-                type="date"
-                name="attributes[Birthday]"
-                value="{{ cart.attributes['Birthday'] | escape }}"
-                autocomplete="bday"
-                max="{{ 'now' | date: '%Y-%m-%d' }}"
-                required
-              >
-            </label>
-          </div>
+          {% render 'customer-fields' %}
 
           <button class="button button--primary cart-summary__checkout" type="submit" name="checkout">
             {{ 'cart.checkout' | t }}
@@ -246,7 +220,17 @@
 
       if (form) {
         form.addEventListener('submit', async function (event) {
-          if (event.submitter && event.submitter.name === 'checkout') return;
+          if (event.submitter && event.submitter.name === 'checkout') {
+            var customerFields = form.querySelector('[data-customer-fields]');
+            if (customerFields && window.CustomerFields) {
+              var valid = window.CustomerFields.check(customerFields, false);
+              if (!valid) {
+                event.preventDefault();
+                window.CustomerFields.check(customerFields, true);
+              }
+            }
+            return;
+          }
           if (event.submitter && !event.submitter.hasAttribute('data-cart-update')) return;
           if (!form.reportValidity()) return;
 
@@ -613,28 +597,6 @@
     font-family: var(--font-display);
     font-size: 1.3rem;
     letter-spacing: -0.04em;
-  }
-
-  .cart-summary__fields {
-    display: grid;
-    gap: 0.75rem;
-    margin-block: 1rem;
-  }
-
-  .cart-summary__field {
-    display: grid;
-    gap: 0.25rem;
-    font-size: 0.875rem;
-  }
-
-  .cart-summary__field input {
-    width: 100%;
-    padding: 0.625rem 0.75rem;
-    border: 1px solid currentColor;
-    border-radius: 6px;
-    background: transparent;
-    color: inherit;
-    font: inherit;
   }
 
   .cart-summary__checkout {

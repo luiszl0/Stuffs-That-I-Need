@@ -1,0 +1,210 @@
+{% doc %}
+  Renders the required CPF and birth date inputs. The values are stored as cart
+  attributes (CPF and Birthday) so they are saved with every order.
+
+  @example
+  {% render 'customer-fields' %}
+{% enddoc %}
+
+<div class="customer-fields" data-customer-fields>
+  <div class="customer-fields__field">
+    <label for="customer-cpf-{{ section.id }}">{{ 'customer_fields.cpf' | t }}</label>
+    <input
+      id="customer-cpf-{{ section.id }}"
+      type="text"
+      name="attributes[CPF]"
+      value="{{ cart.attributes['CPF'] | escape }}"
+      inputmode="numeric"
+      autocomplete="off"
+      maxlength="14"
+      placeholder="000.000.000-00"
+      aria-required="true"
+      aria-describedby="customer-cpf-error-{{ section.id }}"
+      data-customer-cpf
+      data-error-required="{{ 'customer_fields.cpf_required' | t | escape }}"
+      data-error-invalid="{{ 'customer_fields.cpf_invalid' | t | escape }}"
+    >
+    <p class="customer-fields__error" id="customer-cpf-error-{{ section.id }}" data-customer-error="cpf" role="alert" hidden></p>
+  </div>
+
+  <div class="customer-fields__field">
+    <label for="customer-birthday-{{ section.id }}">{{ 'customer_fields.birthday' | t }}</label>
+    <input
+      id="customer-birthday-{{ section.id }}"
+      type="date"
+      name="attributes[Birthday]"
+      value="{{ cart.attributes['Birthday'] | escape }}"
+      autocomplete="bday"
+      min="1900-01-01"
+      max="{{ 'now' | date: '%Y-%m-%d' }}"
+      aria-required="true"
+      aria-describedby="customer-birthday-error-{{ section.id }}"
+      data-customer-birthday
+      data-error-required="{{ 'customer_fields.birthday_required' | t | escape }}"
+      data-error-invalid="{{ 'customer_fields.birthday_invalid' | t | escape }}"
+      data-error-underage="{{ 'customer_fields.birthday_underage' | t | escape }}"
+    >
+    <p class="customer-fields__error" id="customer-birthday-error-{{ section.id }}" data-customer-error="birthday" role="alert" hidden></p>
+  </div>
+</div>
+
+{% stylesheet %}
+  .customer-fields {
+    display: grid;
+    gap: 0.9rem;
+    margin-block: 1rem;
+  }
+
+  .customer-fields__field {
+    display: grid;
+    gap: 0.3rem;
+    font-size: 0.875rem;
+  }
+
+  .customer-fields__field input {
+    width: 100%;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+  }
+
+  .customer-fields__field input[aria-invalid='true'] {
+    border-color: #e5484d;
+    outline: 1px solid #e5484d;
+  }
+
+  .customer-fields__error {
+    margin: 0;
+    color: #e5484d;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .customer-fields__error[hidden] {
+    display: none;
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    var MIN_AGE = 18;
+
+    function isValidCpf(value) {
+      var digits = value.replace(/\D/g, '');
+      if (digits.length !== 11 || /^(\d)\1{10}$/.test(digits)) return false;
+      for (var length = 9; length < 11; length++) {
+        var sum = 0;
+        for (var i = 0; i < length; i++) sum += Number(digits[i]) * (length + 1 - i);
+        if (((sum * 10) % 11) % 10 !== Number(digits[length])) return false;
+      }
+      return true;
+    }
+
+    function formatCpf(value) {
+      var d = value.replace(/\D/g, '').slice(0, 11);
+      return d
+        .replace(/^(\d{3})(\d)/, '$1.$2')
+        .replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+        .replace(/\.(\d{3})(\d)/, '.$1-$2');
+    }
+
+    function birthdayError(value) {
+      if (!value) return 'required';
+      var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+      if (!match) return 'invalid';
+      var year = Number(match[1]);
+      var month = Number(match[2]);
+      var day = Number(match[3]);
+      var date = new Date(year, month - 1, day);
+      if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return 'invalid';
+      var today = new Date();
+      if (year < 1900 || date > today) return 'invalid';
+      var age = today.getFullYear() - year;
+      if (today.getMonth() < month - 1 || (today.getMonth() === month - 1 && today.getDate() < day)) age--;
+      return age < MIN_AGE ? 'underage' : '';
+    }
+
+    function setError(container, input, name, message) {
+      var node = container.querySelector('[data-customer-error="' + name + '"]');
+      if (node) {
+        node.textContent = message;
+        node.hidden = !message;
+      }
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    }
+
+    function check(container, showErrors) {
+      var cpf = container.querySelector('[data-customer-cpf]');
+      var birthday = container.querySelector('[data-customer-birthday]');
+      var cpfMessage = '';
+      var birthdayMessage = '';
+
+      if (!cpf.value.trim()) cpfMessage = cpf.dataset.errorRequired;
+      else if (!isValidCpf(cpf.value)) cpfMessage = cpf.dataset.errorInvalid;
+
+      var birthdayState = birthdayError(birthday.value);
+      if (birthdayState === 'required') birthdayMessage = birthday.dataset.errorRequired;
+      else if (birthdayState === 'invalid') birthdayMessage = birthday.dataset.errorInvalid;
+      else if (birthdayState === 'underage') birthdayMessage = birthday.dataset.errorUnderage;
+
+      if (showErrors) {
+        setError(container, cpf, 'cpf', cpfMessage);
+        setError(container, birthday, 'birthday', birthdayMessage);
+        if (cpfMessage) cpf.focus();
+        else if (birthdayMessage) birthday.focus();
+      }
+      return !cpfMessage && !birthdayMessage;
+    }
+
+    function root() {
+      var base = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+      return base.charAt(base.length - 1) === '/' ? base : base + '/';
+    }
+
+    // Validates the fields and, when valid, stores them on the cart as order attributes.
+    function save(container) {
+      if (!check(container, true)) return Promise.resolve(false);
+      var cpf = container.querySelector('[data-customer-cpf]');
+      var birthday = container.querySelector('[data-customer-birthday]');
+      return fetch(root() + 'cart/update.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ attributes: { CPF: cpf.value.trim(), Birthday: birthday.value } })
+      }).then(function (response) {
+        if (!response.ok) throw new Error('cart_update_failed');
+        return true;
+      });
+    }
+
+    window.CustomerFields = { check: check, save: save, root: root };
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('[data-customer-fields]').forEach(function (container) {
+        var cpf = container.querySelector('[data-customer-cpf]');
+        var birthday = container.querySelector('[data-customer-birthday]');
+        cpf.addEventListener('input', function () {
+          cpf.value = formatCpf(cpf.value);
+          cpf.removeAttribute('aria-invalid');
+          var node = container.querySelector('[data-customer-error="cpf"]');
+          if (node) node.hidden = true;
+        });
+        birthday.addEventListener('input', function () {
+          birthday.removeAttribute('aria-invalid');
+          var node = container.querySelector('[data-customer-error="birthday"]');
+          if (node) node.hidden = true;
+        });
+        cpf.addEventListener('blur', function () {
+          if (cpf.value.trim()) setError(container, cpf, 'cpf', isValidCpf(cpf.value) ? '' : cpf.dataset.errorInvalid);
+        });
+        birthday.addEventListener('blur', function () {
+          var state = birthday.value ? birthdayError(birthday.value) : '';
+          setError(container, birthday, 'birthday', state === 'invalid' ? birthday.dataset.errorInvalid : state === 'underage' ? birthday.dataset.errorUnderage : '');
+        });
+      });
+    });
+  })();
+{% endjavascript %}
