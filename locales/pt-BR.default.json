@@ -23,10 +23,20 @@
     "comment_form_submit": "Postar",
     "comment_form_title": "Adicionar um comentário"
   },
+  "customer_fields": {
+    "cpf": "CPF",
+    "cpf_required": "Informe seu CPF.",
+    "cpf_invalid": "CPF inválido. Confira os números digitados.",
+    "birthday": "Data de nascimento",
+    "birthday_required": "Informe sua data de nascimento.",
+    "birthday_invalid": "Data de nascimento inválida.",
+    "birthday_underage": "É necessário ter 18 anos ou mais para comprar.",
+    "save_error": "Não foi possível salvar seus dados. Tente novamente.",
+    "buy_now_title": "Antes de finalizar",
+    "buy_now_continue": "Continuar para o pagamento"
+  },
   "cart": {
     "checkout": "Finalizar compra",
-    "cpf": "CPF",
-    "birthday": "Data de nascimento",
     "title": "Carrinho",
     "update": "Atualizar",
     "remove": "Remover",

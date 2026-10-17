@@ -47,6 +47,7 @@
   data-label-sold-out="{{ 'products.sold_out' | t | escape }}"
   data-label-select="{{ 'product_page.purchase.select_options' | t | escape }}"
   data-label-unavailable="{{ 'product_page.purchase.unavailable_combination' | t | escape }}"
+  data-label-save-error="{{ 'customer_fields.save_error' | t | escape }}"
 >
   <nav class="product-breadcrumbs" aria-label="{{ 'products.breadcrumbs' | t }}">
     <a href="{{ routes.root_url }}">{{ shop.name }}</a>
@@ -310,6 +311,15 @@
         {% if section.settings.show_dynamic_checkout %}
           <div class="product-form__dynamic" data-product-dynamic{% unless current_variant %} hidden{% endunless %}>
             {{ form | payment_button }}
+
+            <div class="buy-now-panel" data-buy-now-panel hidden>
+              <p class="buy-now-panel__title">{{ 'customer_fields.buy_now_title' | t }}</p>
+              {% render 'customer-fields' %}
+              <button type="button" class="button button--primary buy-now-panel__submit" data-buy-now-continue>
+                {{ 'customer_fields.buy_now_continue' | t }}
+              </button>
+              <p class="customer-fields__error" data-buy-now-error role="alert" hidden></p>
+            </div>
           </div>
         {% endif %}
       {% endform %}
@@ -540,6 +550,56 @@
       groups.forEach(function (group) {
         group.addEventListener('change', update);
       });
+
+      var buyNowPanel = root.querySelector('[data-buy-now-panel]');
+      if (dynamicNode && buyNowPanel) {
+        var panelFields = buyNowPanel.querySelector('[data-customer-fields]');
+        var continueButton = buyNowPanel.querySelector('[data-buy-now-continue]');
+        var panelError = buyNowPanel.querySelector('[data-buy-now-error]');
+        var pendingButton = null;
+        var confirmed = false;
+
+        function showPanelError(message) {
+          panelError.textContent = message || '';
+          panelError.hidden = !message;
+        }
+
+        // Capture phase: CPF and birthday must be saved before the dynamic button reaches checkout.
+        dynamicNode.addEventListener('click', function (event) {
+          if (buyNowPanel.contains(event.target)) return;
+          var button = event.target.closest('button, a, [role="button"]');
+          if (!button) return;
+          if (confirmed) {
+            confirmed = false;
+            return;
+          }
+          event.preventDefault();
+          event.stopPropagation();
+          pendingButton = button;
+          buyNowPanel.hidden = false;
+          showPanelError('');
+          panelFields.querySelector('[data-customer-cpf]').focus();
+        }, true);
+
+        continueButton.addEventListener('click', function () {
+          if (!window.CustomerFields) return;
+          showPanelError('');
+          continueButton.disabled = true;
+          window.CustomerFields.save(panelFields).then(function (saved) {
+            continueButton.disabled = false;
+            if (!saved || !pendingButton) return;
+            confirmed = true;
+            pendingButton.click();
+          }).catch(function () {
+            continueButton.disabled = false;
+            showPanelError(root.dataset.labelSaveError);
+          });
+        });
+
+        buyNowPanel.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') buyNowPanel.hidden = true;
+        });
+      }
 
       var quantity = root.querySelector('[data-quantity-input]');
       var minus = root.querySelector('[data-quantity-minus]');
@@ -1022,6 +1082,50 @@
   .product-form__submit:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+
+  .buy-now-panel {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 1.1rem;
+    border: 1px solid var(--brand-border);
+    background: var(--brand-card);
+    box-shadow: 0 12px 28px var(--brand-shadow);
+    animation: buy-now-panel-in 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .buy-now-panel[hidden] {
+    display: none;
+  }
+
+  .buy-now-panel__title {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .buy-now-panel .customer-fields {
+    margin-block: 0.25rem 0.5rem;
+  }
+
+  .buy-now-panel__submit {
+    width: 100%;
+  }
+
+  @keyframes buy-now-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.4rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .buy-now-panel {
+      animation: none;
+    }
   }
 
   .product-form__dynamic:empty {
