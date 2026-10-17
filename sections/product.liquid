@@ -585,6 +585,7 @@
           showPanelError('');
           continueButton.disabled = true;
           var cartRoot = window.CustomerFields.root();
+          var variantId = Number(idInput.value);
           var quantityValue = quantity ? Math.max(1, parseInt(quantity.value, 10) || 1) : 1;
 
           // Attributes are saved before adding so a failed attempt can be retried without duplicating the item.
@@ -593,7 +594,7 @@
             return fetch(cartRoot + 'cart/add.js', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-              body: JSON.stringify({ items: [{ id: Number(idInput.value), quantity: quantityValue }] })
+              body: JSON.stringify({ items: [{ id: variantId, quantity: quantityValue }] })
             });
           }).then(function (response) {
             if (!response.ok) {
