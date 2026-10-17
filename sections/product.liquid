@@ -571,6 +571,19 @@
           panelError.hidden = !message;
         }
 
+        // Keeps the selection fixed while the purchase is being submitted.
+        function lockSelection(locked) {
+          continueButton.disabled = locked;
+          groups.forEach(function (group) { group.disabled = locked; });
+          root.querySelectorAll('[data-quantity-input], [data-quantity-minus], [data-quantity-plus]').forEach(function (node) {
+            node.disabled = locked;
+          });
+        }
+
+        window.addEventListener('pageshow', function (event) {
+          if (event.persisted) lockSelection(false);
+        });
+
         buyNowOpen.addEventListener('click', function () {
           buyNowPanel.hidden = false;
           showPanelError('');
@@ -583,7 +596,7 @@
           if (!window.CustomerFields || !idInput || !idInput.value) return;
           if (!window.CustomerFields.check(panelFields, true)) return;
           showPanelError('');
-          continueButton.disabled = true;
+          lockSelection(true);
           var cartRoot = window.CustomerFields.root();
           var variantId = Number(idInput.value);
           var quantityValue = quantity ? Math.max(1, parseInt(quantity.value, 10) || 1) : 1;
@@ -604,7 +617,7 @@
             }
             window.location.assign(cartRoot + 'checkout');
           }).catch(function (error) {
-            continueButton.disabled = false;
+            lockSelection(false);
             showPanelError(error && error.message ? error.message : root.dataset.labelSaveError);
           });
         });
